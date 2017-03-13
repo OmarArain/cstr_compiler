@@ -1,0 +1,3067 @@
+Created by PLY version 3.10 (http://www.dabeaz.com/ply)
+
+Grammar
+
+Rule 0     S' -> program
+Rule 1     program -> external_declaration
+Rule 2     program -> program external_declaration
+Rule 3     external_declaration -> declaration
+Rule 4     external_declaration -> EXTERN declaration
+Rule 5     external_declaration -> function_definition
+Rule 6     function_definition -> type function_declarator decl_glbl_fct compound_instruction
+Rule 7     decl_glbl_fct -> <empty>
+Rule 8     declaration -> type declarator_list SEMICOLON
+Rule 9     type -> INT
+Rule 10    type -> STRING
+Rule 11    declarator_list -> declarator
+Rule 12    declarator_list -> declarator_list COMMA declarator
+Rule 13    declaration_list -> declaration
+Rule 14    declaration_list -> declaration_list declaration
+Rule 15    declarator -> IDENT
+Rule 16    declarator -> function_declarator
+Rule 17    function_declarator -> IDENT LPARENS RPARENS
+Rule 18    function_declarator -> IDENT LPARENS parameter_list RPARENS
+Rule 19    parameter_list -> parameter_declaration
+Rule 20    parameter_list -> parameter_list COMMA parameter_declaration
+Rule 21    parameter_declaration -> type IDENT
+Rule 22    instruction -> SEMICOLON
+Rule 23    instruction -> compound_instruction
+Rule 24    instruction -> expression_instruction
+Rule 25    instruction -> iteration_instruction
+Rule 26    instruction -> select_instruction
+Rule 27    instruction -> jump_instruction
+Rule 28    expression_instruction -> expression SEMICOLON
+Rule 29    expression_instruction -> assignment SEMICOLON
+Rule 30    assignment -> IDENT ASSIGNMENT expression
+Rule 31    compound_instruction -> block_start declaration_list instruction_list block_end
+Rule 32    compound_instruction -> block_start declaration_list block_end
+Rule 33    compound_instruction -> block_start instruction_list block_end
+Rule 34    compound_instruction -> block_start block_end
+Rule 35    block_start -> LBRACKET
+Rule 36    block_end -> RBRACKET
+Rule 37    instruction_list -> instruction
+Rule 38    instruction_list -> instruction_list instruction
+Rule 39    select_instruction -> cond_instruction instruction
+Rule 40    select_instruction -> cond_instruction instruction ELSE instruction
+Rule 41    cond_instruction -> IF LPARENS condition RPARENS
+Rule 42    iteration_instruction -> WHILE LPARENS condition RPARENS instruction
+Rule 43    iteration_instruction -> DO instruction WHILE LPARENS condition RPARENS
+Rule 44    iteration_instruction -> FOR LPARENS assignment SEMICOLON condition SEMICOLON assignment RPARENS instruction
+Rule 45    jump_instruction -> RETURN expression SEMICOLON
+Rule 46    condition -> expression comparison_operator expression
+Rule 47    comparison_operator -> EQUAL
+Rule 48    comparison_operator -> NOTEQUAL
+Rule 49    comparison_operator -> LESS
+Rule 50    comparison_operator -> GREATER
+Rule 51    comparison_operator -> LESSEQUAL
+Rule 52    comparison_operator -> GREATEREQUAL
+Rule 53    expression -> expression_additive
+Rule 54    expression -> expression SHIFTLEFT expression_additive
+Rule 55    expression -> expression SHIFTRIGHT expression_additive
+Rule 56    expression_additive -> expression_multiplicative
+Rule 57    expression_additive -> expression_additive ADD expression_multiplicative
+Rule 58    expression_additive -> expression_additive SUBTRACT expression_multiplicative
+Rule 59    expression_multiplicative -> unary_expression
+Rule 60    expression_multiplicative -> expression_multiplicative MULTIPLY unary_expression
+Rule 61    expression_multiplicative -> expression_multiplicative DIVIDE unary_expression
+Rule 62    expression_multiplicative -> expression_multiplicative MODULO unary_expression
+Rule 63    unary_expression -> postfix_expression
+Rule 64    unary_expression -> SUBTRACT unary_expression
+Rule 65    postfix_expression -> primary_expression
+Rule 66    postfix_expression -> IDENT LPARENS argument_expression_list RPARENS
+Rule 67    postfix_expression -> IDENT LPARENS RPARENS
+Rule 68    argument_expression_list -> expression
+Rule 69    argument_expression_list -> argument_expression_list COMMA expression
+Rule 70    primary_expression -> IDENT
+Rule 71    primary_expression -> CONST_INT
+Rule 72    primary_expression -> CONST_STRING
+Rule 73    primary_expression -> LPARENS expression RPARENS
+
+Terminals, with rules where they appear
+
+ADD                  : 57
+ASSIGNMENT           : 30
+COMMA                : 12 20 69
+CONST_INT            : 71
+CONST_STRING         : 72
+DIVIDE               : 61
+DO                   : 43
+ELSE                 : 40
+EQUAL                : 47
+EXTERN               : 4
+FOR                  : 44
+GREATER              : 50
+GREATEREQUAL         : 52
+IDENT                : 15 17 18 21 30 66 67 70
+IF                   : 41
+INT                  : 9
+LBRACKET             : 35
+LESS                 : 49
+LESSEQUAL            : 51
+LPARENS              : 17 18 41 42 43 44 66 67 73
+MODULO               : 62
+MULTIPLY             : 60
+NOTEQUAL             : 48
+RBRACKET             : 36
+RETURN               : 45
+RPARENS              : 17 18 41 42 43 44 66 67 73
+SEMICOLON            : 8 22 28 29 44 44 45
+SHIFTLEFT            : 54
+SHIFTRIGHT           : 55
+STRING               : 10
+SUBTRACT             : 58 64
+WHILE                : 42 43
+error                : 
+
+Nonterminals, with rules where they appear
+
+argument_expression_list : 66 69
+assignment           : 29 44 44
+block_end            : 31 32 33 34
+block_start          : 31 32 33 34
+comparison_operator  : 46
+compound_instruction : 6 23
+cond_instruction     : 39 40
+condition            : 41 42 43 44
+decl_glbl_fct        : 6
+declaration          : 3 4 13 14
+declaration_list     : 14 31 32
+declarator           : 11 12
+declarator_list      : 8 12
+expression           : 28 30 45 46 46 54 55 68 69 73
+expression_additive  : 53 54 55 57 58
+expression_instruction : 24
+expression_multiplicative : 56 57 58 60 61 62
+external_declaration : 1 2
+function_declarator  : 6 16
+function_definition  : 5
+instruction          : 37 38 39 40 40 42 43 44
+instruction_list     : 31 33 38
+iteration_instruction : 25
+jump_instruction     : 27
+parameter_declaration : 19 20
+parameter_list       : 18 20
+postfix_expression   : 63
+primary_expression   : 65
+program              : 2 0
+select_instruction   : 26
+type                 : 6 8 21
+unary_expression     : 59 60 61 62 64
+
+Parsing method: LALR
+
+state 0
+
+    (0) S' -> . program
+    (1) program -> . external_declaration
+    (2) program -> . program external_declaration
+    (3) external_declaration -> . declaration
+    (4) external_declaration -> . EXTERN declaration
+    (5) external_declaration -> . function_definition
+    (8) declaration -> . type declarator_list SEMICOLON
+    (6) function_definition -> . type function_declarator decl_glbl_fct compound_instruction
+    (9) type -> . INT
+    (10) type -> . STRING
+
+    EXTERN          shift and go to state 4
+    INT             shift and go to state 6
+    STRING          shift and go to state 3
+
+    declaration                    shift and go to state 1
+    type                           shift and go to state 2
+    program                        shift and go to state 5
+    external_declaration           shift and go to state 7
+    function_definition            shift and go to state 8
+
+state 1
+
+    (3) external_declaration -> declaration .
+
+    EXTERN          reduce using rule 3 (external_declaration -> declaration .)
+    INT             reduce using rule 3 (external_declaration -> declaration .)
+    STRING          reduce using rule 3 (external_declaration -> declaration .)
+    $end            reduce using rule 3 (external_declaration -> declaration .)
+
+
+state 2
+
+    (8) declaration -> type . declarator_list SEMICOLON
+    (6) function_definition -> type . function_declarator decl_glbl_fct compound_instruction
+    (11) declarator_list -> . declarator
+    (12) declarator_list -> . declarator_list COMMA declarator
+    (17) function_declarator -> . IDENT LPARENS RPARENS
+    (18) function_declarator -> . IDENT LPARENS parameter_list RPARENS
+    (15) declarator -> . IDENT
+    (16) declarator -> . function_declarator
+
+    IDENT           shift and go to state 11
+
+    function_declarator            shift and go to state 9
+    declarator_list                shift and go to state 10
+    declarator                     shift and go to state 12
+
+state 3
+
+    (10) type -> STRING .
+
+    IDENT           reduce using rule 10 (type -> STRING .)
+
+
+state 4
+
+    (4) external_declaration -> EXTERN . declaration
+    (8) declaration -> . type declarator_list SEMICOLON
+    (9) type -> . INT
+    (10) type -> . STRING
+
+    INT             shift and go to state 6
+    STRING          shift and go to state 3
+
+    declaration                    shift and go to state 13
+    type                           shift and go to state 14
+
+state 5
+
+    (0) S' -> program .
+    (2) program -> program . external_declaration
+    (3) external_declaration -> . declaration
+    (4) external_declaration -> . EXTERN declaration
+    (5) external_declaration -> . function_definition
+    (8) declaration -> . type declarator_list SEMICOLON
+    (6) function_definition -> . type function_declarator decl_glbl_fct compound_instruction
+    (9) type -> . INT
+    (10) type -> . STRING
+
+    EXTERN          shift and go to state 4
+    INT             shift and go to state 6
+    STRING          shift and go to state 3
+
+    declaration                    shift and go to state 1
+    type                           shift and go to state 2
+    external_declaration           shift and go to state 15
+    function_definition            shift and go to state 8
+
+state 6
+
+    (9) type -> INT .
+
+    IDENT           reduce using rule 9 (type -> INT .)
+
+
+state 7
+
+    (1) program -> external_declaration .
+
+    EXTERN          reduce using rule 1 (program -> external_declaration .)
+    INT             reduce using rule 1 (program -> external_declaration .)
+    STRING          reduce using rule 1 (program -> external_declaration .)
+    $end            reduce using rule 1 (program -> external_declaration .)
+
+
+state 8
+
+    (5) external_declaration -> function_definition .
+
+    EXTERN          reduce using rule 5 (external_declaration -> function_definition .)
+    INT             reduce using rule 5 (external_declaration -> function_definition .)
+    STRING          reduce using rule 5 (external_declaration -> function_definition .)
+    $end            reduce using rule 5 (external_declaration -> function_definition .)
+
+
+state 9
+
+    (6) function_definition -> type function_declarator . decl_glbl_fct compound_instruction
+    (16) declarator -> function_declarator .
+    (7) decl_glbl_fct -> .
+
+    SEMICOLON       reduce using rule 16 (declarator -> function_declarator .)
+    COMMA           reduce using rule 16 (declarator -> function_declarator .)
+    LBRACKET        reduce using rule 7 (decl_glbl_fct -> .)
+
+    decl_glbl_fct                  shift and go to state 16
+
+state 10
+
+    (8) declaration -> type declarator_list . SEMICOLON
+    (12) declarator_list -> declarator_list . COMMA declarator
+
+    SEMICOLON       shift and go to state 18
+    COMMA           shift and go to state 17
+
+
+state 11
+
+    (17) function_declarator -> IDENT . LPARENS RPARENS
+    (18) function_declarator -> IDENT . LPARENS parameter_list RPARENS
+    (15) declarator -> IDENT .
+
+    LPARENS         shift and go to state 19
+    SEMICOLON       reduce using rule 15 (declarator -> IDENT .)
+    COMMA           reduce using rule 15 (declarator -> IDENT .)
+
+
+state 12
+
+    (11) declarator_list -> declarator .
+
+    SEMICOLON       reduce using rule 11 (declarator_list -> declarator .)
+    COMMA           reduce using rule 11 (declarator_list -> declarator .)
+
+
+state 13
+
+    (4) external_declaration -> EXTERN declaration .
+
+    EXTERN          reduce using rule 4 (external_declaration -> EXTERN declaration .)
+    INT             reduce using rule 4 (external_declaration -> EXTERN declaration .)
+    STRING          reduce using rule 4 (external_declaration -> EXTERN declaration .)
+    $end            reduce using rule 4 (external_declaration -> EXTERN declaration .)
+
+
+state 14
+
+    (8) declaration -> type . declarator_list SEMICOLON
+    (11) declarator_list -> . declarator
+    (12) declarator_list -> . declarator_list COMMA declarator
+    (15) declarator -> . IDENT
+    (16) declarator -> . function_declarator
+    (17) function_declarator -> . IDENT LPARENS RPARENS
+    (18) function_declarator -> . IDENT LPARENS parameter_list RPARENS
+
+    IDENT           shift and go to state 21
+
+    declarator                     shift and go to state 12
+    function_declarator            shift and go to state 20
+    declarator_list                shift and go to state 10
+
+state 15
+
+    (2) program -> program external_declaration .
+
+    EXTERN          reduce using rule 2 (program -> program external_declaration .)
+    INT             reduce using rule 2 (program -> program external_declaration .)
+    STRING          reduce using rule 2 (program -> program external_declaration .)
+    $end            reduce using rule 2 (program -> program external_declaration .)
+
+
+state 16
+
+    (6) function_definition -> type function_declarator decl_glbl_fct . compound_instruction
+    (31) compound_instruction -> . block_start declaration_list instruction_list block_end
+    (32) compound_instruction -> . block_start declaration_list block_end
+    (33) compound_instruction -> . block_start instruction_list block_end
+    (34) compound_instruction -> . block_start block_end
+    (35) block_start -> . LBRACKET
+
+    LBRACKET        shift and go to state 22
+
+    compound_instruction           shift and go to state 23
+    block_start                    shift and go to state 24
+
+state 17
+
+    (12) declarator_list -> declarator_list COMMA . declarator
+    (15) declarator -> . IDENT
+    (16) declarator -> . function_declarator
+    (17) function_declarator -> . IDENT LPARENS RPARENS
+    (18) function_declarator -> . IDENT LPARENS parameter_list RPARENS
+
+    IDENT           shift and go to state 21
+
+    declarator                     shift and go to state 25
+    function_declarator            shift and go to state 20
+
+state 18
+
+    (8) declaration -> type declarator_list SEMICOLON .
+
+    EXTERN          reduce using rule 8 (declaration -> type declarator_list SEMICOLON .)
+    INT             reduce using rule 8 (declaration -> type declarator_list SEMICOLON .)
+    STRING          reduce using rule 8 (declaration -> type declarator_list SEMICOLON .)
+    $end            reduce using rule 8 (declaration -> type declarator_list SEMICOLON .)
+    RBRACKET        reduce using rule 8 (declaration -> type declarator_list SEMICOLON .)
+    SEMICOLON       reduce using rule 8 (declaration -> type declarator_list SEMICOLON .)
+    WHILE           reduce using rule 8 (declaration -> type declarator_list SEMICOLON .)
+    DO              reduce using rule 8 (declaration -> type declarator_list SEMICOLON .)
+    FOR             reduce using rule 8 (declaration -> type declarator_list SEMICOLON .)
+    RETURN          reduce using rule 8 (declaration -> type declarator_list SEMICOLON .)
+    LBRACKET        reduce using rule 8 (declaration -> type declarator_list SEMICOLON .)
+    IDENT           reduce using rule 8 (declaration -> type declarator_list SEMICOLON .)
+    IF              reduce using rule 8 (declaration -> type declarator_list SEMICOLON .)
+    SUBTRACT        reduce using rule 8 (declaration -> type declarator_list SEMICOLON .)
+    CONST_INT       reduce using rule 8 (declaration -> type declarator_list SEMICOLON .)
+    CONST_STRING    reduce using rule 8 (declaration -> type declarator_list SEMICOLON .)
+    LPARENS         reduce using rule 8 (declaration -> type declarator_list SEMICOLON .)
+
+
+state 19
+
+    (17) function_declarator -> IDENT LPARENS . RPARENS
+    (18) function_declarator -> IDENT LPARENS . parameter_list RPARENS
+    (19) parameter_list -> . parameter_declaration
+    (20) parameter_list -> . parameter_list COMMA parameter_declaration
+    (21) parameter_declaration -> . type IDENT
+    (9) type -> . INT
+    (10) type -> . STRING
+
+    RPARENS         shift and go to state 27
+    INT             shift and go to state 6
+    STRING          shift and go to state 3
+
+    type                           shift and go to state 26
+    parameter_declaration          shift and go to state 28
+    parameter_list                 shift and go to state 29
+
+state 20
+
+    (16) declarator -> function_declarator .
+
+    SEMICOLON       reduce using rule 16 (declarator -> function_declarator .)
+    COMMA           reduce using rule 16 (declarator -> function_declarator .)
+
+
+state 21
+
+    (15) declarator -> IDENT .
+    (17) function_declarator -> IDENT . LPARENS RPARENS
+    (18) function_declarator -> IDENT . LPARENS parameter_list RPARENS
+
+    SEMICOLON       reduce using rule 15 (declarator -> IDENT .)
+    COMMA           reduce using rule 15 (declarator -> IDENT .)
+    LPARENS         shift and go to state 19
+
+
+state 22
+
+    (35) block_start -> LBRACKET .
+
+    RBRACKET        reduce using rule 35 (block_start -> LBRACKET .)
+    SEMICOLON       reduce using rule 35 (block_start -> LBRACKET .)
+    INT             reduce using rule 35 (block_start -> LBRACKET .)
+    STRING          reduce using rule 35 (block_start -> LBRACKET .)
+    WHILE           reduce using rule 35 (block_start -> LBRACKET .)
+    DO              reduce using rule 35 (block_start -> LBRACKET .)
+    FOR             reduce using rule 35 (block_start -> LBRACKET .)
+    RETURN          reduce using rule 35 (block_start -> LBRACKET .)
+    LBRACKET        reduce using rule 35 (block_start -> LBRACKET .)
+    IDENT           reduce using rule 35 (block_start -> LBRACKET .)
+    IF              reduce using rule 35 (block_start -> LBRACKET .)
+    SUBTRACT        reduce using rule 35 (block_start -> LBRACKET .)
+    CONST_INT       reduce using rule 35 (block_start -> LBRACKET .)
+    CONST_STRING    reduce using rule 35 (block_start -> LBRACKET .)
+    LPARENS         reduce using rule 35 (block_start -> LBRACKET .)
+
+
+state 23
+
+    (6) function_definition -> type function_declarator decl_glbl_fct compound_instruction .
+
+    EXTERN          reduce using rule 6 (function_definition -> type function_declarator decl_glbl_fct compound_instruction .)
+    INT             reduce using rule 6 (function_definition -> type function_declarator decl_glbl_fct compound_instruction .)
+    STRING          reduce using rule 6 (function_definition -> type function_declarator decl_glbl_fct compound_instruction .)
+    $end            reduce using rule 6 (function_definition -> type function_declarator decl_glbl_fct compound_instruction .)
+
+
+state 24
+
+    (31) compound_instruction -> block_start . declaration_list instruction_list block_end
+    (32) compound_instruction -> block_start . declaration_list block_end
+    (33) compound_instruction -> block_start . instruction_list block_end
+    (34) compound_instruction -> block_start . block_end
+    (13) declaration_list -> . declaration
+    (14) declaration_list -> . declaration_list declaration
+    (37) instruction_list -> . instruction
+    (38) instruction_list -> . instruction_list instruction
+    (36) block_end -> . RBRACKET
+    (8) declaration -> . type declarator_list SEMICOLON
+    (22) instruction -> . SEMICOLON
+    (23) instruction -> . compound_instruction
+    (24) instruction -> . expression_instruction
+    (25) instruction -> . iteration_instruction
+    (26) instruction -> . select_instruction
+    (27) instruction -> . jump_instruction
+    (9) type -> . INT
+    (10) type -> . STRING
+    (31) compound_instruction -> . block_start declaration_list instruction_list block_end
+    (32) compound_instruction -> . block_start declaration_list block_end
+    (33) compound_instruction -> . block_start instruction_list block_end
+    (34) compound_instruction -> . block_start block_end
+    (28) expression_instruction -> . expression SEMICOLON
+    (29) expression_instruction -> . assignment SEMICOLON
+    (42) iteration_instruction -> . WHILE LPARENS condition RPARENS instruction
+    (43) iteration_instruction -> . DO instruction WHILE LPARENS condition RPARENS
+    (44) iteration_instruction -> . FOR LPARENS assignment SEMICOLON condition SEMICOLON assignment RPARENS instruction
+    (39) select_instruction -> . cond_instruction instruction
+    (40) select_instruction -> . cond_instruction instruction ELSE instruction
+    (45) jump_instruction -> . RETURN expression SEMICOLON
+    (35) block_start -> . LBRACKET
+    (53) expression -> . expression_additive
+    (54) expression -> . expression SHIFTLEFT expression_additive
+    (55) expression -> . expression SHIFTRIGHT expression_additive
+    (30) assignment -> . IDENT ASSIGNMENT expression
+    (41) cond_instruction -> . IF LPARENS condition RPARENS
+    (56) expression_additive -> . expression_multiplicative
+    (57) expression_additive -> . expression_additive ADD expression_multiplicative
+    (58) expression_additive -> . expression_additive SUBTRACT expression_multiplicative
+    (59) expression_multiplicative -> . unary_expression
+    (60) expression_multiplicative -> . expression_multiplicative MULTIPLY unary_expression
+    (61) expression_multiplicative -> . expression_multiplicative DIVIDE unary_expression
+    (62) expression_multiplicative -> . expression_multiplicative MODULO unary_expression
+    (63) unary_expression -> . postfix_expression
+    (64) unary_expression -> . SUBTRACT unary_expression
+    (65) postfix_expression -> . primary_expression
+    (66) postfix_expression -> . IDENT LPARENS argument_expression_list RPARENS
+    (67) postfix_expression -> . IDENT LPARENS RPARENS
+    (70) primary_expression -> . IDENT
+    (71) primary_expression -> . CONST_INT
+    (72) primary_expression -> . CONST_STRING
+    (73) primary_expression -> . LPARENS expression RPARENS
+
+    RBRACKET        shift and go to state 52
+    SEMICOLON       shift and go to state 43
+    INT             shift and go to state 6
+    STRING          shift and go to state 3
+    WHILE           shift and go to state 59
+    DO              shift and go to state 48
+    FOR             shift and go to state 34
+    RETURN          shift and go to state 30
+    LBRACKET        shift and go to state 22
+    IDENT           shift and go to state 45
+    IF              shift and go to state 41
+    SUBTRACT        shift and go to state 37
+    CONST_INT       shift and go to state 50
+    CONST_STRING    shift and go to state 54
+    LPARENS         shift and go to state 55
+
+    declaration                    shift and go to state 47
+    iteration_instruction          shift and go to state 38
+    declaration_list               shift and go to state 31
+    postfix_expression             shift and go to state 32
+    expression                     shift and go to state 33
+    block_end                      shift and go to state 35
+    expression_instruction         shift and go to state 44
+    expression_multiplicative      shift and go to state 36
+    block_start                    shift and go to state 24
+    instruction                    shift and go to state 49
+    type                           shift and go to state 14
+    assignment                     shift and go to state 39
+    cond_instruction               shift and go to state 40
+    unary_expression               shift and go to state 42
+    instruction_list               shift and go to state 51
+    select_instruction             shift and go to state 53
+    primary_expression             shift and go to state 56
+    jump_instruction               shift and go to state 57
+    expression_additive            shift and go to state 58
+    compound_instruction           shift and go to state 46
+
+state 25
+
+    (12) declarator_list -> declarator_list COMMA declarator .
+
+    SEMICOLON       reduce using rule 12 (declarator_list -> declarator_list COMMA declarator .)
+    COMMA           reduce using rule 12 (declarator_list -> declarator_list COMMA declarator .)
+
+
+state 26
+
+    (21) parameter_declaration -> type . IDENT
+
+    IDENT           shift and go to state 60
+
+
+state 27
+
+    (17) function_declarator -> IDENT LPARENS RPARENS .
+
+    SEMICOLON       reduce using rule 17 (function_declarator -> IDENT LPARENS RPARENS .)
+    COMMA           reduce using rule 17 (function_declarator -> IDENT LPARENS RPARENS .)
+    LBRACKET        reduce using rule 17 (function_declarator -> IDENT LPARENS RPARENS .)
+
+
+state 28
+
+    (19) parameter_list -> parameter_declaration .
+
+    RPARENS         reduce using rule 19 (parameter_list -> parameter_declaration .)
+    COMMA           reduce using rule 19 (parameter_list -> parameter_declaration .)
+
+
+state 29
+
+    (18) function_declarator -> IDENT LPARENS parameter_list . RPARENS
+    (20) parameter_list -> parameter_list . COMMA parameter_declaration
+
+    RPARENS         shift and go to state 61
+    COMMA           shift and go to state 62
+
+
+state 30
+
+    (45) jump_instruction -> RETURN . expression SEMICOLON
+    (53) expression -> . expression_additive
+    (54) expression -> . expression SHIFTLEFT expression_additive
+    (55) expression -> . expression SHIFTRIGHT expression_additive
+    (56) expression_additive -> . expression_multiplicative
+    (57) expression_additive -> . expression_additive ADD expression_multiplicative
+    (58) expression_additive -> . expression_additive SUBTRACT expression_multiplicative
+    (59) expression_multiplicative -> . unary_expression
+    (60) expression_multiplicative -> . expression_multiplicative MULTIPLY unary_expression
+    (61) expression_multiplicative -> . expression_multiplicative DIVIDE unary_expression
+    (62) expression_multiplicative -> . expression_multiplicative MODULO unary_expression
+    (63) unary_expression -> . postfix_expression
+    (64) unary_expression -> . SUBTRACT unary_expression
+    (65) postfix_expression -> . primary_expression
+    (66) postfix_expression -> . IDENT LPARENS argument_expression_list RPARENS
+    (67) postfix_expression -> . IDENT LPARENS RPARENS
+    (70) primary_expression -> . IDENT
+    (71) primary_expression -> . CONST_INT
+    (72) primary_expression -> . CONST_STRING
+    (73) primary_expression -> . LPARENS expression RPARENS
+
+    SUBTRACT        shift and go to state 37
+    IDENT           shift and go to state 64
+    CONST_INT       shift and go to state 50
+    CONST_STRING    shift and go to state 54
+    LPARENS         shift and go to state 55
+
+    postfix_expression             shift and go to state 32
+    primary_expression             shift and go to state 56
+    expression                     shift and go to state 63
+    expression_multiplicative      shift and go to state 36
+    expression_additive            shift and go to state 58
+    unary_expression               shift and go to state 42
+
+state 31
+
+    (31) compound_instruction -> block_start declaration_list . instruction_list block_end
+    (32) compound_instruction -> block_start declaration_list . block_end
+    (14) declaration_list -> declaration_list . declaration
+    (37) instruction_list -> . instruction
+    (38) instruction_list -> . instruction_list instruction
+    (36) block_end -> . RBRACKET
+    (8) declaration -> . type declarator_list SEMICOLON
+    (22) instruction -> . SEMICOLON
+    (23) instruction -> . compound_instruction
+    (24) instruction -> . expression_instruction
+    (25) instruction -> . iteration_instruction
+    (26) instruction -> . select_instruction
+    (27) instruction -> . jump_instruction
+    (9) type -> . INT
+    (10) type -> . STRING
+    (31) compound_instruction -> . block_start declaration_list instruction_list block_end
+    (32) compound_instruction -> . block_start declaration_list block_end
+    (33) compound_instruction -> . block_start instruction_list block_end
+    (34) compound_instruction -> . block_start block_end
+    (28) expression_instruction -> . expression SEMICOLON
+    (29) expression_instruction -> . assignment SEMICOLON
+    (42) iteration_instruction -> . WHILE LPARENS condition RPARENS instruction
+    (43) iteration_instruction -> . DO instruction WHILE LPARENS condition RPARENS
+    (44) iteration_instruction -> . FOR LPARENS assignment SEMICOLON condition SEMICOLON assignment RPARENS instruction
+    (39) select_instruction -> . cond_instruction instruction
+    (40) select_instruction -> . cond_instruction instruction ELSE instruction
+    (45) jump_instruction -> . RETURN expression SEMICOLON
+    (35) block_start -> . LBRACKET
+    (53) expression -> . expression_additive
+    (54) expression -> . expression SHIFTLEFT expression_additive
+    (55) expression -> . expression SHIFTRIGHT expression_additive
+    (30) assignment -> . IDENT ASSIGNMENT expression
+    (41) cond_instruction -> . IF LPARENS condition RPARENS
+    (56) expression_additive -> . expression_multiplicative
+    (57) expression_additive -> . expression_additive ADD expression_multiplicative
+    (58) expression_additive -> . expression_additive SUBTRACT expression_multiplicative
+    (59) expression_multiplicative -> . unary_expression
+    (60) expression_multiplicative -> . expression_multiplicative MULTIPLY unary_expression
+    (61) expression_multiplicative -> . expression_multiplicative DIVIDE unary_expression
+    (62) expression_multiplicative -> . expression_multiplicative MODULO unary_expression
+    (63) unary_expression -> . postfix_expression
+    (64) unary_expression -> . SUBTRACT unary_expression
+    (65) postfix_expression -> . primary_expression
+    (66) postfix_expression -> . IDENT LPARENS argument_expression_list RPARENS
+    (67) postfix_expression -> . IDENT LPARENS RPARENS
+    (70) primary_expression -> . IDENT
+    (71) primary_expression -> . CONST_INT
+    (72) primary_expression -> . CONST_STRING
+    (73) primary_expression -> . LPARENS expression RPARENS
+
+    RBRACKET        shift and go to state 52
+    SEMICOLON       shift and go to state 43
+    INT             shift and go to state 6
+    STRING          shift and go to state 3
+    WHILE           shift and go to state 59
+    DO              shift and go to state 48
+    FOR             shift and go to state 34
+    RETURN          shift and go to state 30
+    LBRACKET        shift and go to state 22
+    IDENT           shift and go to state 45
+    IF              shift and go to state 41
+    SUBTRACT        shift and go to state 37
+    CONST_INT       shift and go to state 50
+    CONST_STRING    shift and go to state 54
+    LPARENS         shift and go to state 55
+
+    declaration                    shift and go to state 66
+    iteration_instruction          shift and go to state 38
+    postfix_expression             shift and go to state 32
+    expression                     shift and go to state 33
+    block_end                      shift and go to state 65
+    expression_instruction         shift and go to state 44
+    expression_multiplicative      shift and go to state 36
+    block_start                    shift and go to state 24
+    instruction                    shift and go to state 49
+    type                           shift and go to state 14
+    assignment                     shift and go to state 39
+    cond_instruction               shift and go to state 40
+    unary_expression               shift and go to state 42
+    instruction_list               shift and go to state 67
+    select_instruction             shift and go to state 53
+    primary_expression             shift and go to state 56
+    jump_instruction               shift and go to state 57
+    expression_additive            shift and go to state 58
+    compound_instruction           shift and go to state 46
+
+state 32
+
+    (63) unary_expression -> postfix_expression .
+
+    MULTIPLY        reduce using rule 63 (unary_expression -> postfix_expression .)
+    DIVIDE          reduce using rule 63 (unary_expression -> postfix_expression .)
+    MODULO          reduce using rule 63 (unary_expression -> postfix_expression .)
+    ADD             reduce using rule 63 (unary_expression -> postfix_expression .)
+    SUBTRACT        reduce using rule 63 (unary_expression -> postfix_expression .)
+    SEMICOLON       reduce using rule 63 (unary_expression -> postfix_expression .)
+    SHIFTLEFT       reduce using rule 63 (unary_expression -> postfix_expression .)
+    SHIFTRIGHT      reduce using rule 63 (unary_expression -> postfix_expression .)
+    RPARENS         reduce using rule 63 (unary_expression -> postfix_expression .)
+    EQUAL           reduce using rule 63 (unary_expression -> postfix_expression .)
+    NOTEQUAL        reduce using rule 63 (unary_expression -> postfix_expression .)
+    LESS            reduce using rule 63 (unary_expression -> postfix_expression .)
+    GREATER         reduce using rule 63 (unary_expression -> postfix_expression .)
+    LESSEQUAL       reduce using rule 63 (unary_expression -> postfix_expression .)
+    GREATEREQUAL    reduce using rule 63 (unary_expression -> postfix_expression .)
+    COMMA           reduce using rule 63 (unary_expression -> postfix_expression .)
+
+
+state 33
+
+    (28) expression_instruction -> expression . SEMICOLON
+    (54) expression -> expression . SHIFTLEFT expression_additive
+    (55) expression -> expression . SHIFTRIGHT expression_additive
+
+    SEMICOLON       shift and go to state 69
+    SHIFTLEFT       shift and go to state 68
+    SHIFTRIGHT      shift and go to state 70
+
+
+state 34
+
+    (44) iteration_instruction -> FOR . LPARENS assignment SEMICOLON condition SEMICOLON assignment RPARENS instruction
+
+    LPARENS         shift and go to state 71
+
+
+state 35
+
+    (34) compound_instruction -> block_start block_end .
+
+    ELSE            reduce using rule 34 (compound_instruction -> block_start block_end .)
+    RBRACKET        reduce using rule 34 (compound_instruction -> block_start block_end .)
+    SEMICOLON       reduce using rule 34 (compound_instruction -> block_start block_end .)
+    WHILE           reduce using rule 34 (compound_instruction -> block_start block_end .)
+    DO              reduce using rule 34 (compound_instruction -> block_start block_end .)
+    FOR             reduce using rule 34 (compound_instruction -> block_start block_end .)
+    RETURN          reduce using rule 34 (compound_instruction -> block_start block_end .)
+    LBRACKET        reduce using rule 34 (compound_instruction -> block_start block_end .)
+    IDENT           reduce using rule 34 (compound_instruction -> block_start block_end .)
+    IF              reduce using rule 34 (compound_instruction -> block_start block_end .)
+    SUBTRACT        reduce using rule 34 (compound_instruction -> block_start block_end .)
+    CONST_INT       reduce using rule 34 (compound_instruction -> block_start block_end .)
+    CONST_STRING    reduce using rule 34 (compound_instruction -> block_start block_end .)
+    LPARENS         reduce using rule 34 (compound_instruction -> block_start block_end .)
+    EXTERN          reduce using rule 34 (compound_instruction -> block_start block_end .)
+    INT             reduce using rule 34 (compound_instruction -> block_start block_end .)
+    STRING          reduce using rule 34 (compound_instruction -> block_start block_end .)
+    $end            reduce using rule 34 (compound_instruction -> block_start block_end .)
+
+
+state 36
+
+    (56) expression_additive -> expression_multiplicative .
+    (60) expression_multiplicative -> expression_multiplicative . MULTIPLY unary_expression
+    (61) expression_multiplicative -> expression_multiplicative . DIVIDE unary_expression
+    (62) expression_multiplicative -> expression_multiplicative . MODULO unary_expression
+
+    ADD             reduce using rule 56 (expression_additive -> expression_multiplicative .)
+    SUBTRACT        reduce using rule 56 (expression_additive -> expression_multiplicative .)
+    SHIFTLEFT       reduce using rule 56 (expression_additive -> expression_multiplicative .)
+    SHIFTRIGHT      reduce using rule 56 (expression_additive -> expression_multiplicative .)
+    EQUAL           reduce using rule 56 (expression_additive -> expression_multiplicative .)
+    NOTEQUAL        reduce using rule 56 (expression_additive -> expression_multiplicative .)
+    LESS            reduce using rule 56 (expression_additive -> expression_multiplicative .)
+    GREATER         reduce using rule 56 (expression_additive -> expression_multiplicative .)
+    LESSEQUAL       reduce using rule 56 (expression_additive -> expression_multiplicative .)
+    GREATEREQUAL    reduce using rule 56 (expression_additive -> expression_multiplicative .)
+    SEMICOLON       reduce using rule 56 (expression_additive -> expression_multiplicative .)
+    RPARENS         reduce using rule 56 (expression_additive -> expression_multiplicative .)
+    COMMA           reduce using rule 56 (expression_additive -> expression_multiplicative .)
+    MULTIPLY        shift and go to state 73
+    DIVIDE          shift and go to state 74
+    MODULO          shift and go to state 72
+
+
+state 37
+
+    (64) unary_expression -> SUBTRACT . unary_expression
+    (63) unary_expression -> . postfix_expression
+    (64) unary_expression -> . SUBTRACT unary_expression
+    (65) postfix_expression -> . primary_expression
+    (66) postfix_expression -> . IDENT LPARENS argument_expression_list RPARENS
+    (67) postfix_expression -> . IDENT LPARENS RPARENS
+    (70) primary_expression -> . IDENT
+    (71) primary_expression -> . CONST_INT
+    (72) primary_expression -> . CONST_STRING
+    (73) primary_expression -> . LPARENS expression RPARENS
+
+    SUBTRACT        shift and go to state 37
+    IDENT           shift and go to state 64
+    CONST_INT       shift and go to state 50
+    CONST_STRING    shift and go to state 54
+    LPARENS         shift and go to state 55
+
+    postfix_expression             shift and go to state 32
+    unary_expression               shift and go to state 75
+    primary_expression             shift and go to state 56
+
+state 38
+
+    (25) instruction -> iteration_instruction .
+
+    ELSE            reduce using rule 25 (instruction -> iteration_instruction .)
+    RBRACKET        reduce using rule 25 (instruction -> iteration_instruction .)
+    SEMICOLON       reduce using rule 25 (instruction -> iteration_instruction .)
+    WHILE           reduce using rule 25 (instruction -> iteration_instruction .)
+    DO              reduce using rule 25 (instruction -> iteration_instruction .)
+    FOR             reduce using rule 25 (instruction -> iteration_instruction .)
+    RETURN          reduce using rule 25 (instruction -> iteration_instruction .)
+    LBRACKET        reduce using rule 25 (instruction -> iteration_instruction .)
+    IDENT           reduce using rule 25 (instruction -> iteration_instruction .)
+    IF              reduce using rule 25 (instruction -> iteration_instruction .)
+    SUBTRACT        reduce using rule 25 (instruction -> iteration_instruction .)
+    CONST_INT       reduce using rule 25 (instruction -> iteration_instruction .)
+    CONST_STRING    reduce using rule 25 (instruction -> iteration_instruction .)
+    LPARENS         reduce using rule 25 (instruction -> iteration_instruction .)
+
+
+state 39
+
+    (29) expression_instruction -> assignment . SEMICOLON
+
+    SEMICOLON       shift and go to state 76
+
+
+state 40
+
+    (39) select_instruction -> cond_instruction . instruction
+    (40) select_instruction -> cond_instruction . instruction ELSE instruction
+    (22) instruction -> . SEMICOLON
+    (23) instruction -> . compound_instruction
+    (24) instruction -> . expression_instruction
+    (25) instruction -> . iteration_instruction
+    (26) instruction -> . select_instruction
+    (27) instruction -> . jump_instruction
+    (31) compound_instruction -> . block_start declaration_list instruction_list block_end
+    (32) compound_instruction -> . block_start declaration_list block_end
+    (33) compound_instruction -> . block_start instruction_list block_end
+    (34) compound_instruction -> . block_start block_end
+    (28) expression_instruction -> . expression SEMICOLON
+    (29) expression_instruction -> . assignment SEMICOLON
+    (42) iteration_instruction -> . WHILE LPARENS condition RPARENS instruction
+    (43) iteration_instruction -> . DO instruction WHILE LPARENS condition RPARENS
+    (44) iteration_instruction -> . FOR LPARENS assignment SEMICOLON condition SEMICOLON assignment RPARENS instruction
+    (39) select_instruction -> . cond_instruction instruction
+    (40) select_instruction -> . cond_instruction instruction ELSE instruction
+    (45) jump_instruction -> . RETURN expression SEMICOLON
+    (35) block_start -> . LBRACKET
+    (53) expression -> . expression_additive
+    (54) expression -> . expression SHIFTLEFT expression_additive
+    (55) expression -> . expression SHIFTRIGHT expression_additive
+    (30) assignment -> . IDENT ASSIGNMENT expression
+    (41) cond_instruction -> . IF LPARENS condition RPARENS
+    (56) expression_additive -> . expression_multiplicative
+    (57) expression_additive -> . expression_additive ADD expression_multiplicative
+    (58) expression_additive -> . expression_additive SUBTRACT expression_multiplicative
+    (59) expression_multiplicative -> . unary_expression
+    (60) expression_multiplicative -> . expression_multiplicative MULTIPLY unary_expression
+    (61) expression_multiplicative -> . expression_multiplicative DIVIDE unary_expression
+    (62) expression_multiplicative -> . expression_multiplicative MODULO unary_expression
+    (63) unary_expression -> . postfix_expression
+    (64) unary_expression -> . SUBTRACT unary_expression
+    (65) postfix_expression -> . primary_expression
+    (66) postfix_expression -> . IDENT LPARENS argument_expression_list RPARENS
+    (67) postfix_expression -> . IDENT LPARENS RPARENS
+    (70) primary_expression -> . IDENT
+    (71) primary_expression -> . CONST_INT
+    (72) primary_expression -> . CONST_STRING
+    (73) primary_expression -> . LPARENS expression RPARENS
+
+    SEMICOLON       shift and go to state 43
+    WHILE           shift and go to state 59
+    DO              shift and go to state 48
+    FOR             shift and go to state 34
+    RETURN          shift and go to state 30
+    LBRACKET        shift and go to state 22
+    IDENT           shift and go to state 45
+    IF              shift and go to state 41
+    SUBTRACT        shift and go to state 37
+    CONST_INT       shift and go to state 50
+    CONST_STRING    shift and go to state 54
+    LPARENS         shift and go to state 55
+
+    instruction                    shift and go to state 77
+    iteration_instruction          shift and go to state 38
+    postfix_expression             shift and go to state 32
+    assignment                     shift and go to state 39
+    expression                     shift and go to state 33
+    cond_instruction               shift and go to state 40
+    unary_expression               shift and go to state 42
+    select_instruction             shift and go to state 53
+    primary_expression             shift and go to state 56
+    expression_instruction         shift and go to state 44
+    expression_multiplicative      shift and go to state 36
+    jump_instruction               shift and go to state 57
+    expression_additive            shift and go to state 58
+    compound_instruction           shift and go to state 46
+    block_start                    shift and go to state 24
+
+state 41
+
+    (41) cond_instruction -> IF . LPARENS condition RPARENS
+
+    LPARENS         shift and go to state 78
+
+
+state 42
+
+    (59) expression_multiplicative -> unary_expression .
+
+    MULTIPLY        reduce using rule 59 (expression_multiplicative -> unary_expression .)
+    DIVIDE          reduce using rule 59 (expression_multiplicative -> unary_expression .)
+    MODULO          reduce using rule 59 (expression_multiplicative -> unary_expression .)
+    ADD             reduce using rule 59 (expression_multiplicative -> unary_expression .)
+    SUBTRACT        reduce using rule 59 (expression_multiplicative -> unary_expression .)
+    SEMICOLON       reduce using rule 59 (expression_multiplicative -> unary_expression .)
+    SHIFTLEFT       reduce using rule 59 (expression_multiplicative -> unary_expression .)
+    SHIFTRIGHT      reduce using rule 59 (expression_multiplicative -> unary_expression .)
+    RPARENS         reduce using rule 59 (expression_multiplicative -> unary_expression .)
+    COMMA           reduce using rule 59 (expression_multiplicative -> unary_expression .)
+    EQUAL           reduce using rule 59 (expression_multiplicative -> unary_expression .)
+    NOTEQUAL        reduce using rule 59 (expression_multiplicative -> unary_expression .)
+    LESS            reduce using rule 59 (expression_multiplicative -> unary_expression .)
+    GREATER         reduce using rule 59 (expression_multiplicative -> unary_expression .)
+    LESSEQUAL       reduce using rule 59 (expression_multiplicative -> unary_expression .)
+    GREATEREQUAL    reduce using rule 59 (expression_multiplicative -> unary_expression .)
+
+
+state 43
+
+    (22) instruction -> SEMICOLON .
+
+    ELSE            reduce using rule 22 (instruction -> SEMICOLON .)
+    RBRACKET        reduce using rule 22 (instruction -> SEMICOLON .)
+    SEMICOLON       reduce using rule 22 (instruction -> SEMICOLON .)
+    WHILE           reduce using rule 22 (instruction -> SEMICOLON .)
+    DO              reduce using rule 22 (instruction -> SEMICOLON .)
+    FOR             reduce using rule 22 (instruction -> SEMICOLON .)
+    RETURN          reduce using rule 22 (instruction -> SEMICOLON .)
+    LBRACKET        reduce using rule 22 (instruction -> SEMICOLON .)
+    IDENT           reduce using rule 22 (instruction -> SEMICOLON .)
+    IF              reduce using rule 22 (instruction -> SEMICOLON .)
+    SUBTRACT        reduce using rule 22 (instruction -> SEMICOLON .)
+    CONST_INT       reduce using rule 22 (instruction -> SEMICOLON .)
+    CONST_STRING    reduce using rule 22 (instruction -> SEMICOLON .)
+    LPARENS         reduce using rule 22 (instruction -> SEMICOLON .)
+
+
+state 44
+
+    (24) instruction -> expression_instruction .
+
+    ELSE            reduce using rule 24 (instruction -> expression_instruction .)
+    RBRACKET        reduce using rule 24 (instruction -> expression_instruction .)
+    SEMICOLON       reduce using rule 24 (instruction -> expression_instruction .)
+    WHILE           reduce using rule 24 (instruction -> expression_instruction .)
+    DO              reduce using rule 24 (instruction -> expression_instruction .)
+    FOR             reduce using rule 24 (instruction -> expression_instruction .)
+    RETURN          reduce using rule 24 (instruction -> expression_instruction .)
+    LBRACKET        reduce using rule 24 (instruction -> expression_instruction .)
+    IDENT           reduce using rule 24 (instruction -> expression_instruction .)
+    IF              reduce using rule 24 (instruction -> expression_instruction .)
+    SUBTRACT        reduce using rule 24 (instruction -> expression_instruction .)
+    CONST_INT       reduce using rule 24 (instruction -> expression_instruction .)
+    CONST_STRING    reduce using rule 24 (instruction -> expression_instruction .)
+    LPARENS         reduce using rule 24 (instruction -> expression_instruction .)
+
+
+state 45
+
+    (30) assignment -> IDENT . ASSIGNMENT expression
+    (66) postfix_expression -> IDENT . LPARENS argument_expression_list RPARENS
+    (67) postfix_expression -> IDENT . LPARENS RPARENS
+    (70) primary_expression -> IDENT .
+
+    ASSIGNMENT      shift and go to state 79
+    LPARENS         shift and go to state 80
+    MULTIPLY        reduce using rule 70 (primary_expression -> IDENT .)
+    DIVIDE          reduce using rule 70 (primary_expression -> IDENT .)
+    MODULO          reduce using rule 70 (primary_expression -> IDENT .)
+    ADD             reduce using rule 70 (primary_expression -> IDENT .)
+    SUBTRACT        reduce using rule 70 (primary_expression -> IDENT .)
+    SEMICOLON       reduce using rule 70 (primary_expression -> IDENT .)
+    SHIFTLEFT       reduce using rule 70 (primary_expression -> IDENT .)
+    SHIFTRIGHT      reduce using rule 70 (primary_expression -> IDENT .)
+
+
+state 46
+
+    (23) instruction -> compound_instruction .
+
+    ELSE            reduce using rule 23 (instruction -> compound_instruction .)
+    RBRACKET        reduce using rule 23 (instruction -> compound_instruction .)
+    SEMICOLON       reduce using rule 23 (instruction -> compound_instruction .)
+    WHILE           reduce using rule 23 (instruction -> compound_instruction .)
+    DO              reduce using rule 23 (instruction -> compound_instruction .)
+    FOR             reduce using rule 23 (instruction -> compound_instruction .)
+    RETURN          reduce using rule 23 (instruction -> compound_instruction .)
+    LBRACKET        reduce using rule 23 (instruction -> compound_instruction .)
+    IDENT           reduce using rule 23 (instruction -> compound_instruction .)
+    IF              reduce using rule 23 (instruction -> compound_instruction .)
+    SUBTRACT        reduce using rule 23 (instruction -> compound_instruction .)
+    CONST_INT       reduce using rule 23 (instruction -> compound_instruction .)
+    CONST_STRING    reduce using rule 23 (instruction -> compound_instruction .)
+    LPARENS         reduce using rule 23 (instruction -> compound_instruction .)
+
+
+state 47
+
+    (13) declaration_list -> declaration .
+
+    RBRACKET        reduce using rule 13 (declaration_list -> declaration .)
+    SEMICOLON       reduce using rule 13 (declaration_list -> declaration .)
+    INT             reduce using rule 13 (declaration_list -> declaration .)
+    STRING          reduce using rule 13 (declaration_list -> declaration .)
+    WHILE           reduce using rule 13 (declaration_list -> declaration .)
+    DO              reduce using rule 13 (declaration_list -> declaration .)
+    FOR             reduce using rule 13 (declaration_list -> declaration .)
+    RETURN          reduce using rule 13 (declaration_list -> declaration .)
+    LBRACKET        reduce using rule 13 (declaration_list -> declaration .)
+    IDENT           reduce using rule 13 (declaration_list -> declaration .)
+    IF              reduce using rule 13 (declaration_list -> declaration .)
+    SUBTRACT        reduce using rule 13 (declaration_list -> declaration .)
+    CONST_INT       reduce using rule 13 (declaration_list -> declaration .)
+    CONST_STRING    reduce using rule 13 (declaration_list -> declaration .)
+    LPARENS         reduce using rule 13 (declaration_list -> declaration .)
+
+
+state 48
+
+    (43) iteration_instruction -> DO . instruction WHILE LPARENS condition RPARENS
+    (22) instruction -> . SEMICOLON
+    (23) instruction -> . compound_instruction
+    (24) instruction -> . expression_instruction
+    (25) instruction -> . iteration_instruction
+    (26) instruction -> . select_instruction
+    (27) instruction -> . jump_instruction
+    (31) compound_instruction -> . block_start declaration_list instruction_list block_end
+    (32) compound_instruction -> . block_start declaration_list block_end
+    (33) compound_instruction -> . block_start instruction_list block_end
+    (34) compound_instruction -> . block_start block_end
+    (28) expression_instruction -> . expression SEMICOLON
+    (29) expression_instruction -> . assignment SEMICOLON
+    (42) iteration_instruction -> . WHILE LPARENS condition RPARENS instruction
+    (43) iteration_instruction -> . DO instruction WHILE LPARENS condition RPARENS
+    (44) iteration_instruction -> . FOR LPARENS assignment SEMICOLON condition SEMICOLON assignment RPARENS instruction
+    (39) select_instruction -> . cond_instruction instruction
+    (40) select_instruction -> . cond_instruction instruction ELSE instruction
+    (45) jump_instruction -> . RETURN expression SEMICOLON
+    (35) block_start -> . LBRACKET
+    (53) expression -> . expression_additive
+    (54) expression -> . expression SHIFTLEFT expression_additive
+    (55) expression -> . expression SHIFTRIGHT expression_additive
+    (30) assignment -> . IDENT ASSIGNMENT expression
+    (41) cond_instruction -> . IF LPARENS condition RPARENS
+    (56) expression_additive -> . expression_multiplicative
+    (57) expression_additive -> . expression_additive ADD expression_multiplicative
+    (58) expression_additive -> . expression_additive SUBTRACT expression_multiplicative
+    (59) expression_multiplicative -> . unary_expression
+    (60) expression_multiplicative -> . expression_multiplicative MULTIPLY unary_expression
+    (61) expression_multiplicative -> . expression_multiplicative DIVIDE unary_expression
+    (62) expression_multiplicative -> . expression_multiplicative MODULO unary_expression
+    (63) unary_expression -> . postfix_expression
+    (64) unary_expression -> . SUBTRACT unary_expression
+    (65) postfix_expression -> . primary_expression
+    (66) postfix_expression -> . IDENT LPARENS argument_expression_list RPARENS
+    (67) postfix_expression -> . IDENT LPARENS RPARENS
+    (70) primary_expression -> . IDENT
+    (71) primary_expression -> . CONST_INT
+    (72) primary_expression -> . CONST_STRING
+    (73) primary_expression -> . LPARENS expression RPARENS
+
+    SEMICOLON       shift and go to state 43
+    WHILE           shift and go to state 59
+    DO              shift and go to state 48
+    FOR             shift and go to state 34
+    RETURN          shift and go to state 30
+    LBRACKET        shift and go to state 22
+    IDENT           shift and go to state 45
+    IF              shift and go to state 41
+    SUBTRACT        shift and go to state 37
+    CONST_INT       shift and go to state 50
+    CONST_STRING    shift and go to state 54
+    LPARENS         shift and go to state 55
+
+    instruction                    shift and go to state 81
+    iteration_instruction          shift and go to state 38
+    postfix_expression             shift and go to state 32
+    assignment                     shift and go to state 39
+    cond_instruction               shift and go to state 40
+    expression                     shift and go to state 33
+    unary_expression               shift and go to state 42
+    select_instruction             shift and go to state 53
+    primary_expression             shift and go to state 56
+    expression_instruction         shift and go to state 44
+    expression_multiplicative      shift and go to state 36
+    jump_instruction               shift and go to state 57
+    expression_additive            shift and go to state 58
+    compound_instruction           shift and go to state 46
+    block_start                    shift and go to state 24
+
+state 49
+
+    (37) instruction_list -> instruction .
+
+    RBRACKET        reduce using rule 37 (instruction_list -> instruction .)
+    SEMICOLON       reduce using rule 37 (instruction_list -> instruction .)
+    WHILE           reduce using rule 37 (instruction_list -> instruction .)
+    DO              reduce using rule 37 (instruction_list -> instruction .)
+    FOR             reduce using rule 37 (instruction_list -> instruction .)
+    RETURN          reduce using rule 37 (instruction_list -> instruction .)
+    LBRACKET        reduce using rule 37 (instruction_list -> instruction .)
+    IDENT           reduce using rule 37 (instruction_list -> instruction .)
+    IF              reduce using rule 37 (instruction_list -> instruction .)
+    SUBTRACT        reduce using rule 37 (instruction_list -> instruction .)
+    CONST_INT       reduce using rule 37 (instruction_list -> instruction .)
+    CONST_STRING    reduce using rule 37 (instruction_list -> instruction .)
+    LPARENS         reduce using rule 37 (instruction_list -> instruction .)
+
+
+state 50
+
+    (71) primary_expression -> CONST_INT .
+
+    MULTIPLY        reduce using rule 71 (primary_expression -> CONST_INT .)
+    DIVIDE          reduce using rule 71 (primary_expression -> CONST_INT .)
+    MODULO          reduce using rule 71 (primary_expression -> CONST_INT .)
+    ADD             reduce using rule 71 (primary_expression -> CONST_INT .)
+    SUBTRACT        reduce using rule 71 (primary_expression -> CONST_INT .)
+    SHIFTLEFT       reduce using rule 71 (primary_expression -> CONST_INT .)
+    SHIFTRIGHT      reduce using rule 71 (primary_expression -> CONST_INT .)
+    SEMICOLON       reduce using rule 71 (primary_expression -> CONST_INT .)
+    RPARENS         reduce using rule 71 (primary_expression -> CONST_INT .)
+    EQUAL           reduce using rule 71 (primary_expression -> CONST_INT .)
+    NOTEQUAL        reduce using rule 71 (primary_expression -> CONST_INT .)
+    LESS            reduce using rule 71 (primary_expression -> CONST_INT .)
+    GREATER         reduce using rule 71 (primary_expression -> CONST_INT .)
+    LESSEQUAL       reduce using rule 71 (primary_expression -> CONST_INT .)
+    GREATEREQUAL    reduce using rule 71 (primary_expression -> CONST_INT .)
+    COMMA           reduce using rule 71 (primary_expression -> CONST_INT .)
+
+
+state 51
+
+    (33) compound_instruction -> block_start instruction_list . block_end
+    (38) instruction_list -> instruction_list . instruction
+    (36) block_end -> . RBRACKET
+    (22) instruction -> . SEMICOLON
+    (23) instruction -> . compound_instruction
+    (24) instruction -> . expression_instruction
+    (25) instruction -> . iteration_instruction
+    (26) instruction -> . select_instruction
+    (27) instruction -> . jump_instruction
+    (31) compound_instruction -> . block_start declaration_list instruction_list block_end
+    (32) compound_instruction -> . block_start declaration_list block_end
+    (33) compound_instruction -> . block_start instruction_list block_end
+    (34) compound_instruction -> . block_start block_end
+    (28) expression_instruction -> . expression SEMICOLON
+    (29) expression_instruction -> . assignment SEMICOLON
+    (42) iteration_instruction -> . WHILE LPARENS condition RPARENS instruction
+    (43) iteration_instruction -> . DO instruction WHILE LPARENS condition RPARENS
+    (44) iteration_instruction -> . FOR LPARENS assignment SEMICOLON condition SEMICOLON assignment RPARENS instruction
+    (39) select_instruction -> . cond_instruction instruction
+    (40) select_instruction -> . cond_instruction instruction ELSE instruction
+    (45) jump_instruction -> . RETURN expression SEMICOLON
+    (35) block_start -> . LBRACKET
+    (53) expression -> . expression_additive
+    (54) expression -> . expression SHIFTLEFT expression_additive
+    (55) expression -> . expression SHIFTRIGHT expression_additive
+    (30) assignment -> . IDENT ASSIGNMENT expression
+    (41) cond_instruction -> . IF LPARENS condition RPARENS
+    (56) expression_additive -> . expression_multiplicative
+    (57) expression_additive -> . expression_additive ADD expression_multiplicative
+    (58) expression_additive -> . expression_additive SUBTRACT expression_multiplicative
+    (59) expression_multiplicative -> . unary_expression
+    (60) expression_multiplicative -> . expression_multiplicative MULTIPLY unary_expression
+    (61) expression_multiplicative -> . expression_multiplicative DIVIDE unary_expression
+    (62) expression_multiplicative -> . expression_multiplicative MODULO unary_expression
+    (63) unary_expression -> . postfix_expression
+    (64) unary_expression -> . SUBTRACT unary_expression
+    (65) postfix_expression -> . primary_expression
+    (66) postfix_expression -> . IDENT LPARENS argument_expression_list RPARENS
+    (67) postfix_expression -> . IDENT LPARENS RPARENS
+    (70) primary_expression -> . IDENT
+    (71) primary_expression -> . CONST_INT
+    (72) primary_expression -> . CONST_STRING
+    (73) primary_expression -> . LPARENS expression RPARENS
+
+    RBRACKET        shift and go to state 52
+    SEMICOLON       shift and go to state 43
+    WHILE           shift and go to state 59
+    DO              shift and go to state 48
+    FOR             shift and go to state 34
+    RETURN          shift and go to state 30
+    LBRACKET        shift and go to state 22
+    IDENT           shift and go to state 45
+    IF              shift and go to state 41
+    SUBTRACT        shift and go to state 37
+    CONST_INT       shift and go to state 50
+    CONST_STRING    shift and go to state 54
+    LPARENS         shift and go to state 55
+
+    instruction                    shift and go to state 83
+    iteration_instruction          shift and go to state 38
+    postfix_expression             shift and go to state 32
+    assignment                     shift and go to state 39
+    cond_instruction               shift and go to state 40
+    expression                     shift and go to state 33
+    unary_expression               shift and go to state 42
+    select_instruction             shift and go to state 53
+    block_end                      shift and go to state 82
+    primary_expression             shift and go to state 56
+    expression_instruction         shift and go to state 44
+    expression_multiplicative      shift and go to state 36
+    jump_instruction               shift and go to state 57
+    expression_additive            shift and go to state 58
+    compound_instruction           shift and go to state 46
+    block_start                    shift and go to state 24
+
+state 52
+
+    (36) block_end -> RBRACKET .
+
+    EXTERN          reduce using rule 36 (block_end -> RBRACKET .)
+    INT             reduce using rule 36 (block_end -> RBRACKET .)
+    STRING          reduce using rule 36 (block_end -> RBRACKET .)
+    $end            reduce using rule 36 (block_end -> RBRACKET .)
+    RBRACKET        reduce using rule 36 (block_end -> RBRACKET .)
+    SEMICOLON       reduce using rule 36 (block_end -> RBRACKET .)
+    WHILE           reduce using rule 36 (block_end -> RBRACKET .)
+    DO              reduce using rule 36 (block_end -> RBRACKET .)
+    FOR             reduce using rule 36 (block_end -> RBRACKET .)
+    RETURN          reduce using rule 36 (block_end -> RBRACKET .)
+    LBRACKET        reduce using rule 36 (block_end -> RBRACKET .)
+    IDENT           reduce using rule 36 (block_end -> RBRACKET .)
+    IF              reduce using rule 36 (block_end -> RBRACKET .)
+    SUBTRACT        reduce using rule 36 (block_end -> RBRACKET .)
+    CONST_INT       reduce using rule 36 (block_end -> RBRACKET .)
+    CONST_STRING    reduce using rule 36 (block_end -> RBRACKET .)
+    LPARENS         reduce using rule 36 (block_end -> RBRACKET .)
+    ELSE            reduce using rule 36 (block_end -> RBRACKET .)
+
+
+state 53
+
+    (26) instruction -> select_instruction .
+
+    ELSE            reduce using rule 26 (instruction -> select_instruction .)
+    RBRACKET        reduce using rule 26 (instruction -> select_instruction .)
+    SEMICOLON       reduce using rule 26 (instruction -> select_instruction .)
+    WHILE           reduce using rule 26 (instruction -> select_instruction .)
+    DO              reduce using rule 26 (instruction -> select_instruction .)
+    FOR             reduce using rule 26 (instruction -> select_instruction .)
+    RETURN          reduce using rule 26 (instruction -> select_instruction .)
+    LBRACKET        reduce using rule 26 (instruction -> select_instruction .)
+    IDENT           reduce using rule 26 (instruction -> select_instruction .)
+    IF              reduce using rule 26 (instruction -> select_instruction .)
+    SUBTRACT        reduce using rule 26 (instruction -> select_instruction .)
+    CONST_INT       reduce using rule 26 (instruction -> select_instruction .)
+    CONST_STRING    reduce using rule 26 (instruction -> select_instruction .)
+    LPARENS         reduce using rule 26 (instruction -> select_instruction .)
+
+
+state 54
+
+    (72) primary_expression -> CONST_STRING .
+
+    MULTIPLY        reduce using rule 72 (primary_expression -> CONST_STRING .)
+    DIVIDE          reduce using rule 72 (primary_expression -> CONST_STRING .)
+    MODULO          reduce using rule 72 (primary_expression -> CONST_STRING .)
+    ADD             reduce using rule 72 (primary_expression -> CONST_STRING .)
+    SUBTRACT        reduce using rule 72 (primary_expression -> CONST_STRING .)
+    SHIFTLEFT       reduce using rule 72 (primary_expression -> CONST_STRING .)
+    SHIFTRIGHT      reduce using rule 72 (primary_expression -> CONST_STRING .)
+    SEMICOLON       reduce using rule 72 (primary_expression -> CONST_STRING .)
+    RPARENS         reduce using rule 72 (primary_expression -> CONST_STRING .)
+    EQUAL           reduce using rule 72 (primary_expression -> CONST_STRING .)
+    NOTEQUAL        reduce using rule 72 (primary_expression -> CONST_STRING .)
+    LESS            reduce using rule 72 (primary_expression -> CONST_STRING .)
+    GREATER         reduce using rule 72 (primary_expression -> CONST_STRING .)
+    LESSEQUAL       reduce using rule 72 (primary_expression -> CONST_STRING .)
+    GREATEREQUAL    reduce using rule 72 (primary_expression -> CONST_STRING .)
+    COMMA           reduce using rule 72 (primary_expression -> CONST_STRING .)
+
+
+state 55
+
+    (73) primary_expression -> LPARENS . expression RPARENS
+    (53) expression -> . expression_additive
+    (54) expression -> . expression SHIFTLEFT expression_additive
+    (55) expression -> . expression SHIFTRIGHT expression_additive
+    (56) expression_additive -> . expression_multiplicative
+    (57) expression_additive -> . expression_additive ADD expression_multiplicative
+    (58) expression_additive -> . expression_additive SUBTRACT expression_multiplicative
+    (59) expression_multiplicative -> . unary_expression
+    (60) expression_multiplicative -> . expression_multiplicative MULTIPLY unary_expression
+    (61) expression_multiplicative -> . expression_multiplicative DIVIDE unary_expression
+    (62) expression_multiplicative -> . expression_multiplicative MODULO unary_expression
+    (63) unary_expression -> . postfix_expression
+    (64) unary_expression -> . SUBTRACT unary_expression
+    (65) postfix_expression -> . primary_expression
+    (66) postfix_expression -> . IDENT LPARENS argument_expression_list RPARENS
+    (67) postfix_expression -> . IDENT LPARENS RPARENS
+    (70) primary_expression -> . IDENT
+    (71) primary_expression -> . CONST_INT
+    (72) primary_expression -> . CONST_STRING
+    (73) primary_expression -> . LPARENS expression RPARENS
+
+    SUBTRACT        shift and go to state 37
+    IDENT           shift and go to state 64
+    CONST_INT       shift and go to state 50
+    CONST_STRING    shift and go to state 54
+    LPARENS         shift and go to state 55
+
+    postfix_expression             shift and go to state 32
+    primary_expression             shift and go to state 56
+    expression                     shift and go to state 84
+    expression_multiplicative      shift and go to state 36
+    expression_additive            shift and go to state 58
+    unary_expression               shift and go to state 42
+
+state 56
+
+    (65) postfix_expression -> primary_expression .
+
+    MULTIPLY        reduce using rule 65 (postfix_expression -> primary_expression .)
+    DIVIDE          reduce using rule 65 (postfix_expression -> primary_expression .)
+    MODULO          reduce using rule 65 (postfix_expression -> primary_expression .)
+    ADD             reduce using rule 65 (postfix_expression -> primary_expression .)
+    SUBTRACT        reduce using rule 65 (postfix_expression -> primary_expression .)
+    SHIFTLEFT       reduce using rule 65 (postfix_expression -> primary_expression .)
+    SHIFTRIGHT      reduce using rule 65 (postfix_expression -> primary_expression .)
+    SEMICOLON       reduce using rule 65 (postfix_expression -> primary_expression .)
+    RPARENS         reduce using rule 65 (postfix_expression -> primary_expression .)
+    EQUAL           reduce using rule 65 (postfix_expression -> primary_expression .)
+    NOTEQUAL        reduce using rule 65 (postfix_expression -> primary_expression .)
+    LESS            reduce using rule 65 (postfix_expression -> primary_expression .)
+    GREATER         reduce using rule 65 (postfix_expression -> primary_expression .)
+    LESSEQUAL       reduce using rule 65 (postfix_expression -> primary_expression .)
+    GREATEREQUAL    reduce using rule 65 (postfix_expression -> primary_expression .)
+    COMMA           reduce using rule 65 (postfix_expression -> primary_expression .)
+
+
+state 57
+
+    (27) instruction -> jump_instruction .
+
+    ELSE            reduce using rule 27 (instruction -> jump_instruction .)
+    RBRACKET        reduce using rule 27 (instruction -> jump_instruction .)
+    SEMICOLON       reduce using rule 27 (instruction -> jump_instruction .)
+    WHILE           reduce using rule 27 (instruction -> jump_instruction .)
+    DO              reduce using rule 27 (instruction -> jump_instruction .)
+    FOR             reduce using rule 27 (instruction -> jump_instruction .)
+    RETURN          reduce using rule 27 (instruction -> jump_instruction .)
+    LBRACKET        reduce using rule 27 (instruction -> jump_instruction .)
+    IDENT           reduce using rule 27 (instruction -> jump_instruction .)
+    IF              reduce using rule 27 (instruction -> jump_instruction .)
+    SUBTRACT        reduce using rule 27 (instruction -> jump_instruction .)
+    CONST_INT       reduce using rule 27 (instruction -> jump_instruction .)
+    CONST_STRING    reduce using rule 27 (instruction -> jump_instruction .)
+    LPARENS         reduce using rule 27 (instruction -> jump_instruction .)
+
+
+state 58
+
+    (53) expression -> expression_additive .
+    (57) expression_additive -> expression_additive . ADD expression_multiplicative
+    (58) expression_additive -> expression_additive . SUBTRACT expression_multiplicative
+
+    SEMICOLON       reduce using rule 53 (expression -> expression_additive .)
+    SHIFTLEFT       reduce using rule 53 (expression -> expression_additive .)
+    SHIFTRIGHT      reduce using rule 53 (expression -> expression_additive .)
+    RPARENS         reduce using rule 53 (expression -> expression_additive .)
+    EQUAL           reduce using rule 53 (expression -> expression_additive .)
+    NOTEQUAL        reduce using rule 53 (expression -> expression_additive .)
+    LESS            reduce using rule 53 (expression -> expression_additive .)
+    GREATER         reduce using rule 53 (expression -> expression_additive .)
+    LESSEQUAL       reduce using rule 53 (expression -> expression_additive .)
+    GREATEREQUAL    reduce using rule 53 (expression -> expression_additive .)
+    COMMA           reduce using rule 53 (expression -> expression_additive .)
+    ADD             shift and go to state 85
+    SUBTRACT        shift and go to state 86
+
+
+state 59
+
+    (42) iteration_instruction -> WHILE . LPARENS condition RPARENS instruction
+
+    LPARENS         shift and go to state 87
+
+
+state 60
+
+    (21) parameter_declaration -> type IDENT .
+
+    RPARENS         reduce using rule 21 (parameter_declaration -> type IDENT .)
+    COMMA           reduce using rule 21 (parameter_declaration -> type IDENT .)
+
+
+state 61
+
+    (18) function_declarator -> IDENT LPARENS parameter_list RPARENS .
+
+    SEMICOLON       reduce using rule 18 (function_declarator -> IDENT LPARENS parameter_list RPARENS .)
+    COMMA           reduce using rule 18 (function_declarator -> IDENT LPARENS parameter_list RPARENS .)
+    LBRACKET        reduce using rule 18 (function_declarator -> IDENT LPARENS parameter_list RPARENS .)
+
+
+state 62
+
+    (20) parameter_list -> parameter_list COMMA . parameter_declaration
+    (21) parameter_declaration -> . type IDENT
+    (9) type -> . INT
+    (10) type -> . STRING
+
+    INT             shift and go to state 6
+    STRING          shift and go to state 3
+
+    type                           shift and go to state 26
+    parameter_declaration          shift and go to state 88
+
+state 63
+
+    (45) jump_instruction -> RETURN expression . SEMICOLON
+    (54) expression -> expression . SHIFTLEFT expression_additive
+    (55) expression -> expression . SHIFTRIGHT expression_additive
+
+    SEMICOLON       shift and go to state 89
+    SHIFTLEFT       shift and go to state 68
+    SHIFTRIGHT      shift and go to state 70
+
+
+state 64
+
+    (66) postfix_expression -> IDENT . LPARENS argument_expression_list RPARENS
+    (67) postfix_expression -> IDENT . LPARENS RPARENS
+    (70) primary_expression -> IDENT .
+
+    LPARENS         shift and go to state 80
+    MULTIPLY        reduce using rule 70 (primary_expression -> IDENT .)
+    DIVIDE          reduce using rule 70 (primary_expression -> IDENT .)
+    MODULO          reduce using rule 70 (primary_expression -> IDENT .)
+    ADD             reduce using rule 70 (primary_expression -> IDENT .)
+    SUBTRACT        reduce using rule 70 (primary_expression -> IDENT .)
+    SHIFTLEFT       reduce using rule 70 (primary_expression -> IDENT .)
+    SHIFTRIGHT      reduce using rule 70 (primary_expression -> IDENT .)
+    SEMICOLON       reduce using rule 70 (primary_expression -> IDENT .)
+    RPARENS         reduce using rule 70 (primary_expression -> IDENT .)
+    EQUAL           reduce using rule 70 (primary_expression -> IDENT .)
+    NOTEQUAL        reduce using rule 70 (primary_expression -> IDENT .)
+    LESS            reduce using rule 70 (primary_expression -> IDENT .)
+    GREATER         reduce using rule 70 (primary_expression -> IDENT .)
+    LESSEQUAL       reduce using rule 70 (primary_expression -> IDENT .)
+    GREATEREQUAL    reduce using rule 70 (primary_expression -> IDENT .)
+    COMMA           reduce using rule 70 (primary_expression -> IDENT .)
+
+
+state 65
+
+    (32) compound_instruction -> block_start declaration_list block_end .
+
+    ELSE            reduce using rule 32 (compound_instruction -> block_start declaration_list block_end .)
+    RBRACKET        reduce using rule 32 (compound_instruction -> block_start declaration_list block_end .)
+    SEMICOLON       reduce using rule 32 (compound_instruction -> block_start declaration_list block_end .)
+    WHILE           reduce using rule 32 (compound_instruction -> block_start declaration_list block_end .)
+    DO              reduce using rule 32 (compound_instruction -> block_start declaration_list block_end .)
+    FOR             reduce using rule 32 (compound_instruction -> block_start declaration_list block_end .)
+    RETURN          reduce using rule 32 (compound_instruction -> block_start declaration_list block_end .)
+    LBRACKET        reduce using rule 32 (compound_instruction -> block_start declaration_list block_end .)
+    IDENT           reduce using rule 32 (compound_instruction -> block_start declaration_list block_end .)
+    IF              reduce using rule 32 (compound_instruction -> block_start declaration_list block_end .)
+    SUBTRACT        reduce using rule 32 (compound_instruction -> block_start declaration_list block_end .)
+    CONST_INT       reduce using rule 32 (compound_instruction -> block_start declaration_list block_end .)
+    CONST_STRING    reduce using rule 32 (compound_instruction -> block_start declaration_list block_end .)
+    LPARENS         reduce using rule 32 (compound_instruction -> block_start declaration_list block_end .)
+    EXTERN          reduce using rule 32 (compound_instruction -> block_start declaration_list block_end .)
+    INT             reduce using rule 32 (compound_instruction -> block_start declaration_list block_end .)
+    STRING          reduce using rule 32 (compound_instruction -> block_start declaration_list block_end .)
+    $end            reduce using rule 32 (compound_instruction -> block_start declaration_list block_end .)
+
+
+state 66
+
+    (14) declaration_list -> declaration_list declaration .
+
+    RBRACKET        reduce using rule 14 (declaration_list -> declaration_list declaration .)
+    SEMICOLON       reduce using rule 14 (declaration_list -> declaration_list declaration .)
+    INT             reduce using rule 14 (declaration_list -> declaration_list declaration .)
+    STRING          reduce using rule 14 (declaration_list -> declaration_list declaration .)
+    WHILE           reduce using rule 14 (declaration_list -> declaration_list declaration .)
+    DO              reduce using rule 14 (declaration_list -> declaration_list declaration .)
+    FOR             reduce using rule 14 (declaration_list -> declaration_list declaration .)
+    RETURN          reduce using rule 14 (declaration_list -> declaration_list declaration .)
+    LBRACKET        reduce using rule 14 (declaration_list -> declaration_list declaration .)
+    IDENT           reduce using rule 14 (declaration_list -> declaration_list declaration .)
+    IF              reduce using rule 14 (declaration_list -> declaration_list declaration .)
+    SUBTRACT        reduce using rule 14 (declaration_list -> declaration_list declaration .)
+    CONST_INT       reduce using rule 14 (declaration_list -> declaration_list declaration .)
+    CONST_STRING    reduce using rule 14 (declaration_list -> declaration_list declaration .)
+    LPARENS         reduce using rule 14 (declaration_list -> declaration_list declaration .)
+
+
+state 67
+
+    (31) compound_instruction -> block_start declaration_list instruction_list . block_end
+    (38) instruction_list -> instruction_list . instruction
+    (36) block_end -> . RBRACKET
+    (22) instruction -> . SEMICOLON
+    (23) instruction -> . compound_instruction
+    (24) instruction -> . expression_instruction
+    (25) instruction -> . iteration_instruction
+    (26) instruction -> . select_instruction
+    (27) instruction -> . jump_instruction
+    (31) compound_instruction -> . block_start declaration_list instruction_list block_end
+    (32) compound_instruction -> . block_start declaration_list block_end
+    (33) compound_instruction -> . block_start instruction_list block_end
+    (34) compound_instruction -> . block_start block_end
+    (28) expression_instruction -> . expression SEMICOLON
+    (29) expression_instruction -> . assignment SEMICOLON
+    (42) iteration_instruction -> . WHILE LPARENS condition RPARENS instruction
+    (43) iteration_instruction -> . DO instruction WHILE LPARENS condition RPARENS
+    (44) iteration_instruction -> . FOR LPARENS assignment SEMICOLON condition SEMICOLON assignment RPARENS instruction
+    (39) select_instruction -> . cond_instruction instruction
+    (40) select_instruction -> . cond_instruction instruction ELSE instruction
+    (45) jump_instruction -> . RETURN expression SEMICOLON
+    (35) block_start -> . LBRACKET
+    (53) expression -> . expression_additive
+    (54) expression -> . expression SHIFTLEFT expression_additive
+    (55) expression -> . expression SHIFTRIGHT expression_additive
+    (30) assignment -> . IDENT ASSIGNMENT expression
+    (41) cond_instruction -> . IF LPARENS condition RPARENS
+    (56) expression_additive -> . expression_multiplicative
+    (57) expression_additive -> . expression_additive ADD expression_multiplicative
+    (58) expression_additive -> . expression_additive SUBTRACT expression_multiplicative
+    (59) expression_multiplicative -> . unary_expression
+    (60) expression_multiplicative -> . expression_multiplicative MULTIPLY unary_expression
+    (61) expression_multiplicative -> . expression_multiplicative DIVIDE unary_expression
+    (62) expression_multiplicative -> . expression_multiplicative MODULO unary_expression
+    (63) unary_expression -> . postfix_expression
+    (64) unary_expression -> . SUBTRACT unary_expression
+    (65) postfix_expression -> . primary_expression
+    (66) postfix_expression -> . IDENT LPARENS argument_expression_list RPARENS
+    (67) postfix_expression -> . IDENT LPARENS RPARENS
+    (70) primary_expression -> . IDENT
+    (71) primary_expression -> . CONST_INT
+    (72) primary_expression -> . CONST_STRING
+    (73) primary_expression -> . LPARENS expression RPARENS
+
+    RBRACKET        shift and go to state 52
+    SEMICOLON       shift and go to state 43
+    WHILE           shift and go to state 59
+    DO              shift and go to state 48
+    FOR             shift and go to state 34
+    RETURN          shift and go to state 30
+    LBRACKET        shift and go to state 22
+    IDENT           shift and go to state 45
+    IF              shift and go to state 41
+    SUBTRACT        shift and go to state 37
+    CONST_INT       shift and go to state 50
+    CONST_STRING    shift and go to state 54
+    LPARENS         shift and go to state 55
+
+    instruction                    shift and go to state 83
+    iteration_instruction          shift and go to state 38
+    postfix_expression             shift and go to state 32
+    assignment                     shift and go to state 39
+    cond_instruction               shift and go to state 40
+    expression                     shift and go to state 33
+    unary_expression               shift and go to state 42
+    select_instruction             shift and go to state 53
+    block_end                      shift and go to state 90
+    primary_expression             shift and go to state 56
+    expression_instruction         shift and go to state 44
+    expression_multiplicative      shift and go to state 36
+    jump_instruction               shift and go to state 57
+    expression_additive            shift and go to state 58
+    block_start                    shift and go to state 24
+    compound_instruction           shift and go to state 46
+
+state 68
+
+    (54) expression -> expression SHIFTLEFT . expression_additive
+    (56) expression_additive -> . expression_multiplicative
+    (57) expression_additive -> . expression_additive ADD expression_multiplicative
+    (58) expression_additive -> . expression_additive SUBTRACT expression_multiplicative
+    (59) expression_multiplicative -> . unary_expression
+    (60) expression_multiplicative -> . expression_multiplicative MULTIPLY unary_expression
+    (61) expression_multiplicative -> . expression_multiplicative DIVIDE unary_expression
+    (62) expression_multiplicative -> . expression_multiplicative MODULO unary_expression
+    (63) unary_expression -> . postfix_expression
+    (64) unary_expression -> . SUBTRACT unary_expression
+    (65) postfix_expression -> . primary_expression
+    (66) postfix_expression -> . IDENT LPARENS argument_expression_list RPARENS
+    (67) postfix_expression -> . IDENT LPARENS RPARENS
+    (70) primary_expression -> . IDENT
+    (71) primary_expression -> . CONST_INT
+    (72) primary_expression -> . CONST_STRING
+    (73) primary_expression -> . LPARENS expression RPARENS
+
+    SUBTRACT        shift and go to state 37
+    IDENT           shift and go to state 64
+    CONST_INT       shift and go to state 50
+    CONST_STRING    shift and go to state 54
+    LPARENS         shift and go to state 55
+
+    postfix_expression             shift and go to state 32
+    primary_expression             shift and go to state 56
+    expression_multiplicative      shift and go to state 36
+    expression_additive            shift and go to state 91
+    unary_expression               shift and go to state 42
+
+state 69
+
+    (28) expression_instruction -> expression SEMICOLON .
+
+    ELSE            reduce using rule 28 (expression_instruction -> expression SEMICOLON .)
+    RBRACKET        reduce using rule 28 (expression_instruction -> expression SEMICOLON .)
+    SEMICOLON       reduce using rule 28 (expression_instruction -> expression SEMICOLON .)
+    WHILE           reduce using rule 28 (expression_instruction -> expression SEMICOLON .)
+    DO              reduce using rule 28 (expression_instruction -> expression SEMICOLON .)
+    FOR             reduce using rule 28 (expression_instruction -> expression SEMICOLON .)
+    RETURN          reduce using rule 28 (expression_instruction -> expression SEMICOLON .)
+    LBRACKET        reduce using rule 28 (expression_instruction -> expression SEMICOLON .)
+    IDENT           reduce using rule 28 (expression_instruction -> expression SEMICOLON .)
+    IF              reduce using rule 28 (expression_instruction -> expression SEMICOLON .)
+    SUBTRACT        reduce using rule 28 (expression_instruction -> expression SEMICOLON .)
+    CONST_INT       reduce using rule 28 (expression_instruction -> expression SEMICOLON .)
+    CONST_STRING    reduce using rule 28 (expression_instruction -> expression SEMICOLON .)
+    LPARENS         reduce using rule 28 (expression_instruction -> expression SEMICOLON .)
+
+
+state 70
+
+    (55) expression -> expression SHIFTRIGHT . expression_additive
+    (56) expression_additive -> . expression_multiplicative
+    (57) expression_additive -> . expression_additive ADD expression_multiplicative
+    (58) expression_additive -> . expression_additive SUBTRACT expression_multiplicative
+    (59) expression_multiplicative -> . unary_expression
+    (60) expression_multiplicative -> . expression_multiplicative MULTIPLY unary_expression
+    (61) expression_multiplicative -> . expression_multiplicative DIVIDE unary_expression
+    (62) expression_multiplicative -> . expression_multiplicative MODULO unary_expression
+    (63) unary_expression -> . postfix_expression
+    (64) unary_expression -> . SUBTRACT unary_expression
+    (65) postfix_expression -> . primary_expression
+    (66) postfix_expression -> . IDENT LPARENS argument_expression_list RPARENS
+    (67) postfix_expression -> . IDENT LPARENS RPARENS
+    (70) primary_expression -> . IDENT
+    (71) primary_expression -> . CONST_INT
+    (72) primary_expression -> . CONST_STRING
+    (73) primary_expression -> . LPARENS expression RPARENS
+
+    SUBTRACT        shift and go to state 37
+    IDENT           shift and go to state 64
+    CONST_INT       shift and go to state 50
+    CONST_STRING    shift and go to state 54
+    LPARENS         shift and go to state 55
+
+    postfix_expression             shift and go to state 32
+    primary_expression             shift and go to state 56
+    expression_multiplicative      shift and go to state 36
+    expression_additive            shift and go to state 92
+    unary_expression               shift and go to state 42
+
+state 71
+
+    (44) iteration_instruction -> FOR LPARENS . assignment SEMICOLON condition SEMICOLON assignment RPARENS instruction
+    (30) assignment -> . IDENT ASSIGNMENT expression
+
+    IDENT           shift and go to state 94
+
+    assignment                     shift and go to state 93
+
+state 72
+
+    (62) expression_multiplicative -> expression_multiplicative MODULO . unary_expression
+    (63) unary_expression -> . postfix_expression
+    (64) unary_expression -> . SUBTRACT unary_expression
+    (65) postfix_expression -> . primary_expression
+    (66) postfix_expression -> . IDENT LPARENS argument_expression_list RPARENS
+    (67) postfix_expression -> . IDENT LPARENS RPARENS
+    (70) primary_expression -> . IDENT
+    (71) primary_expression -> . CONST_INT
+    (72) primary_expression -> . CONST_STRING
+    (73) primary_expression -> . LPARENS expression RPARENS
+
+    SUBTRACT        shift and go to state 37
+    IDENT           shift and go to state 64
+    CONST_INT       shift and go to state 50
+    CONST_STRING    shift and go to state 54
+    LPARENS         shift and go to state 55
+
+    postfix_expression             shift and go to state 32
+    primary_expression             shift and go to state 56
+    unary_expression               shift and go to state 95
+
+state 73
+
+    (60) expression_multiplicative -> expression_multiplicative MULTIPLY . unary_expression
+    (63) unary_expression -> . postfix_expression
+    (64) unary_expression -> . SUBTRACT unary_expression
+    (65) postfix_expression -> . primary_expression
+    (66) postfix_expression -> . IDENT LPARENS argument_expression_list RPARENS
+    (67) postfix_expression -> . IDENT LPARENS RPARENS
+    (70) primary_expression -> . IDENT
+    (71) primary_expression -> . CONST_INT
+    (72) primary_expression -> . CONST_STRING
+    (73) primary_expression -> . LPARENS expression RPARENS
+
+    SUBTRACT        shift and go to state 37
+    IDENT           shift and go to state 64
+    CONST_INT       shift and go to state 50
+    CONST_STRING    shift and go to state 54
+    LPARENS         shift and go to state 55
+
+    postfix_expression             shift and go to state 32
+    primary_expression             shift and go to state 56
+    unary_expression               shift and go to state 96
+
+state 74
+
+    (61) expression_multiplicative -> expression_multiplicative DIVIDE . unary_expression
+    (63) unary_expression -> . postfix_expression
+    (64) unary_expression -> . SUBTRACT unary_expression
+    (65) postfix_expression -> . primary_expression
+    (66) postfix_expression -> . IDENT LPARENS argument_expression_list RPARENS
+    (67) postfix_expression -> . IDENT LPARENS RPARENS
+    (70) primary_expression -> . IDENT
+    (71) primary_expression -> . CONST_INT
+    (72) primary_expression -> . CONST_STRING
+    (73) primary_expression -> . LPARENS expression RPARENS
+
+    SUBTRACT        shift and go to state 37
+    IDENT           shift and go to state 64
+    CONST_INT       shift and go to state 50
+    CONST_STRING    shift and go to state 54
+    LPARENS         shift and go to state 55
+
+    postfix_expression             shift and go to state 32
+    primary_expression             shift and go to state 56
+    unary_expression               shift and go to state 97
+
+state 75
+
+    (64) unary_expression -> SUBTRACT unary_expression .
+
+    MULTIPLY        reduce using rule 64 (unary_expression -> SUBTRACT unary_expression .)
+    DIVIDE          reduce using rule 64 (unary_expression -> SUBTRACT unary_expression .)
+    MODULO          reduce using rule 64 (unary_expression -> SUBTRACT unary_expression .)
+    ADD             reduce using rule 64 (unary_expression -> SUBTRACT unary_expression .)
+    SUBTRACT        reduce using rule 64 (unary_expression -> SUBTRACT unary_expression .)
+    SEMICOLON       reduce using rule 64 (unary_expression -> SUBTRACT unary_expression .)
+    SHIFTLEFT       reduce using rule 64 (unary_expression -> SUBTRACT unary_expression .)
+    SHIFTRIGHT      reduce using rule 64 (unary_expression -> SUBTRACT unary_expression .)
+    RPARENS         reduce using rule 64 (unary_expression -> SUBTRACT unary_expression .)
+    EQUAL           reduce using rule 64 (unary_expression -> SUBTRACT unary_expression .)
+    NOTEQUAL        reduce using rule 64 (unary_expression -> SUBTRACT unary_expression .)
+    LESS            reduce using rule 64 (unary_expression -> SUBTRACT unary_expression .)
+    GREATER         reduce using rule 64 (unary_expression -> SUBTRACT unary_expression .)
+    LESSEQUAL       reduce using rule 64 (unary_expression -> SUBTRACT unary_expression .)
+    GREATEREQUAL    reduce using rule 64 (unary_expression -> SUBTRACT unary_expression .)
+    COMMA           reduce using rule 64 (unary_expression -> SUBTRACT unary_expression .)
+
+
+state 76
+
+    (29) expression_instruction -> assignment SEMICOLON .
+
+    ELSE            reduce using rule 29 (expression_instruction -> assignment SEMICOLON .)
+    RBRACKET        reduce using rule 29 (expression_instruction -> assignment SEMICOLON .)
+    SEMICOLON       reduce using rule 29 (expression_instruction -> assignment SEMICOLON .)
+    WHILE           reduce using rule 29 (expression_instruction -> assignment SEMICOLON .)
+    DO              reduce using rule 29 (expression_instruction -> assignment SEMICOLON .)
+    FOR             reduce using rule 29 (expression_instruction -> assignment SEMICOLON .)
+    RETURN          reduce using rule 29 (expression_instruction -> assignment SEMICOLON .)
+    LBRACKET        reduce using rule 29 (expression_instruction -> assignment SEMICOLON .)
+    IDENT           reduce using rule 29 (expression_instruction -> assignment SEMICOLON .)
+    IF              reduce using rule 29 (expression_instruction -> assignment SEMICOLON .)
+    SUBTRACT        reduce using rule 29 (expression_instruction -> assignment SEMICOLON .)
+    CONST_INT       reduce using rule 29 (expression_instruction -> assignment SEMICOLON .)
+    CONST_STRING    reduce using rule 29 (expression_instruction -> assignment SEMICOLON .)
+    LPARENS         reduce using rule 29 (expression_instruction -> assignment SEMICOLON .)
+
+
+state 77
+
+    (39) select_instruction -> cond_instruction instruction .
+    (40) select_instruction -> cond_instruction instruction . ELSE instruction
+
+  ! shift/reduce conflict for ELSE resolved as shift
+    RBRACKET        reduce using rule 39 (select_instruction -> cond_instruction instruction .)
+    SEMICOLON       reduce using rule 39 (select_instruction -> cond_instruction instruction .)
+    WHILE           reduce using rule 39 (select_instruction -> cond_instruction instruction .)
+    DO              reduce using rule 39 (select_instruction -> cond_instruction instruction .)
+    FOR             reduce using rule 39 (select_instruction -> cond_instruction instruction .)
+    RETURN          reduce using rule 39 (select_instruction -> cond_instruction instruction .)
+    LBRACKET        reduce using rule 39 (select_instruction -> cond_instruction instruction .)
+    IDENT           reduce using rule 39 (select_instruction -> cond_instruction instruction .)
+    IF              reduce using rule 39 (select_instruction -> cond_instruction instruction .)
+    SUBTRACT        reduce using rule 39 (select_instruction -> cond_instruction instruction .)
+    CONST_INT       reduce using rule 39 (select_instruction -> cond_instruction instruction .)
+    CONST_STRING    reduce using rule 39 (select_instruction -> cond_instruction instruction .)
+    LPARENS         reduce using rule 39 (select_instruction -> cond_instruction instruction .)
+    ELSE            shift and go to state 98
+
+  ! ELSE            [ reduce using rule 39 (select_instruction -> cond_instruction instruction .) ]
+
+
+state 78
+
+    (41) cond_instruction -> IF LPARENS . condition RPARENS
+    (46) condition -> . expression comparison_operator expression
+    (53) expression -> . expression_additive
+    (54) expression -> . expression SHIFTLEFT expression_additive
+    (55) expression -> . expression SHIFTRIGHT expression_additive
+    (56) expression_additive -> . expression_multiplicative
+    (57) expression_additive -> . expression_additive ADD expression_multiplicative
+    (58) expression_additive -> . expression_additive SUBTRACT expression_multiplicative
+    (59) expression_multiplicative -> . unary_expression
+    (60) expression_multiplicative -> . expression_multiplicative MULTIPLY unary_expression
+    (61) expression_multiplicative -> . expression_multiplicative DIVIDE unary_expression
+    (62) expression_multiplicative -> . expression_multiplicative MODULO unary_expression
+    (63) unary_expression -> . postfix_expression
+    (64) unary_expression -> . SUBTRACT unary_expression
+    (65) postfix_expression -> . primary_expression
+    (66) postfix_expression -> . IDENT LPARENS argument_expression_list RPARENS
+    (67) postfix_expression -> . IDENT LPARENS RPARENS
+    (70) primary_expression -> . IDENT
+    (71) primary_expression -> . CONST_INT
+    (72) primary_expression -> . CONST_STRING
+    (73) primary_expression -> . LPARENS expression RPARENS
+
+    SUBTRACT        shift and go to state 37
+    IDENT           shift and go to state 64
+    CONST_INT       shift and go to state 50
+    CONST_STRING    shift and go to state 54
+    LPARENS         shift and go to state 55
+
+    condition                      shift and go to state 99
+    postfix_expression             shift and go to state 32
+    primary_expression             shift and go to state 56
+    expression                     shift and go to state 100
+    expression_multiplicative      shift and go to state 36
+    expression_additive            shift and go to state 58
+    unary_expression               shift and go to state 42
+
+state 79
+
+    (30) assignment -> IDENT ASSIGNMENT . expression
+    (53) expression -> . expression_additive
+    (54) expression -> . expression SHIFTLEFT expression_additive
+    (55) expression -> . expression SHIFTRIGHT expression_additive
+    (56) expression_additive -> . expression_multiplicative
+    (57) expression_additive -> . expression_additive ADD expression_multiplicative
+    (58) expression_additive -> . expression_additive SUBTRACT expression_multiplicative
+    (59) expression_multiplicative -> . unary_expression
+    (60) expression_multiplicative -> . expression_multiplicative MULTIPLY unary_expression
+    (61) expression_multiplicative -> . expression_multiplicative DIVIDE unary_expression
+    (62) expression_multiplicative -> . expression_multiplicative MODULO unary_expression
+    (63) unary_expression -> . postfix_expression
+    (64) unary_expression -> . SUBTRACT unary_expression
+    (65) postfix_expression -> . primary_expression
+    (66) postfix_expression -> . IDENT LPARENS argument_expression_list RPARENS
+    (67) postfix_expression -> . IDENT LPARENS RPARENS
+    (70) primary_expression -> . IDENT
+    (71) primary_expression -> . CONST_INT
+    (72) primary_expression -> . CONST_STRING
+    (73) primary_expression -> . LPARENS expression RPARENS
+
+    SUBTRACT        shift and go to state 37
+    IDENT           shift and go to state 64
+    CONST_INT       shift and go to state 50
+    CONST_STRING    shift and go to state 54
+    LPARENS         shift and go to state 55
+
+    postfix_expression             shift and go to state 32
+    primary_expression             shift and go to state 56
+    expression                     shift and go to state 101
+    expression_multiplicative      shift and go to state 36
+    expression_additive            shift and go to state 58
+    unary_expression               shift and go to state 42
+
+state 80
+
+    (66) postfix_expression -> IDENT LPARENS . argument_expression_list RPARENS
+    (67) postfix_expression -> IDENT LPARENS . RPARENS
+    (68) argument_expression_list -> . expression
+    (69) argument_expression_list -> . argument_expression_list COMMA expression
+    (53) expression -> . expression_additive
+    (54) expression -> . expression SHIFTLEFT expression_additive
+    (55) expression -> . expression SHIFTRIGHT expression_additive
+    (56) expression_additive -> . expression_multiplicative
+    (57) expression_additive -> . expression_additive ADD expression_multiplicative
+    (58) expression_additive -> . expression_additive SUBTRACT expression_multiplicative
+    (59) expression_multiplicative -> . unary_expression
+    (60) expression_multiplicative -> . expression_multiplicative MULTIPLY unary_expression
+    (61) expression_multiplicative -> . expression_multiplicative DIVIDE unary_expression
+    (62) expression_multiplicative -> . expression_multiplicative MODULO unary_expression
+    (63) unary_expression -> . postfix_expression
+    (64) unary_expression -> . SUBTRACT unary_expression
+    (65) postfix_expression -> . primary_expression
+    (66) postfix_expression -> . IDENT LPARENS argument_expression_list RPARENS
+    (67) postfix_expression -> . IDENT LPARENS RPARENS
+    (70) primary_expression -> . IDENT
+    (71) primary_expression -> . CONST_INT
+    (72) primary_expression -> . CONST_STRING
+    (73) primary_expression -> . LPARENS expression RPARENS
+
+    RPARENS         shift and go to state 102
+    SUBTRACT        shift and go to state 37
+    IDENT           shift and go to state 64
+    CONST_INT       shift and go to state 50
+    CONST_STRING    shift and go to state 54
+    LPARENS         shift and go to state 55
+
+    postfix_expression             shift and go to state 32
+    primary_expression             shift and go to state 56
+    argument_expression_list       shift and go to state 104
+    expression                     shift and go to state 103
+    expression_multiplicative      shift and go to state 36
+    expression_additive            shift and go to state 58
+    unary_expression               shift and go to state 42
+
+state 81
+
+    (43) iteration_instruction -> DO instruction . WHILE LPARENS condition RPARENS
+
+    WHILE           shift and go to state 105
+
+
+state 82
+
+    (33) compound_instruction -> block_start instruction_list block_end .
+
+    ELSE            reduce using rule 33 (compound_instruction -> block_start instruction_list block_end .)
+    RBRACKET        reduce using rule 33 (compound_instruction -> block_start instruction_list block_end .)
+    SEMICOLON       reduce using rule 33 (compound_instruction -> block_start instruction_list block_end .)
+    WHILE           reduce using rule 33 (compound_instruction -> block_start instruction_list block_end .)
+    DO              reduce using rule 33 (compound_instruction -> block_start instruction_list block_end .)
+    FOR             reduce using rule 33 (compound_instruction -> block_start instruction_list block_end .)
+    RETURN          reduce using rule 33 (compound_instruction -> block_start instruction_list block_end .)
+    LBRACKET        reduce using rule 33 (compound_instruction -> block_start instruction_list block_end .)
+    IDENT           reduce using rule 33 (compound_instruction -> block_start instruction_list block_end .)
+    IF              reduce using rule 33 (compound_instruction -> block_start instruction_list block_end .)
+    SUBTRACT        reduce using rule 33 (compound_instruction -> block_start instruction_list block_end .)
+    CONST_INT       reduce using rule 33 (compound_instruction -> block_start instruction_list block_end .)
+    CONST_STRING    reduce using rule 33 (compound_instruction -> block_start instruction_list block_end .)
+    LPARENS         reduce using rule 33 (compound_instruction -> block_start instruction_list block_end .)
+    EXTERN          reduce using rule 33 (compound_instruction -> block_start instruction_list block_end .)
+    INT             reduce using rule 33 (compound_instruction -> block_start instruction_list block_end .)
+    STRING          reduce using rule 33 (compound_instruction -> block_start instruction_list block_end .)
+    $end            reduce using rule 33 (compound_instruction -> block_start instruction_list block_end .)
+
+
+state 83
+
+    (38) instruction_list -> instruction_list instruction .
+
+    RBRACKET        reduce using rule 38 (instruction_list -> instruction_list instruction .)
+    SEMICOLON       reduce using rule 38 (instruction_list -> instruction_list instruction .)
+    WHILE           reduce using rule 38 (instruction_list -> instruction_list instruction .)
+    DO              reduce using rule 38 (instruction_list -> instruction_list instruction .)
+    FOR             reduce using rule 38 (instruction_list -> instruction_list instruction .)
+    RETURN          reduce using rule 38 (instruction_list -> instruction_list instruction .)
+    LBRACKET        reduce using rule 38 (instruction_list -> instruction_list instruction .)
+    IDENT           reduce using rule 38 (instruction_list -> instruction_list instruction .)
+    IF              reduce using rule 38 (instruction_list -> instruction_list instruction .)
+    SUBTRACT        reduce using rule 38 (instruction_list -> instruction_list instruction .)
+    CONST_INT       reduce using rule 38 (instruction_list -> instruction_list instruction .)
+    CONST_STRING    reduce using rule 38 (instruction_list -> instruction_list instruction .)
+    LPARENS         reduce using rule 38 (instruction_list -> instruction_list instruction .)
+
+
+state 84
+
+    (73) primary_expression -> LPARENS expression . RPARENS
+    (54) expression -> expression . SHIFTLEFT expression_additive
+    (55) expression -> expression . SHIFTRIGHT expression_additive
+
+    RPARENS         shift and go to state 106
+    SHIFTLEFT       shift and go to state 68
+    SHIFTRIGHT      shift and go to state 70
+
+
+state 85
+
+    (57) expression_additive -> expression_additive ADD . expression_multiplicative
+    (59) expression_multiplicative -> . unary_expression
+    (60) expression_multiplicative -> . expression_multiplicative MULTIPLY unary_expression
+    (61) expression_multiplicative -> . expression_multiplicative DIVIDE unary_expression
+    (62) expression_multiplicative -> . expression_multiplicative MODULO unary_expression
+    (63) unary_expression -> . postfix_expression
+    (64) unary_expression -> . SUBTRACT unary_expression
+    (65) postfix_expression -> . primary_expression
+    (66) postfix_expression -> . IDENT LPARENS argument_expression_list RPARENS
+    (67) postfix_expression -> . IDENT LPARENS RPARENS
+    (70) primary_expression -> . IDENT
+    (71) primary_expression -> . CONST_INT
+    (72) primary_expression -> . CONST_STRING
+    (73) primary_expression -> . LPARENS expression RPARENS
+
+    SUBTRACT        shift and go to state 37
+    IDENT           shift and go to state 64
+    CONST_INT       shift and go to state 50
+    CONST_STRING    shift and go to state 54
+    LPARENS         shift and go to state 55
+
+    postfix_expression             shift and go to state 32
+    primary_expression             shift and go to state 56
+    expression_multiplicative      shift and go to state 107
+    unary_expression               shift and go to state 42
+
+state 86
+
+    (58) expression_additive -> expression_additive SUBTRACT . expression_multiplicative
+    (59) expression_multiplicative -> . unary_expression
+    (60) expression_multiplicative -> . expression_multiplicative MULTIPLY unary_expression
+    (61) expression_multiplicative -> . expression_multiplicative DIVIDE unary_expression
+    (62) expression_multiplicative -> . expression_multiplicative MODULO unary_expression
+    (63) unary_expression -> . postfix_expression
+    (64) unary_expression -> . SUBTRACT unary_expression
+    (65) postfix_expression -> . primary_expression
+    (66) postfix_expression -> . IDENT LPARENS argument_expression_list RPARENS
+    (67) postfix_expression -> . IDENT LPARENS RPARENS
+    (70) primary_expression -> . IDENT
+    (71) primary_expression -> . CONST_INT
+    (72) primary_expression -> . CONST_STRING
+    (73) primary_expression -> . LPARENS expression RPARENS
+
+    SUBTRACT        shift and go to state 37
+    IDENT           shift and go to state 64
+    CONST_INT       shift and go to state 50
+    CONST_STRING    shift and go to state 54
+    LPARENS         shift and go to state 55
+
+    postfix_expression             shift and go to state 32
+    primary_expression             shift and go to state 56
+    expression_multiplicative      shift and go to state 108
+    unary_expression               shift and go to state 42
+
+state 87
+
+    (42) iteration_instruction -> WHILE LPARENS . condition RPARENS instruction
+    (46) condition -> . expression comparison_operator expression
+    (53) expression -> . expression_additive
+    (54) expression -> . expression SHIFTLEFT expression_additive
+    (55) expression -> . expression SHIFTRIGHT expression_additive
+    (56) expression_additive -> . expression_multiplicative
+    (57) expression_additive -> . expression_additive ADD expression_multiplicative
+    (58) expression_additive -> . expression_additive SUBTRACT expression_multiplicative
+    (59) expression_multiplicative -> . unary_expression
+    (60) expression_multiplicative -> . expression_multiplicative MULTIPLY unary_expression
+    (61) expression_multiplicative -> . expression_multiplicative DIVIDE unary_expression
+    (62) expression_multiplicative -> . expression_multiplicative MODULO unary_expression
+    (63) unary_expression -> . postfix_expression
+    (64) unary_expression -> . SUBTRACT unary_expression
+    (65) postfix_expression -> . primary_expression
+    (66) postfix_expression -> . IDENT LPARENS argument_expression_list RPARENS
+    (67) postfix_expression -> . IDENT LPARENS RPARENS
+    (70) primary_expression -> . IDENT
+    (71) primary_expression -> . CONST_INT
+    (72) primary_expression -> . CONST_STRING
+    (73) primary_expression -> . LPARENS expression RPARENS
+
+    SUBTRACT        shift and go to state 37
+    IDENT           shift and go to state 64
+    CONST_INT       shift and go to state 50
+    CONST_STRING    shift and go to state 54
+    LPARENS         shift and go to state 55
+
+    condition                      shift and go to state 109
+    postfix_expression             shift and go to state 32
+    primary_expression             shift and go to state 56
+    expression                     shift and go to state 100
+    expression_multiplicative      shift and go to state 36
+    expression_additive            shift and go to state 58
+    unary_expression               shift and go to state 42
+
+state 88
+
+    (20) parameter_list -> parameter_list COMMA parameter_declaration .
+
+    RPARENS         reduce using rule 20 (parameter_list -> parameter_list COMMA parameter_declaration .)
+    COMMA           reduce using rule 20 (parameter_list -> parameter_list COMMA parameter_declaration .)
+
+
+state 89
+
+    (45) jump_instruction -> RETURN expression SEMICOLON .
+
+    ELSE            reduce using rule 45 (jump_instruction -> RETURN expression SEMICOLON .)
+    RBRACKET        reduce using rule 45 (jump_instruction -> RETURN expression SEMICOLON .)
+    SEMICOLON       reduce using rule 45 (jump_instruction -> RETURN expression SEMICOLON .)
+    WHILE           reduce using rule 45 (jump_instruction -> RETURN expression SEMICOLON .)
+    DO              reduce using rule 45 (jump_instruction -> RETURN expression SEMICOLON .)
+    FOR             reduce using rule 45 (jump_instruction -> RETURN expression SEMICOLON .)
+    RETURN          reduce using rule 45 (jump_instruction -> RETURN expression SEMICOLON .)
+    LBRACKET        reduce using rule 45 (jump_instruction -> RETURN expression SEMICOLON .)
+    IDENT           reduce using rule 45 (jump_instruction -> RETURN expression SEMICOLON .)
+    IF              reduce using rule 45 (jump_instruction -> RETURN expression SEMICOLON .)
+    SUBTRACT        reduce using rule 45 (jump_instruction -> RETURN expression SEMICOLON .)
+    CONST_INT       reduce using rule 45 (jump_instruction -> RETURN expression SEMICOLON .)
+    CONST_STRING    reduce using rule 45 (jump_instruction -> RETURN expression SEMICOLON .)
+    LPARENS         reduce using rule 45 (jump_instruction -> RETURN expression SEMICOLON .)
+
+
+state 90
+
+    (31) compound_instruction -> block_start declaration_list instruction_list block_end .
+
+    ELSE            reduce using rule 31 (compound_instruction -> block_start declaration_list instruction_list block_end .)
+    RBRACKET        reduce using rule 31 (compound_instruction -> block_start declaration_list instruction_list block_end .)
+    SEMICOLON       reduce using rule 31 (compound_instruction -> block_start declaration_list instruction_list block_end .)
+    WHILE           reduce using rule 31 (compound_instruction -> block_start declaration_list instruction_list block_end .)
+    DO              reduce using rule 31 (compound_instruction -> block_start declaration_list instruction_list block_end .)
+    FOR             reduce using rule 31 (compound_instruction -> block_start declaration_list instruction_list block_end .)
+    RETURN          reduce using rule 31 (compound_instruction -> block_start declaration_list instruction_list block_end .)
+    LBRACKET        reduce using rule 31 (compound_instruction -> block_start declaration_list instruction_list block_end .)
+    IDENT           reduce using rule 31 (compound_instruction -> block_start declaration_list instruction_list block_end .)
+    IF              reduce using rule 31 (compound_instruction -> block_start declaration_list instruction_list block_end .)
+    SUBTRACT        reduce using rule 31 (compound_instruction -> block_start declaration_list instruction_list block_end .)
+    CONST_INT       reduce using rule 31 (compound_instruction -> block_start declaration_list instruction_list block_end .)
+    CONST_STRING    reduce using rule 31 (compound_instruction -> block_start declaration_list instruction_list block_end .)
+    LPARENS         reduce using rule 31 (compound_instruction -> block_start declaration_list instruction_list block_end .)
+    EXTERN          reduce using rule 31 (compound_instruction -> block_start declaration_list instruction_list block_end .)
+    INT             reduce using rule 31 (compound_instruction -> block_start declaration_list instruction_list block_end .)
+    STRING          reduce using rule 31 (compound_instruction -> block_start declaration_list instruction_list block_end .)
+    $end            reduce using rule 31 (compound_instruction -> block_start declaration_list instruction_list block_end .)
+
+
+state 91
+
+    (54) expression -> expression SHIFTLEFT expression_additive .
+    (57) expression_additive -> expression_additive . ADD expression_multiplicative
+    (58) expression_additive -> expression_additive . SUBTRACT expression_multiplicative
+
+    SEMICOLON       reduce using rule 54 (expression -> expression SHIFTLEFT expression_additive .)
+    SHIFTLEFT       reduce using rule 54 (expression -> expression SHIFTLEFT expression_additive .)
+    SHIFTRIGHT      reduce using rule 54 (expression -> expression SHIFTLEFT expression_additive .)
+    RPARENS         reduce using rule 54 (expression -> expression SHIFTLEFT expression_additive .)
+    EQUAL           reduce using rule 54 (expression -> expression SHIFTLEFT expression_additive .)
+    NOTEQUAL        reduce using rule 54 (expression -> expression SHIFTLEFT expression_additive .)
+    LESS            reduce using rule 54 (expression -> expression SHIFTLEFT expression_additive .)
+    GREATER         reduce using rule 54 (expression -> expression SHIFTLEFT expression_additive .)
+    LESSEQUAL       reduce using rule 54 (expression -> expression SHIFTLEFT expression_additive .)
+    GREATEREQUAL    reduce using rule 54 (expression -> expression SHIFTLEFT expression_additive .)
+    COMMA           reduce using rule 54 (expression -> expression SHIFTLEFT expression_additive .)
+    ADD             shift and go to state 85
+    SUBTRACT        shift and go to state 86
+
+
+state 92
+
+    (55) expression -> expression SHIFTRIGHT expression_additive .
+    (57) expression_additive -> expression_additive . ADD expression_multiplicative
+    (58) expression_additive -> expression_additive . SUBTRACT expression_multiplicative
+
+    SEMICOLON       reduce using rule 55 (expression -> expression SHIFTRIGHT expression_additive .)
+    SHIFTLEFT       reduce using rule 55 (expression -> expression SHIFTRIGHT expression_additive .)
+    SHIFTRIGHT      reduce using rule 55 (expression -> expression SHIFTRIGHT expression_additive .)
+    RPARENS         reduce using rule 55 (expression -> expression SHIFTRIGHT expression_additive .)
+    EQUAL           reduce using rule 55 (expression -> expression SHIFTRIGHT expression_additive .)
+    NOTEQUAL        reduce using rule 55 (expression -> expression SHIFTRIGHT expression_additive .)
+    LESS            reduce using rule 55 (expression -> expression SHIFTRIGHT expression_additive .)
+    GREATER         reduce using rule 55 (expression -> expression SHIFTRIGHT expression_additive .)
+    LESSEQUAL       reduce using rule 55 (expression -> expression SHIFTRIGHT expression_additive .)
+    GREATEREQUAL    reduce using rule 55 (expression -> expression SHIFTRIGHT expression_additive .)
+    COMMA           reduce using rule 55 (expression -> expression SHIFTRIGHT expression_additive .)
+    ADD             shift and go to state 85
+    SUBTRACT        shift and go to state 86
+
+
+state 93
+
+    (44) iteration_instruction -> FOR LPARENS assignment . SEMICOLON condition SEMICOLON assignment RPARENS instruction
+
+    SEMICOLON       shift and go to state 110
+
+
+state 94
+
+    (30) assignment -> IDENT . ASSIGNMENT expression
+
+    ASSIGNMENT      shift and go to state 79
+
+
+state 95
+
+    (62) expression_multiplicative -> expression_multiplicative MODULO unary_expression .
+
+    MULTIPLY        reduce using rule 62 (expression_multiplicative -> expression_multiplicative MODULO unary_expression .)
+    DIVIDE          reduce using rule 62 (expression_multiplicative -> expression_multiplicative MODULO unary_expression .)
+    MODULO          reduce using rule 62 (expression_multiplicative -> expression_multiplicative MODULO unary_expression .)
+    ADD             reduce using rule 62 (expression_multiplicative -> expression_multiplicative MODULO unary_expression .)
+    SUBTRACT        reduce using rule 62 (expression_multiplicative -> expression_multiplicative MODULO unary_expression .)
+    SEMICOLON       reduce using rule 62 (expression_multiplicative -> expression_multiplicative MODULO unary_expression .)
+    SHIFTLEFT       reduce using rule 62 (expression_multiplicative -> expression_multiplicative MODULO unary_expression .)
+    SHIFTRIGHT      reduce using rule 62 (expression_multiplicative -> expression_multiplicative MODULO unary_expression .)
+    RPARENS         reduce using rule 62 (expression_multiplicative -> expression_multiplicative MODULO unary_expression .)
+    COMMA           reduce using rule 62 (expression_multiplicative -> expression_multiplicative MODULO unary_expression .)
+    EQUAL           reduce using rule 62 (expression_multiplicative -> expression_multiplicative MODULO unary_expression .)
+    NOTEQUAL        reduce using rule 62 (expression_multiplicative -> expression_multiplicative MODULO unary_expression .)
+    LESS            reduce using rule 62 (expression_multiplicative -> expression_multiplicative MODULO unary_expression .)
+    GREATER         reduce using rule 62 (expression_multiplicative -> expression_multiplicative MODULO unary_expression .)
+    LESSEQUAL       reduce using rule 62 (expression_multiplicative -> expression_multiplicative MODULO unary_expression .)
+    GREATEREQUAL    reduce using rule 62 (expression_multiplicative -> expression_multiplicative MODULO unary_expression .)
+
+
+state 96
+
+    (60) expression_multiplicative -> expression_multiplicative MULTIPLY unary_expression .
+
+    MULTIPLY        reduce using rule 60 (expression_multiplicative -> expression_multiplicative MULTIPLY unary_expression .)
+    DIVIDE          reduce using rule 60 (expression_multiplicative -> expression_multiplicative MULTIPLY unary_expression .)
+    MODULO          reduce using rule 60 (expression_multiplicative -> expression_multiplicative MULTIPLY unary_expression .)
+    ADD             reduce using rule 60 (expression_multiplicative -> expression_multiplicative MULTIPLY unary_expression .)
+    SUBTRACT        reduce using rule 60 (expression_multiplicative -> expression_multiplicative MULTIPLY unary_expression .)
+    SEMICOLON       reduce using rule 60 (expression_multiplicative -> expression_multiplicative MULTIPLY unary_expression .)
+    SHIFTLEFT       reduce using rule 60 (expression_multiplicative -> expression_multiplicative MULTIPLY unary_expression .)
+    SHIFTRIGHT      reduce using rule 60 (expression_multiplicative -> expression_multiplicative MULTIPLY unary_expression .)
+    RPARENS         reduce using rule 60 (expression_multiplicative -> expression_multiplicative MULTIPLY unary_expression .)
+    COMMA           reduce using rule 60 (expression_multiplicative -> expression_multiplicative MULTIPLY unary_expression .)
+    EQUAL           reduce using rule 60 (expression_multiplicative -> expression_multiplicative MULTIPLY unary_expression .)
+    NOTEQUAL        reduce using rule 60 (expression_multiplicative -> expression_multiplicative MULTIPLY unary_expression .)
+    LESS            reduce using rule 60 (expression_multiplicative -> expression_multiplicative MULTIPLY unary_expression .)
+    GREATER         reduce using rule 60 (expression_multiplicative -> expression_multiplicative MULTIPLY unary_expression .)
+    LESSEQUAL       reduce using rule 60 (expression_multiplicative -> expression_multiplicative MULTIPLY unary_expression .)
+    GREATEREQUAL    reduce using rule 60 (expression_multiplicative -> expression_multiplicative MULTIPLY unary_expression .)
+
+
+state 97
+
+    (61) expression_multiplicative -> expression_multiplicative DIVIDE unary_expression .
+
+    MULTIPLY        reduce using rule 61 (expression_multiplicative -> expression_multiplicative DIVIDE unary_expression .)
+    DIVIDE          reduce using rule 61 (expression_multiplicative -> expression_multiplicative DIVIDE unary_expression .)
+    MODULO          reduce using rule 61 (expression_multiplicative -> expression_multiplicative DIVIDE unary_expression .)
+    ADD             reduce using rule 61 (expression_multiplicative -> expression_multiplicative DIVIDE unary_expression .)
+    SUBTRACT        reduce using rule 61 (expression_multiplicative -> expression_multiplicative DIVIDE unary_expression .)
+    SEMICOLON       reduce using rule 61 (expression_multiplicative -> expression_multiplicative DIVIDE unary_expression .)
+    SHIFTLEFT       reduce using rule 61 (expression_multiplicative -> expression_multiplicative DIVIDE unary_expression .)
+    SHIFTRIGHT      reduce using rule 61 (expression_multiplicative -> expression_multiplicative DIVIDE unary_expression .)
+    RPARENS         reduce using rule 61 (expression_multiplicative -> expression_multiplicative DIVIDE unary_expression .)
+    COMMA           reduce using rule 61 (expression_multiplicative -> expression_multiplicative DIVIDE unary_expression .)
+    EQUAL           reduce using rule 61 (expression_multiplicative -> expression_multiplicative DIVIDE unary_expression .)
+    NOTEQUAL        reduce using rule 61 (expression_multiplicative -> expression_multiplicative DIVIDE unary_expression .)
+    LESS            reduce using rule 61 (expression_multiplicative -> expression_multiplicative DIVIDE unary_expression .)
+    GREATER         reduce using rule 61 (expression_multiplicative -> expression_multiplicative DIVIDE unary_expression .)
+    LESSEQUAL       reduce using rule 61 (expression_multiplicative -> expression_multiplicative DIVIDE unary_expression .)
+    GREATEREQUAL    reduce using rule 61 (expression_multiplicative -> expression_multiplicative DIVIDE unary_expression .)
+
+
+state 98
+
+    (40) select_instruction -> cond_instruction instruction ELSE . instruction
+    (22) instruction -> . SEMICOLON
+    (23) instruction -> . compound_instruction
+    (24) instruction -> . expression_instruction
+    (25) instruction -> . iteration_instruction
+    (26) instruction -> . select_instruction
+    (27) instruction -> . jump_instruction
+    (31) compound_instruction -> . block_start declaration_list instruction_list block_end
+    (32) compound_instruction -> . block_start declaration_list block_end
+    (33) compound_instruction -> . block_start instruction_list block_end
+    (34) compound_instruction -> . block_start block_end
+    (28) expression_instruction -> . expression SEMICOLON
+    (29) expression_instruction -> . assignment SEMICOLON
+    (42) iteration_instruction -> . WHILE LPARENS condition RPARENS instruction
+    (43) iteration_instruction -> . DO instruction WHILE LPARENS condition RPARENS
+    (44) iteration_instruction -> . FOR LPARENS assignment SEMICOLON condition SEMICOLON assignment RPARENS instruction
+    (39) select_instruction -> . cond_instruction instruction
+    (40) select_instruction -> . cond_instruction instruction ELSE instruction
+    (45) jump_instruction -> . RETURN expression SEMICOLON
+    (35) block_start -> . LBRACKET
+    (53) expression -> . expression_additive
+    (54) expression -> . expression SHIFTLEFT expression_additive
+    (55) expression -> . expression SHIFTRIGHT expression_additive
+    (30) assignment -> . IDENT ASSIGNMENT expression
+    (41) cond_instruction -> . IF LPARENS condition RPARENS
+    (56) expression_additive -> . expression_multiplicative
+    (57) expression_additive -> . expression_additive ADD expression_multiplicative
+    (58) expression_additive -> . expression_additive SUBTRACT expression_multiplicative
+    (59) expression_multiplicative -> . unary_expression
+    (60) expression_multiplicative -> . expression_multiplicative MULTIPLY unary_expression
+    (61) expression_multiplicative -> . expression_multiplicative DIVIDE unary_expression
+    (62) expression_multiplicative -> . expression_multiplicative MODULO unary_expression
+    (63) unary_expression -> . postfix_expression
+    (64) unary_expression -> . SUBTRACT unary_expression
+    (65) postfix_expression -> . primary_expression
+    (66) postfix_expression -> . IDENT LPARENS argument_expression_list RPARENS
+    (67) postfix_expression -> . IDENT LPARENS RPARENS
+    (70) primary_expression -> . IDENT
+    (71) primary_expression -> . CONST_INT
+    (72) primary_expression -> . CONST_STRING
+    (73) primary_expression -> . LPARENS expression RPARENS
+
+    SEMICOLON       shift and go to state 43
+    WHILE           shift and go to state 59
+    DO              shift and go to state 48
+    FOR             shift and go to state 34
+    RETURN          shift and go to state 30
+    LBRACKET        shift and go to state 22
+    IDENT           shift and go to state 45
+    IF              shift and go to state 41
+    SUBTRACT        shift and go to state 37
+    CONST_INT       shift and go to state 50
+    CONST_STRING    shift and go to state 54
+    LPARENS         shift and go to state 55
+
+    instruction                    shift and go to state 111
+    iteration_instruction          shift and go to state 38
+    postfix_expression             shift and go to state 32
+    assignment                     shift and go to state 39
+    expression                     shift and go to state 33
+    cond_instruction               shift and go to state 40
+    unary_expression               shift and go to state 42
+    select_instruction             shift and go to state 53
+    primary_expression             shift and go to state 56
+    expression_instruction         shift and go to state 44
+    expression_multiplicative      shift and go to state 36
+    jump_instruction               shift and go to state 57
+    expression_additive            shift and go to state 58
+    compound_instruction           shift and go to state 46
+    block_start                    shift and go to state 24
+
+state 99
+
+    (41) cond_instruction -> IF LPARENS condition . RPARENS
+
+    RPARENS         shift and go to state 112
+
+
+state 100
+
+    (46) condition -> expression . comparison_operator expression
+    (54) expression -> expression . SHIFTLEFT expression_additive
+    (55) expression -> expression . SHIFTRIGHT expression_additive
+    (47) comparison_operator -> . EQUAL
+    (48) comparison_operator -> . NOTEQUAL
+    (49) comparison_operator -> . LESS
+    (50) comparison_operator -> . GREATER
+    (51) comparison_operator -> . LESSEQUAL
+    (52) comparison_operator -> . GREATEREQUAL
+
+    SHIFTLEFT       shift and go to state 68
+    SHIFTRIGHT      shift and go to state 70
+    EQUAL           shift and go to state 118
+    NOTEQUAL        shift and go to state 119
+    LESS            shift and go to state 114
+    GREATER         shift and go to state 113
+    LESSEQUAL       shift and go to state 116
+    GREATEREQUAL    shift and go to state 117
+
+    comparison_operator            shift and go to state 115
+
+state 101
+
+    (30) assignment -> IDENT ASSIGNMENT expression .
+    (54) expression -> expression . SHIFTLEFT expression_additive
+    (55) expression -> expression . SHIFTRIGHT expression_additive
+
+    SEMICOLON       reduce using rule 30 (assignment -> IDENT ASSIGNMENT expression .)
+    RPARENS         reduce using rule 30 (assignment -> IDENT ASSIGNMENT expression .)
+    SHIFTLEFT       shift and go to state 68
+    SHIFTRIGHT      shift and go to state 70
+
+
+state 102
+
+    (67) postfix_expression -> IDENT LPARENS RPARENS .
+
+    MULTIPLY        reduce using rule 67 (postfix_expression -> IDENT LPARENS RPARENS .)
+    DIVIDE          reduce using rule 67 (postfix_expression -> IDENT LPARENS RPARENS .)
+    MODULO          reduce using rule 67 (postfix_expression -> IDENT LPARENS RPARENS .)
+    ADD             reduce using rule 67 (postfix_expression -> IDENT LPARENS RPARENS .)
+    SUBTRACT        reduce using rule 67 (postfix_expression -> IDENT LPARENS RPARENS .)
+    SHIFTLEFT       reduce using rule 67 (postfix_expression -> IDENT LPARENS RPARENS .)
+    SHIFTRIGHT      reduce using rule 67 (postfix_expression -> IDENT LPARENS RPARENS .)
+    SEMICOLON       reduce using rule 67 (postfix_expression -> IDENT LPARENS RPARENS .)
+    RPARENS         reduce using rule 67 (postfix_expression -> IDENT LPARENS RPARENS .)
+    EQUAL           reduce using rule 67 (postfix_expression -> IDENT LPARENS RPARENS .)
+    NOTEQUAL        reduce using rule 67 (postfix_expression -> IDENT LPARENS RPARENS .)
+    LESS            reduce using rule 67 (postfix_expression -> IDENT LPARENS RPARENS .)
+    GREATER         reduce using rule 67 (postfix_expression -> IDENT LPARENS RPARENS .)
+    LESSEQUAL       reduce using rule 67 (postfix_expression -> IDENT LPARENS RPARENS .)
+    GREATEREQUAL    reduce using rule 67 (postfix_expression -> IDENT LPARENS RPARENS .)
+    COMMA           reduce using rule 67 (postfix_expression -> IDENT LPARENS RPARENS .)
+
+
+state 103
+
+    (68) argument_expression_list -> expression .
+    (54) expression -> expression . SHIFTLEFT expression_additive
+    (55) expression -> expression . SHIFTRIGHT expression_additive
+
+    RPARENS         reduce using rule 68 (argument_expression_list -> expression .)
+    COMMA           reduce using rule 68 (argument_expression_list -> expression .)
+    SHIFTLEFT       shift and go to state 68
+    SHIFTRIGHT      shift and go to state 70
+
+
+state 104
+
+    (66) postfix_expression -> IDENT LPARENS argument_expression_list . RPARENS
+    (69) argument_expression_list -> argument_expression_list . COMMA expression
+
+    RPARENS         shift and go to state 120
+    COMMA           shift and go to state 121
+
+
+state 105
+
+    (43) iteration_instruction -> DO instruction WHILE . LPARENS condition RPARENS
+
+    LPARENS         shift and go to state 122
+
+
+state 106
+
+    (73) primary_expression -> LPARENS expression RPARENS .
+
+    MULTIPLY        reduce using rule 73 (primary_expression -> LPARENS expression RPARENS .)
+    DIVIDE          reduce using rule 73 (primary_expression -> LPARENS expression RPARENS .)
+    MODULO          reduce using rule 73 (primary_expression -> LPARENS expression RPARENS .)
+    ADD             reduce using rule 73 (primary_expression -> LPARENS expression RPARENS .)
+    SUBTRACT        reduce using rule 73 (primary_expression -> LPARENS expression RPARENS .)
+    SHIFTLEFT       reduce using rule 73 (primary_expression -> LPARENS expression RPARENS .)
+    SHIFTRIGHT      reduce using rule 73 (primary_expression -> LPARENS expression RPARENS .)
+    SEMICOLON       reduce using rule 73 (primary_expression -> LPARENS expression RPARENS .)
+    RPARENS         reduce using rule 73 (primary_expression -> LPARENS expression RPARENS .)
+    EQUAL           reduce using rule 73 (primary_expression -> LPARENS expression RPARENS .)
+    NOTEQUAL        reduce using rule 73 (primary_expression -> LPARENS expression RPARENS .)
+    LESS            reduce using rule 73 (primary_expression -> LPARENS expression RPARENS .)
+    GREATER         reduce using rule 73 (primary_expression -> LPARENS expression RPARENS .)
+    LESSEQUAL       reduce using rule 73 (primary_expression -> LPARENS expression RPARENS .)
+    GREATEREQUAL    reduce using rule 73 (primary_expression -> LPARENS expression RPARENS .)
+    COMMA           reduce using rule 73 (primary_expression -> LPARENS expression RPARENS .)
+
+
+state 107
+
+    (57) expression_additive -> expression_additive ADD expression_multiplicative .
+    (60) expression_multiplicative -> expression_multiplicative . MULTIPLY unary_expression
+    (61) expression_multiplicative -> expression_multiplicative . DIVIDE unary_expression
+    (62) expression_multiplicative -> expression_multiplicative . MODULO unary_expression
+
+    ADD             reduce using rule 57 (expression_additive -> expression_additive ADD expression_multiplicative .)
+    SUBTRACT        reduce using rule 57 (expression_additive -> expression_additive ADD expression_multiplicative .)
+    SHIFTLEFT       reduce using rule 57 (expression_additive -> expression_additive ADD expression_multiplicative .)
+    SHIFTRIGHT      reduce using rule 57 (expression_additive -> expression_additive ADD expression_multiplicative .)
+    EQUAL           reduce using rule 57 (expression_additive -> expression_additive ADD expression_multiplicative .)
+    NOTEQUAL        reduce using rule 57 (expression_additive -> expression_additive ADD expression_multiplicative .)
+    LESS            reduce using rule 57 (expression_additive -> expression_additive ADD expression_multiplicative .)
+    GREATER         reduce using rule 57 (expression_additive -> expression_additive ADD expression_multiplicative .)
+    LESSEQUAL       reduce using rule 57 (expression_additive -> expression_additive ADD expression_multiplicative .)
+    GREATEREQUAL    reduce using rule 57 (expression_additive -> expression_additive ADD expression_multiplicative .)
+    SEMICOLON       reduce using rule 57 (expression_additive -> expression_additive ADD expression_multiplicative .)
+    RPARENS         reduce using rule 57 (expression_additive -> expression_additive ADD expression_multiplicative .)
+    COMMA           reduce using rule 57 (expression_additive -> expression_additive ADD expression_multiplicative .)
+    MULTIPLY        shift and go to state 73
+    DIVIDE          shift and go to state 74
+    MODULO          shift and go to state 72
+
+
+state 108
+
+    (58) expression_additive -> expression_additive SUBTRACT expression_multiplicative .
+    (60) expression_multiplicative -> expression_multiplicative . MULTIPLY unary_expression
+    (61) expression_multiplicative -> expression_multiplicative . DIVIDE unary_expression
+    (62) expression_multiplicative -> expression_multiplicative . MODULO unary_expression
+
+    ADD             reduce using rule 58 (expression_additive -> expression_additive SUBTRACT expression_multiplicative .)
+    SUBTRACT        reduce using rule 58 (expression_additive -> expression_additive SUBTRACT expression_multiplicative .)
+    SHIFTLEFT       reduce using rule 58 (expression_additive -> expression_additive SUBTRACT expression_multiplicative .)
+    SHIFTRIGHT      reduce using rule 58 (expression_additive -> expression_additive SUBTRACT expression_multiplicative .)
+    EQUAL           reduce using rule 58 (expression_additive -> expression_additive SUBTRACT expression_multiplicative .)
+    NOTEQUAL        reduce using rule 58 (expression_additive -> expression_additive SUBTRACT expression_multiplicative .)
+    LESS            reduce using rule 58 (expression_additive -> expression_additive SUBTRACT expression_multiplicative .)
+    GREATER         reduce using rule 58 (expression_additive -> expression_additive SUBTRACT expression_multiplicative .)
+    LESSEQUAL       reduce using rule 58 (expression_additive -> expression_additive SUBTRACT expression_multiplicative .)
+    GREATEREQUAL    reduce using rule 58 (expression_additive -> expression_additive SUBTRACT expression_multiplicative .)
+    SEMICOLON       reduce using rule 58 (expression_additive -> expression_additive SUBTRACT expression_multiplicative .)
+    RPARENS         reduce using rule 58 (expression_additive -> expression_additive SUBTRACT expression_multiplicative .)
+    COMMA           reduce using rule 58 (expression_additive -> expression_additive SUBTRACT expression_multiplicative .)
+    MULTIPLY        shift and go to state 73
+    DIVIDE          shift and go to state 74
+    MODULO          shift and go to state 72
+
+
+state 109
+
+    (42) iteration_instruction -> WHILE LPARENS condition . RPARENS instruction
+
+    RPARENS         shift and go to state 123
+
+
+state 110
+
+    (44) iteration_instruction -> FOR LPARENS assignment SEMICOLON . condition SEMICOLON assignment RPARENS instruction
+    (46) condition -> . expression comparison_operator expression
+    (53) expression -> . expression_additive
+    (54) expression -> . expression SHIFTLEFT expression_additive
+    (55) expression -> . expression SHIFTRIGHT expression_additive
+    (56) expression_additive -> . expression_multiplicative
+    (57) expression_additive -> . expression_additive ADD expression_multiplicative
+    (58) expression_additive -> . expression_additive SUBTRACT expression_multiplicative
+    (59) expression_multiplicative -> . unary_expression
+    (60) expression_multiplicative -> . expression_multiplicative MULTIPLY unary_expression
+    (61) expression_multiplicative -> . expression_multiplicative DIVIDE unary_expression
+    (62) expression_multiplicative -> . expression_multiplicative MODULO unary_expression
+    (63) unary_expression -> . postfix_expression
+    (64) unary_expression -> . SUBTRACT unary_expression
+    (65) postfix_expression -> . primary_expression
+    (66) postfix_expression -> . IDENT LPARENS argument_expression_list RPARENS
+    (67) postfix_expression -> . IDENT LPARENS RPARENS
+    (70) primary_expression -> . IDENT
+    (71) primary_expression -> . CONST_INT
+    (72) primary_expression -> . CONST_STRING
+    (73) primary_expression -> . LPARENS expression RPARENS
+
+    SUBTRACT        shift and go to state 37
+    IDENT           shift and go to state 64
+    CONST_INT       shift and go to state 50
+    CONST_STRING    shift and go to state 54
+    LPARENS         shift and go to state 55
+
+    condition                      shift and go to state 124
+    postfix_expression             shift and go to state 32
+    primary_expression             shift and go to state 56
+    expression                     shift and go to state 100
+    expression_multiplicative      shift and go to state 36
+    expression_additive            shift and go to state 58
+    unary_expression               shift and go to state 42
+
+state 111
+
+    (40) select_instruction -> cond_instruction instruction ELSE instruction .
+
+    ELSE            reduce using rule 40 (select_instruction -> cond_instruction instruction ELSE instruction .)
+    RBRACKET        reduce using rule 40 (select_instruction -> cond_instruction instruction ELSE instruction .)
+    SEMICOLON       reduce using rule 40 (select_instruction -> cond_instruction instruction ELSE instruction .)
+    WHILE           reduce using rule 40 (select_instruction -> cond_instruction instruction ELSE instruction .)
+    DO              reduce using rule 40 (select_instruction -> cond_instruction instruction ELSE instruction .)
+    FOR             reduce using rule 40 (select_instruction -> cond_instruction instruction ELSE instruction .)
+    RETURN          reduce using rule 40 (select_instruction -> cond_instruction instruction ELSE instruction .)
+    LBRACKET        reduce using rule 40 (select_instruction -> cond_instruction instruction ELSE instruction .)
+    IDENT           reduce using rule 40 (select_instruction -> cond_instruction instruction ELSE instruction .)
+    IF              reduce using rule 40 (select_instruction -> cond_instruction instruction ELSE instruction .)
+    SUBTRACT        reduce using rule 40 (select_instruction -> cond_instruction instruction ELSE instruction .)
+    CONST_INT       reduce using rule 40 (select_instruction -> cond_instruction instruction ELSE instruction .)
+    CONST_STRING    reduce using rule 40 (select_instruction -> cond_instruction instruction ELSE instruction .)
+    LPARENS         reduce using rule 40 (select_instruction -> cond_instruction instruction ELSE instruction .)
+
+
+state 112
+
+    (41) cond_instruction -> IF LPARENS condition RPARENS .
+
+    SEMICOLON       reduce using rule 41 (cond_instruction -> IF LPARENS condition RPARENS .)
+    WHILE           reduce using rule 41 (cond_instruction -> IF LPARENS condition RPARENS .)
+    DO              reduce using rule 41 (cond_instruction -> IF LPARENS condition RPARENS .)
+    FOR             reduce using rule 41 (cond_instruction -> IF LPARENS condition RPARENS .)
+    RETURN          reduce using rule 41 (cond_instruction -> IF LPARENS condition RPARENS .)
+    LBRACKET        reduce using rule 41 (cond_instruction -> IF LPARENS condition RPARENS .)
+    IDENT           reduce using rule 41 (cond_instruction -> IF LPARENS condition RPARENS .)
+    IF              reduce using rule 41 (cond_instruction -> IF LPARENS condition RPARENS .)
+    SUBTRACT        reduce using rule 41 (cond_instruction -> IF LPARENS condition RPARENS .)
+    CONST_INT       reduce using rule 41 (cond_instruction -> IF LPARENS condition RPARENS .)
+    CONST_STRING    reduce using rule 41 (cond_instruction -> IF LPARENS condition RPARENS .)
+    LPARENS         reduce using rule 41 (cond_instruction -> IF LPARENS condition RPARENS .)
+
+
+state 113
+
+    (50) comparison_operator -> GREATER .
+
+    SUBTRACT        reduce using rule 50 (comparison_operator -> GREATER .)
+    IDENT           reduce using rule 50 (comparison_operator -> GREATER .)
+    CONST_INT       reduce using rule 50 (comparison_operator -> GREATER .)
+    CONST_STRING    reduce using rule 50 (comparison_operator -> GREATER .)
+    LPARENS         reduce using rule 50 (comparison_operator -> GREATER .)
+
+
+state 114
+
+    (49) comparison_operator -> LESS .
+
+    SUBTRACT        reduce using rule 49 (comparison_operator -> LESS .)
+    IDENT           reduce using rule 49 (comparison_operator -> LESS .)
+    CONST_INT       reduce using rule 49 (comparison_operator -> LESS .)
+    CONST_STRING    reduce using rule 49 (comparison_operator -> LESS .)
+    LPARENS         reduce using rule 49 (comparison_operator -> LESS .)
+
+
+state 115
+
+    (46) condition -> expression comparison_operator . expression
+    (53) expression -> . expression_additive
+    (54) expression -> . expression SHIFTLEFT expression_additive
+    (55) expression -> . expression SHIFTRIGHT expression_additive
+    (56) expression_additive -> . expression_multiplicative
+    (57) expression_additive -> . expression_additive ADD expression_multiplicative
+    (58) expression_additive -> . expression_additive SUBTRACT expression_multiplicative
+    (59) expression_multiplicative -> . unary_expression
+    (60) expression_multiplicative -> . expression_multiplicative MULTIPLY unary_expression
+    (61) expression_multiplicative -> . expression_multiplicative DIVIDE unary_expression
+    (62) expression_multiplicative -> . expression_multiplicative MODULO unary_expression
+    (63) unary_expression -> . postfix_expression
+    (64) unary_expression -> . SUBTRACT unary_expression
+    (65) postfix_expression -> . primary_expression
+    (66) postfix_expression -> . IDENT LPARENS argument_expression_list RPARENS
+    (67) postfix_expression -> . IDENT LPARENS RPARENS
+    (70) primary_expression -> . IDENT
+    (71) primary_expression -> . CONST_INT
+    (72) primary_expression -> . CONST_STRING
+    (73) primary_expression -> . LPARENS expression RPARENS
+
+    SUBTRACT        shift and go to state 37
+    IDENT           shift and go to state 64
+    CONST_INT       shift and go to state 50
+    CONST_STRING    shift and go to state 54
+    LPARENS         shift and go to state 55
+
+    postfix_expression             shift and go to state 32
+    primary_expression             shift and go to state 56
+    expression                     shift and go to state 125
+    expression_multiplicative      shift and go to state 36
+    expression_additive            shift and go to state 58
+    unary_expression               shift and go to state 42
+
+state 116
+
+    (51) comparison_operator -> LESSEQUAL .
+
+    SUBTRACT        reduce using rule 51 (comparison_operator -> LESSEQUAL .)
+    IDENT           reduce using rule 51 (comparison_operator -> LESSEQUAL .)
+    CONST_INT       reduce using rule 51 (comparison_operator -> LESSEQUAL .)
+    CONST_STRING    reduce using rule 51 (comparison_operator -> LESSEQUAL .)
+    LPARENS         reduce using rule 51 (comparison_operator -> LESSEQUAL .)
+
+
+state 117
+
+    (52) comparison_operator -> GREATEREQUAL .
+
+    SUBTRACT        reduce using rule 52 (comparison_operator -> GREATEREQUAL .)
+    IDENT           reduce using rule 52 (comparison_operator -> GREATEREQUAL .)
+    CONST_INT       reduce using rule 52 (comparison_operator -> GREATEREQUAL .)
+    CONST_STRING    reduce using rule 52 (comparison_operator -> GREATEREQUAL .)
+    LPARENS         reduce using rule 52 (comparison_operator -> GREATEREQUAL .)
+
+
+state 118
+
+    (47) comparison_operator -> EQUAL .
+
+    SUBTRACT        reduce using rule 47 (comparison_operator -> EQUAL .)
+    IDENT           reduce using rule 47 (comparison_operator -> EQUAL .)
+    CONST_INT       reduce using rule 47 (comparison_operator -> EQUAL .)
+    CONST_STRING    reduce using rule 47 (comparison_operator -> EQUAL .)
+    LPARENS         reduce using rule 47 (comparison_operator -> EQUAL .)
+
+
+state 119
+
+    (48) comparison_operator -> NOTEQUAL .
+
+    SUBTRACT        reduce using rule 48 (comparison_operator -> NOTEQUAL .)
+    IDENT           reduce using rule 48 (comparison_operator -> NOTEQUAL .)
+    CONST_INT       reduce using rule 48 (comparison_operator -> NOTEQUAL .)
+    CONST_STRING    reduce using rule 48 (comparison_operator -> NOTEQUAL .)
+    LPARENS         reduce using rule 48 (comparison_operator -> NOTEQUAL .)
+
+
+state 120
+
+    (66) postfix_expression -> IDENT LPARENS argument_expression_list RPARENS .
+
+    MULTIPLY        reduce using rule 66 (postfix_expression -> IDENT LPARENS argument_expression_list RPARENS .)
+    DIVIDE          reduce using rule 66 (postfix_expression -> IDENT LPARENS argument_expression_list RPARENS .)
+    MODULO          reduce using rule 66 (postfix_expression -> IDENT LPARENS argument_expression_list RPARENS .)
+    ADD             reduce using rule 66 (postfix_expression -> IDENT LPARENS argument_expression_list RPARENS .)
+    SUBTRACT        reduce using rule 66 (postfix_expression -> IDENT LPARENS argument_expression_list RPARENS .)
+    SHIFTLEFT       reduce using rule 66 (postfix_expression -> IDENT LPARENS argument_expression_list RPARENS .)
+    SHIFTRIGHT      reduce using rule 66 (postfix_expression -> IDENT LPARENS argument_expression_list RPARENS .)
+    SEMICOLON       reduce using rule 66 (postfix_expression -> IDENT LPARENS argument_expression_list RPARENS .)
+    RPARENS         reduce using rule 66 (postfix_expression -> IDENT LPARENS argument_expression_list RPARENS .)
+    EQUAL           reduce using rule 66 (postfix_expression -> IDENT LPARENS argument_expression_list RPARENS .)
+    NOTEQUAL        reduce using rule 66 (postfix_expression -> IDENT LPARENS argument_expression_list RPARENS .)
+    LESS            reduce using rule 66 (postfix_expression -> IDENT LPARENS argument_expression_list RPARENS .)
+    GREATER         reduce using rule 66 (postfix_expression -> IDENT LPARENS argument_expression_list RPARENS .)
+    LESSEQUAL       reduce using rule 66 (postfix_expression -> IDENT LPARENS argument_expression_list RPARENS .)
+    GREATEREQUAL    reduce using rule 66 (postfix_expression -> IDENT LPARENS argument_expression_list RPARENS .)
+    COMMA           reduce using rule 66 (postfix_expression -> IDENT LPARENS argument_expression_list RPARENS .)
+
+
+state 121
+
+    (69) argument_expression_list -> argument_expression_list COMMA . expression
+    (53) expression -> . expression_additive
+    (54) expression -> . expression SHIFTLEFT expression_additive
+    (55) expression -> . expression SHIFTRIGHT expression_additive
+    (56) expression_additive -> . expression_multiplicative
+    (57) expression_additive -> . expression_additive ADD expression_multiplicative
+    (58) expression_additive -> . expression_additive SUBTRACT expression_multiplicative
+    (59) expression_multiplicative -> . unary_expression
+    (60) expression_multiplicative -> . expression_multiplicative MULTIPLY unary_expression
+    (61) expression_multiplicative -> . expression_multiplicative DIVIDE unary_expression
+    (62) expression_multiplicative -> . expression_multiplicative MODULO unary_expression
+    (63) unary_expression -> . postfix_expression
+    (64) unary_expression -> . SUBTRACT unary_expression
+    (65) postfix_expression -> . primary_expression
+    (66) postfix_expression -> . IDENT LPARENS argument_expression_list RPARENS
+    (67) postfix_expression -> . IDENT LPARENS RPARENS
+    (70) primary_expression -> . IDENT
+    (71) primary_expression -> . CONST_INT
+    (72) primary_expression -> . CONST_STRING
+    (73) primary_expression -> . LPARENS expression RPARENS
+
+    SUBTRACT        shift and go to state 37
+    IDENT           shift and go to state 64
+    CONST_INT       shift and go to state 50
+    CONST_STRING    shift and go to state 54
+    LPARENS         shift and go to state 55
+
+    postfix_expression             shift and go to state 32
+    primary_expression             shift and go to state 56
+    expression                     shift and go to state 126
+    expression_multiplicative      shift and go to state 36
+    expression_additive            shift and go to state 58
+    unary_expression               shift and go to state 42
+
+state 122
+
+    (43) iteration_instruction -> DO instruction WHILE LPARENS . condition RPARENS
+    (46) condition -> . expression comparison_operator expression
+    (53) expression -> . expression_additive
+    (54) expression -> . expression SHIFTLEFT expression_additive
+    (55) expression -> . expression SHIFTRIGHT expression_additive
+    (56) expression_additive -> . expression_multiplicative
+    (57) expression_additive -> . expression_additive ADD expression_multiplicative
+    (58) expression_additive -> . expression_additive SUBTRACT expression_multiplicative
+    (59) expression_multiplicative -> . unary_expression
+    (60) expression_multiplicative -> . expression_multiplicative MULTIPLY unary_expression
+    (61) expression_multiplicative -> . expression_multiplicative DIVIDE unary_expression
+    (62) expression_multiplicative -> . expression_multiplicative MODULO unary_expression
+    (63) unary_expression -> . postfix_expression
+    (64) unary_expression -> . SUBTRACT unary_expression
+    (65) postfix_expression -> . primary_expression
+    (66) postfix_expression -> . IDENT LPARENS argument_expression_list RPARENS
+    (67) postfix_expression -> . IDENT LPARENS RPARENS
+    (70) primary_expression -> . IDENT
+    (71) primary_expression -> . CONST_INT
+    (72) primary_expression -> . CONST_STRING
+    (73) primary_expression -> . LPARENS expression RPARENS
+
+    SUBTRACT        shift and go to state 37
+    IDENT           shift and go to state 64
+    CONST_INT       shift and go to state 50
+    CONST_STRING    shift and go to state 54
+    LPARENS         shift and go to state 55
+
+    condition                      shift and go to state 127
+    postfix_expression             shift and go to state 32
+    primary_expression             shift and go to state 56
+    expression                     shift and go to state 100
+    expression_multiplicative      shift and go to state 36
+    expression_additive            shift and go to state 58
+    unary_expression               shift and go to state 42
+
+state 123
+
+    (42) iteration_instruction -> WHILE LPARENS condition RPARENS . instruction
+    (22) instruction -> . SEMICOLON
+    (23) instruction -> . compound_instruction
+    (24) instruction -> . expression_instruction
+    (25) instruction -> . iteration_instruction
+    (26) instruction -> . select_instruction
+    (27) instruction -> . jump_instruction
+    (31) compound_instruction -> . block_start declaration_list instruction_list block_end
+    (32) compound_instruction -> . block_start declaration_list block_end
+    (33) compound_instruction -> . block_start instruction_list block_end
+    (34) compound_instruction -> . block_start block_end
+    (28) expression_instruction -> . expression SEMICOLON
+    (29) expression_instruction -> . assignment SEMICOLON
+    (42) iteration_instruction -> . WHILE LPARENS condition RPARENS instruction
+    (43) iteration_instruction -> . DO instruction WHILE LPARENS condition RPARENS
+    (44) iteration_instruction -> . FOR LPARENS assignment SEMICOLON condition SEMICOLON assignment RPARENS instruction
+    (39) select_instruction -> . cond_instruction instruction
+    (40) select_instruction -> . cond_instruction instruction ELSE instruction
+    (45) jump_instruction -> . RETURN expression SEMICOLON
+    (35) block_start -> . LBRACKET
+    (53) expression -> . expression_additive
+    (54) expression -> . expression SHIFTLEFT expression_additive
+    (55) expression -> . expression SHIFTRIGHT expression_additive
+    (30) assignment -> . IDENT ASSIGNMENT expression
+    (41) cond_instruction -> . IF LPARENS condition RPARENS
+    (56) expression_additive -> . expression_multiplicative
+    (57) expression_additive -> . expression_additive ADD expression_multiplicative
+    (58) expression_additive -> . expression_additive SUBTRACT expression_multiplicative
+    (59) expression_multiplicative -> . unary_expression
+    (60) expression_multiplicative -> . expression_multiplicative MULTIPLY unary_expression
+    (61) expression_multiplicative -> . expression_multiplicative DIVIDE unary_expression
+    (62) expression_multiplicative -> . expression_multiplicative MODULO unary_expression
+    (63) unary_expression -> . postfix_expression
+    (64) unary_expression -> . SUBTRACT unary_expression
+    (65) postfix_expression -> . primary_expression
+    (66) postfix_expression -> . IDENT LPARENS argument_expression_list RPARENS
+    (67) postfix_expression -> . IDENT LPARENS RPARENS
+    (70) primary_expression -> . IDENT
+    (71) primary_expression -> . CONST_INT
+    (72) primary_expression -> . CONST_STRING
+    (73) primary_expression -> . LPARENS expression RPARENS
+
+    SEMICOLON       shift and go to state 43
+    WHILE           shift and go to state 59
+    DO              shift and go to state 48
+    FOR             shift and go to state 34
+    RETURN          shift and go to state 30
+    LBRACKET        shift and go to state 22
+    IDENT           shift and go to state 45
+    IF              shift and go to state 41
+    SUBTRACT        shift and go to state 37
+    CONST_INT       shift and go to state 50
+    CONST_STRING    shift and go to state 54
+    LPARENS         shift and go to state 55
+
+    instruction                    shift and go to state 128
+    iteration_instruction          shift and go to state 38
+    postfix_expression             shift and go to state 32
+    assignment                     shift and go to state 39
+    cond_instruction               shift and go to state 40
+    expression                     shift and go to state 33
+    unary_expression               shift and go to state 42
+    select_instruction             shift and go to state 53
+    primary_expression             shift and go to state 56
+    expression_instruction         shift and go to state 44
+    expression_multiplicative      shift and go to state 36
+    jump_instruction               shift and go to state 57
+    expression_additive            shift and go to state 58
+    compound_instruction           shift and go to state 46
+    block_start                    shift and go to state 24
+
+state 124
+
+    (44) iteration_instruction -> FOR LPARENS assignment SEMICOLON condition . SEMICOLON assignment RPARENS instruction
+
+    SEMICOLON       shift and go to state 129
+
+
+state 125
+
+    (46) condition -> expression comparison_operator expression .
+    (54) expression -> expression . SHIFTLEFT expression_additive
+    (55) expression -> expression . SHIFTRIGHT expression_additive
+
+    RPARENS         reduce using rule 46 (condition -> expression comparison_operator expression .)
+    SEMICOLON       reduce using rule 46 (condition -> expression comparison_operator expression .)
+    SHIFTLEFT       shift and go to state 68
+    SHIFTRIGHT      shift and go to state 70
+
+
+state 126
+
+    (69) argument_expression_list -> argument_expression_list COMMA expression .
+    (54) expression -> expression . SHIFTLEFT expression_additive
+    (55) expression -> expression . SHIFTRIGHT expression_additive
+
+    RPARENS         reduce using rule 69 (argument_expression_list -> argument_expression_list COMMA expression .)
+    COMMA           reduce using rule 69 (argument_expression_list -> argument_expression_list COMMA expression .)
+    SHIFTLEFT       shift and go to state 68
+    SHIFTRIGHT      shift and go to state 70
+
+
+state 127
+
+    (43) iteration_instruction -> DO instruction WHILE LPARENS condition . RPARENS
+
+    RPARENS         shift and go to state 130
+
+
+state 128
+
+    (42) iteration_instruction -> WHILE LPARENS condition RPARENS instruction .
+
+    WHILE           reduce using rule 42 (iteration_instruction -> WHILE LPARENS condition RPARENS instruction .)
+    RBRACKET        reduce using rule 42 (iteration_instruction -> WHILE LPARENS condition RPARENS instruction .)
+    SEMICOLON       reduce using rule 42 (iteration_instruction -> WHILE LPARENS condition RPARENS instruction .)
+    DO              reduce using rule 42 (iteration_instruction -> WHILE LPARENS condition RPARENS instruction .)
+    FOR             reduce using rule 42 (iteration_instruction -> WHILE LPARENS condition RPARENS instruction .)
+    RETURN          reduce using rule 42 (iteration_instruction -> WHILE LPARENS condition RPARENS instruction .)
+    LBRACKET        reduce using rule 42 (iteration_instruction -> WHILE LPARENS condition RPARENS instruction .)
+    IDENT           reduce using rule 42 (iteration_instruction -> WHILE LPARENS condition RPARENS instruction .)
+    IF              reduce using rule 42 (iteration_instruction -> WHILE LPARENS condition RPARENS instruction .)
+    SUBTRACT        reduce using rule 42 (iteration_instruction -> WHILE LPARENS condition RPARENS instruction .)
+    CONST_INT       reduce using rule 42 (iteration_instruction -> WHILE LPARENS condition RPARENS instruction .)
+    CONST_STRING    reduce using rule 42 (iteration_instruction -> WHILE LPARENS condition RPARENS instruction .)
+    LPARENS         reduce using rule 42 (iteration_instruction -> WHILE LPARENS condition RPARENS instruction .)
+    ELSE            reduce using rule 42 (iteration_instruction -> WHILE LPARENS condition RPARENS instruction .)
+
+
+state 129
+
+    (44) iteration_instruction -> FOR LPARENS assignment SEMICOLON condition SEMICOLON . assignment RPARENS instruction
+    (30) assignment -> . IDENT ASSIGNMENT expression
+
+    IDENT           shift and go to state 94
+
+    assignment                     shift and go to state 131
+
+state 130
+
+    (43) iteration_instruction -> DO instruction WHILE LPARENS condition RPARENS .
+
+    WHILE           reduce using rule 43 (iteration_instruction -> DO instruction WHILE LPARENS condition RPARENS .)
+    RBRACKET        reduce using rule 43 (iteration_instruction -> DO instruction WHILE LPARENS condition RPARENS .)
+    SEMICOLON       reduce using rule 43 (iteration_instruction -> DO instruction WHILE LPARENS condition RPARENS .)
+    DO              reduce using rule 43 (iteration_instruction -> DO instruction WHILE LPARENS condition RPARENS .)
+    FOR             reduce using rule 43 (iteration_instruction -> DO instruction WHILE LPARENS condition RPARENS .)
+    RETURN          reduce using rule 43 (iteration_instruction -> DO instruction WHILE LPARENS condition RPARENS .)
+    LBRACKET        reduce using rule 43 (iteration_instruction -> DO instruction WHILE LPARENS condition RPARENS .)
+    IDENT           reduce using rule 43 (iteration_instruction -> DO instruction WHILE LPARENS condition RPARENS .)
+    IF              reduce using rule 43 (iteration_instruction -> DO instruction WHILE LPARENS condition RPARENS .)
+    SUBTRACT        reduce using rule 43 (iteration_instruction -> DO instruction WHILE LPARENS condition RPARENS .)
+    CONST_INT       reduce using rule 43 (iteration_instruction -> DO instruction WHILE LPARENS condition RPARENS .)
+    CONST_STRING    reduce using rule 43 (iteration_instruction -> DO instruction WHILE LPARENS condition RPARENS .)
+    LPARENS         reduce using rule 43 (iteration_instruction -> DO instruction WHILE LPARENS condition RPARENS .)
+    ELSE            reduce using rule 43 (iteration_instruction -> DO instruction WHILE LPARENS condition RPARENS .)
+
+
+state 131
+
+    (44) iteration_instruction -> FOR LPARENS assignment SEMICOLON condition SEMICOLON assignment . RPARENS instruction
+
+    RPARENS         shift and go to state 132
+
+
+state 132
+
+    (44) iteration_instruction -> FOR LPARENS assignment SEMICOLON condition SEMICOLON assignment RPARENS . instruction
+    (22) instruction -> . SEMICOLON
+    (23) instruction -> . compound_instruction
+    (24) instruction -> . expression_instruction
+    (25) instruction -> . iteration_instruction
+    (26) instruction -> . select_instruction
+    (27) instruction -> . jump_instruction
+    (31) compound_instruction -> . block_start declaration_list instruction_list block_end
+    (32) compound_instruction -> . block_start declaration_list block_end
+    (33) compound_instruction -> . block_start instruction_list block_end
+    (34) compound_instruction -> . block_start block_end
+    (28) expression_instruction -> . expression SEMICOLON
+    (29) expression_instruction -> . assignment SEMICOLON
+    (42) iteration_instruction -> . WHILE LPARENS condition RPARENS instruction
+    (43) iteration_instruction -> . DO instruction WHILE LPARENS condition RPARENS
+    (44) iteration_instruction -> . FOR LPARENS assignment SEMICOLON condition SEMICOLON assignment RPARENS instruction
+    (39) select_instruction -> . cond_instruction instruction
+    (40) select_instruction -> . cond_instruction instruction ELSE instruction
+    (45) jump_instruction -> . RETURN expression SEMICOLON
+    (35) block_start -> . LBRACKET
+    (53) expression -> . expression_additive
+    (54) expression -> . expression SHIFTLEFT expression_additive
+    (55) expression -> . expression SHIFTRIGHT expression_additive
+    (30) assignment -> . IDENT ASSIGNMENT expression
+    (41) cond_instruction -> . IF LPARENS condition RPARENS
+    (56) expression_additive -> . expression_multiplicative
+    (57) expression_additive -> . expression_additive ADD expression_multiplicative
+    (58) expression_additive -> . expression_additive SUBTRACT expression_multiplicative
+    (59) expression_multiplicative -> . unary_expression
+    (60) expression_multiplicative -> . expression_multiplicative MULTIPLY unary_expression
+    (61) expression_multiplicative -> . expression_multiplicative DIVIDE unary_expression
+    (62) expression_multiplicative -> . expression_multiplicative MODULO unary_expression
+    (63) unary_expression -> . postfix_expression
+    (64) unary_expression -> . SUBTRACT unary_expression
+    (65) postfix_expression -> . primary_expression
+    (66) postfix_expression -> . IDENT LPARENS argument_expression_list RPARENS
+    (67) postfix_expression -> . IDENT LPARENS RPARENS
+    (70) primary_expression -> . IDENT
+    (71) primary_expression -> . CONST_INT
+    (72) primary_expression -> . CONST_STRING
+    (73) primary_expression -> . LPARENS expression RPARENS
+
+    SEMICOLON       shift and go to state 43
+    WHILE           shift and go to state 59
+    DO              shift and go to state 48
+    FOR             shift and go to state 34
+    RETURN          shift and go to state 30
+    LBRACKET        shift and go to state 22
+    IDENT           shift and go to state 45
+    IF              shift and go to state 41
+    SUBTRACT        shift and go to state 37
+    CONST_INT       shift and go to state 50
+    CONST_STRING    shift and go to state 54
+    LPARENS         shift and go to state 55
+
+    instruction                    shift and go to state 133
+    iteration_instruction          shift and go to state 38
+    postfix_expression             shift and go to state 32
+    assignment                     shift and go to state 39
+    cond_instruction               shift and go to state 40
+    expression                     shift and go to state 33
+    unary_expression               shift and go to state 42
+    select_instruction             shift and go to state 53
+    primary_expression             shift and go to state 56
+    expression_instruction         shift and go to state 44
+    expression_multiplicative      shift and go to state 36
+    jump_instruction               shift and go to state 57
+    expression_additive            shift and go to state 58
+    compound_instruction           shift and go to state 46
+    block_start                    shift and go to state 24
+
+state 133
+
+    (44) iteration_instruction -> FOR LPARENS assignment SEMICOLON condition SEMICOLON assignment RPARENS instruction .
+
+    WHILE           reduce using rule 44 (iteration_instruction -> FOR LPARENS assignment SEMICOLON condition SEMICOLON assignment RPARENS instruction .)
+    RBRACKET        reduce using rule 44 (iteration_instruction -> FOR LPARENS assignment SEMICOLON condition SEMICOLON assignment RPARENS instruction .)
+    SEMICOLON       reduce using rule 44 (iteration_instruction -> FOR LPARENS assignment SEMICOLON condition SEMICOLON assignment RPARENS instruction .)
+    DO              reduce using rule 44 (iteration_instruction -> FOR LPARENS assignment SEMICOLON condition SEMICOLON assignment RPARENS instruction .)
+    FOR             reduce using rule 44 (iteration_instruction -> FOR LPARENS assignment SEMICOLON condition SEMICOLON assignment RPARENS instruction .)
+    RETURN          reduce using rule 44 (iteration_instruction -> FOR LPARENS assignment SEMICOLON condition SEMICOLON assignment RPARENS instruction .)
+    LBRACKET        reduce using rule 44 (iteration_instruction -> FOR LPARENS assignment SEMICOLON condition SEMICOLON assignment RPARENS instruction .)
+    IDENT           reduce using rule 44 (iteration_instruction -> FOR LPARENS assignment SEMICOLON condition SEMICOLON assignment RPARENS instruction .)
+    IF              reduce using rule 44 (iteration_instruction -> FOR LPARENS assignment SEMICOLON condition SEMICOLON assignment RPARENS instruction .)
+    SUBTRACT        reduce using rule 44 (iteration_instruction -> FOR LPARENS assignment SEMICOLON condition SEMICOLON assignment RPARENS instruction .)
+    CONST_INT       reduce using rule 44 (iteration_instruction -> FOR LPARENS assignment SEMICOLON condition SEMICOLON assignment RPARENS instruction .)
+    CONST_STRING    reduce using rule 44 (iteration_instruction -> FOR LPARENS assignment SEMICOLON condition SEMICOLON assignment RPARENS instruction .)
+    LPARENS         reduce using rule 44 (iteration_instruction -> FOR LPARENS assignment SEMICOLON condition SEMICOLON assignment RPARENS instruction .)
+    ELSE            reduce using rule 44 (iteration_instruction -> FOR LPARENS assignment SEMICOLON condition SEMICOLON assignment RPARENS instruction .)
+
+WARNING: 
+WARNING: Conflicts:
+WARNING: 
+WARNING: shift/reduce conflict for ELSE in state 77 resolved as shift

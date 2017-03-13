@@ -24,7 +24,7 @@ class CSTR_SymbolTable(object):
         self.current_symbol_table = self.symbol_table_stack[-1]
         self.current_num_vars = 0;
         self.logger = logging.getLogger('CSTR_Compiler.CSTR_SymbolTable')
-        self.logger.info("initialised symtab")
+        self.logger.debug("initialised symtab")
 
     def add_symbol(self, name, symbol_record):
         ##add to current scope
@@ -34,8 +34,8 @@ class CSTR_SymbolTable(object):
                 self.current_num_vars+=1
                 symbol_record.var_num = self.current_num_vars
             self.current_symbol_table[name] = symbol_record
-            print("%s added to symbol_table"%(name))
-            print(self.symbol_table_stack)
+            # print("%s added to symbol_table"%(name))
+            # print(self.symbol_table_stack)
             return self.current_num_vars
         else:
             self.logger.error("%s is already declared in scope"%(name))
@@ -52,7 +52,7 @@ class CSTR_SymbolTable(object):
         symrec = self.current_symbol_table.get(name)
         if symrec is not None: return symrec
         return None
-    
+
     def enter_new_scope(self):
         self.symbol_table_stack.append(dict())
         self.current_symbol_table = self.symbol_table_stack[-1]

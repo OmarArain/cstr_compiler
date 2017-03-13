@@ -1,4 +1,5 @@
-import ply.yacc as yacc
+#import ply.yacc as yacc
+import ply_lib.yacc as yacc
 import logging
 from cstr_lexer import CSTR_Lexer
 from cstr_ast import *
@@ -8,7 +9,7 @@ from cstr_codewriter import *
 from os.path import split, splitext, join
 
 LOG_FORMAT = '%(filename)s:%(funcName)s: %(message)s'
-LOG_LEVEL = logging.DEBUG
+LOG_LEVEL = logging.INFO
 
 class CSTR_Parser:
     def __init__(self):
@@ -30,9 +31,9 @@ class CSTR_Parser:
 
 #### GRAMMAR SPECIFICATION ######################################
     # precedence = (
-    #     ('left', 'THEN'),
-    #     ('left', 'ELSE'),
-    #     )
+        # ('left', 'THEN'),
+        # ('left', 'ELSE')
+        # )
     def p_program_1(self, p):
         'program : external_declaration'
         p[0] = Program(declarations=[p[1]])
@@ -497,7 +498,7 @@ def initialize_logger(fmt, level):
     sh.setFormatter(formatter)
     sh.setLevel(level)
     logger.addHandler(sh)
-    logger.info('Initializing logging.')
+    logger.debug('Initializing logging.')
     return logger
 
 if __name__ == '__main__':
@@ -509,7 +510,7 @@ if __name__ == '__main__':
         help='filepath of .cstr file',
         nargs='+')
     arg_parser.add_argument('--debug', help='print debug info', action='store_true')
-    arg_parser.add_argument('--xml', help='generate xml', action='store_true')
+    arg_parser.add_argument('--ast', help='Print AST', action='store_true')
 
     args = arg_parser.parse_args()
 
@@ -518,7 +519,7 @@ if __name__ == '__main__':
 
     source = args.source[0]
     logger = initialize_logger(LOG_FORMAT, LOG_LEVEL)
-    logger.info("Started Logging")
+    logger.debug("Started Logging")
     # Build the parser
 
     s = '''
@@ -545,12 +546,14 @@ if __name__ == '__main__':
     fileroot, fileext = splitext(fn)
     outfiledir = 'asm'
     outfilename = join(outfiledir, fileroot + '.s')
+    astdir = 'ast'
 
     with open(source, 'r') as myfile:
         text=myfile.read().replace('\n', '')
         parser = CSTR_Parser()
         result = parser.parse(text)
-        result.show(attrnames=True, nodenames=True)
+        if args.ast:
+            result.show(attrnames=True, nodenames=True)
         codewriter = ASMWriter(outfilename)
         codewriter.visit(result)
 

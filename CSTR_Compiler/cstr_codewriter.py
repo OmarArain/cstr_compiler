@@ -55,7 +55,7 @@ class ASMWriter(NodeVisitor):
         super(ASMWriter,self).visit(node)
 
     def generic_visit(self, node):
-        self.logger.info("# No code to write this node "
+        self.logger.debug("# No code to write this node "
                         + node.__class__.__name__)
         super(ASMWriter,self).generic_visit(node)
 

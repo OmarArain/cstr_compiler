@@ -1,4 +1,6 @@
-import ply.lex as lex
+import ply_lib.lex as lex
+
+
 
 class CSTR_Lexer(object):
 
