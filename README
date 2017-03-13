@@ -6,8 +6,13 @@ CSTR Compiler
 To run my compiler:
 
 cpp -E -P targetfile.c -o clean_targetfile.c
-python3 CSTR_Compiler/cstr_parser.py clean_targetfile.c
-gcc clean_targetfile.c 
+python3 CSTR_Compiler/cstr_parser.py clean_targetfile.c assembly_file.s
+gcc clean_targetfile.s lib/lib.c -o executable
+
+To see a printout of the Abstract Sytnax tree that is generated, run
+
+python3 CSTR_Compiler/cstr_parser.py clean_targetfile.c assembly_file.s
+
 This will output a clean_targetfile.s file in the asm directory, which
 you can then compile normally with gcc.  The .s file uses x86 assembly
 targeted to the University of Chicago linux machines available at 
@@ -21,8 +26,22 @@ My code currently passes the following tests that were provided:
 - div.c
 - expr.c
 - functions.c
+- expr.c
+- functions.c
+- loops.c
+- lsh.c
+- mod.c
+- mul.c
+- neg.c
+- rsh.c
 
-
+My code currently fails on the following:
+- compteur.c
+- erato
+- opti.c
+- string.c
+- string2.c
+- string3.c
 
 I used the following tools to build my compiler:
 - python3 (python2 may work)
