@@ -381,8 +381,43 @@ class ASMWriter(NodeVisitor):
         self.outfile.write('%s:\n'%(iffalse_label))
         ## eval IFFALSE (if none, make sure it works)
 
-    # def visit_DoWhile(self, node):
+    def visit_DoWhile(self, node):
+        cond_nodelist = []
+        loop_nodelist = []
+        comp_op = node.condition.operator
+        iftrue_label = self.generateUniqueLabel('DO_WHILE_LOOP_')
+        #iffalse_label = self.generateUniqueLabel('END_WHILE_')
+        if node.condition is not None: cond_nodelist.append(("condition", node.condition))
+        if node.statement is not None: loop_nodelist.append(("_true", node.statement))
 
+        ## write IFTRUE label
+        self.outfile.write('%s:\n'%(iftrue_label))
+
+        ## eval loop body statements
+        for nname, n in loop_nodelist:
+            super(ASMWriter,self).visit(n)
+
+        ### eval conditions
+        self.outfile.write("### If eval conditions\n")
+        for nname, n in cond_nodelist:
+            self.visit_BinaryOp(n)
+
+        ## write the relvant jmp instruction to IFTRUE
+        if comp_op == '==':
+            self.outfile.write("\tje\t%s\n"%(iftrue_label))
+        elif comp_op == '!=':
+            self.outfile.write("\tjne\t%s\n"%(iftrue_label))
+        elif comp_op == '<=':
+            self.outfile.write("\tjle\t%s\n"%(iftrue_label))
+        elif comp_op == '<':
+            self.outfile.write("\tjl\t%s\n"%(iftrue_label))
+        elif comp_op == '>=':
+            self.outfile.write("\tjge\t%s\n"%(iftrue_label))
+        elif comp_op == '>':
+            self.outfile.write("\tjg\t%s\n"%(iftrue_label))
+        else:
+            self.outfile.write("\tjne\t%s\n"%(iftrue_label))
+        
     # def visit_For(self, node)
 
 
