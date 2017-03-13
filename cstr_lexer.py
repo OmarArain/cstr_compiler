@@ -13,7 +13,7 @@ class CSTR_Lexer(object):
         return self.last_token
     reserved = {
        'if' : 'IF',
-       'then' : 'THEN',
+       #'then' : 'THEN',
        'else' : 'ELSE',
        'while' : 'WHILE',
        'do'	   : 'DO',
@@ -50,7 +50,7 @@ class CSTR_Lexer(object):
     	] + list(reserved.values())
 
     t_CONST_INT   	  = r"[0-9]+"
-    t_CONST_STRING    = r'\"(\\.|[^\\"])*\"'
+    t_CONST_STRING    = r'(\"(\\.|[^\\"])*\")' + r"|(\'(\\.|[^\\'])*\')"
 
     def t_IDENT(self, t):
         r'[a-zA-Z][0-9a-zA-Z_]*'
