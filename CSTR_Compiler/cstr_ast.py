@@ -339,9 +339,11 @@ class FunctionDef (Node):
     attr_names = ('numlcls', )
 
 class Program (Node):
-    __slots__ = ('declarations', 'coord', '__weakref__')
-    def __init__(self, declarations, coord=None):
+    __slots__ = ('declarations', 'num_globals', 'string_constants', 'coord', '__weakref__')
+    def __init__(self, declarations, num_globals, string_constants, coord=None):
         self.declarations = declarations
+        self.num_globals = num_globals
+        self.string_constants = string_constants
         self.coord = coord
 
     def children(self):
@@ -350,7 +352,7 @@ class Program (Node):
             nodelist.append(("declarations[%d]" % i, child))
         return tuple(nodelist)
 
-    attr_names = ()
+    attr_names = ('num_globals', 'string_constants', )
 
 class FunctionCall (Node):
     __slots__ = ('name', 'args', 'coord', '__weakref__')

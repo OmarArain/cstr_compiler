@@ -32,7 +32,10 @@ class CSTR_SymbolTable(object):
         if symrec is None:
             if symbol_record.kind == 'variable':
                 self.current_num_vars+=1
-                symbol_record.var_num = self.current_num_vars
+                if len(self.symbol_table_stack) ==1: ### GLOBAL SCOPE
+                    symbol_record.var_num = -self.current_num_vars ### negative means GLOBAL SCOPE
+                else:
+                    symbol_record.var_num = self.current_num_vars
             self.current_symbol_table[name] = symbol_record
             # print("%s added to symbol_table"%(name))
             # print(self.symbol_table_stack)

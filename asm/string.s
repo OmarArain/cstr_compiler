@@ -1,6 +1,20 @@
 ### Program preamble
 .file	 "program.c"
 .text
+.data
+
+hello_label:
+	 .string	 "hello"
+	 .zero	 512
+worldn_label:
+	 .string	 " world\n"
+	 .zero	 512
+bye_label:
+	 .string	 "bye"
+	 .zero	 512
+global_0:
+	 .string	 ""
+	 .zero	 512
 ### Function preamble
 .globl	 main
 .type	 main,@function
@@ -20,22 +34,26 @@ main:
 ### FunctionDef Body, remember to clean stack
 ### Assignment eval expr
 ### Constant push const
+	pushq	 $8
 ### Assignment mov from stack to reg, assign to var
 	popq	 %rax
 	movq	 %rax, -8(%rbp)
 ### Assignment eval expr
 ### Constant push const
+	pushq	 $11
 ### Assignment mov from stack to reg, assign to var
 	popq	 %rax
 	movq	 %rax, -16(%rbp)
 ### Assignment eval expr
 ### Constant push const
+	pushq	 $6
 ### Assignment mov from stack to reg, assign to var
 	popq	 %rax
-	movq	 %rax, -8(%rbp)
+	movq	 %rax, 8(%rbp)
 ### FunctionCall preamble
 ### FunctionCall evaluate args left to right, push onto stack
 ### Constant push const
+	pushq	 $8
 ### FunctionCall pop args into param_registers, r to l
 	popq	 %rdi
 ### FunctionCall save caller save registers
@@ -48,7 +66,9 @@ main:
 ### FunctionCall evaluate args left to right, push onto stack
 ### BinaryOp, eval lhs, then rhs
 ### Constant push const
+	pushq	 $8
 ### Constant push const
+	pushq	 $10
 ### BinaryOp, push rhs, lhs into reg
 	popq	 %rcx
 	popq	 %rax
@@ -69,6 +89,7 @@ main:
 ### Ident, pushing s to stack
 	pushq	 -8(%rbp)
 ### Constant push const
+	pushq	 $10
 ### BinaryOp, push rhs, lhs into reg
 	popq	 %rcx
 	popq	 %rax
@@ -87,6 +108,7 @@ main:
 ### FunctionCall evaluate args left to right, push onto stack
 ### BinaryOp, eval lhs, then rhs
 ### Constant push const
+	pushq	 $8
 ### Ident, pushing t to stack
 	pushq	 -16(%rbp)
 ### BinaryOp, push rhs, lhs into reg
@@ -131,7 +153,7 @@ main:
 ### Ident, pushing s to stack
 	pushq	 -8(%rbp)
 ### Ident, pushing u to stack
-	pushq	 -8(%rbp)
+	pushq	 8(%rbp)
 ### BinaryOp, push rhs, lhs into reg
 	popq	 %rcx
 	popq	 %rax
@@ -161,7 +183,7 @@ main:
 	pushq	 -8(%rbp)
 ### BinaryOp, eval lhs, then rhs
 ### Ident, pushing u to stack
-	pushq	 -8(%rbp)
+	pushq	 8(%rbp)
 ### Ident, pushing t to stack
 	pushq	 -16(%rbp)
 ### BinaryOp, push rhs, lhs into reg
@@ -230,7 +252,7 @@ main:
 ### Ident, pushing s to stack
 	pushq	 -8(%rbp)
 ### Ident, pushing u to stack
-	pushq	 -8(%rbp)
+	pushq	 8(%rbp)
 ### BinaryOp, push rhs, lhs into reg
 	popq	 %rcx
 	popq	 %rax

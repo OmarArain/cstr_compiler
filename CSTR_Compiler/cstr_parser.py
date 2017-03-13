@@ -23,6 +23,7 @@ class CSTR_Parser:
         self.current_type = ''
         self.current_scope_name = ''
         self.current_num_locals = 0
+        self.const_strings = []
 
     def parse(self, text):
         self.symbol_table_stack = [dict()]
@@ -36,7 +37,8 @@ class CSTR_Parser:
         # )
     def p_program_1(self, p):
         'program : external_declaration'
-        p[0] = Program(declarations=[p[1]])
+        p[0] = Program(declarations=[p[1]], string_constants=self.const_strings, 
+                        num_globals=len(self.symbol_table.symbol_table_stack))
 
     def p_program_2(self, p):
         'program : program external_declaration'
@@ -472,6 +474,7 @@ class CSTR_Parser:
         primary_expression : CONST_STRING
         """
         p[0] = Constant(_type='string', value=p[1])
+        self.const_strings.append(p[1])
         #self.logger.debug(p[0])
 
     def p_primary_expression_4(self, p):

@@ -77,10 +77,31 @@ class ASMWriter(NodeVisitor):
         self.outfile.write('\tpushq\t %rax\n')
 
     def visit_Program(self, node):
+        num_globals = node.num_globals
+        string_consts = node.string_constants
+
         self.outfile.write("### Program preamble\n")
 
         self.outfile.write('.file\t "%s"\n'%(self.infilename))
         self.outfile.write('.text\n')
+
+        self.outfile.write('.data\n\n')
+        for _s in string_consts:
+            _string = _s.replace('"','').replace('\\','').replace(' ','')
+            print _string
+            str_label = _string + "_label"
+            print str_label
+            if str_label not in self._unique_labels:
+                self._unique_labels.append(str_label)
+                self.outfile.write("%s:\n"%(str_label))
+                self.outfile.write('\t .string\t '+ _s+'\n')
+                self.outfile.write('\t .zero\t 512\n')
+        for i in range(num_globals):
+            glb_lbl = 'global_' +str(i)  
+            self._unique_labels.append(glb_lbl)
+            self.outfile.write("%s:\n"%(glb_lbl))
+            self.outfile.write('\t .string\t ""\n')
+            self.outfile.write('\t .zero\t 512\n')
 
 
         super(ASMWriter,self).generic_visit(node)
@@ -190,6 +211,7 @@ class ASMWriter(NodeVisitor):
             ## handle string constant
             ## lookup string label
             ## push string label onto stack, i think
+            self._write_push_const(len(const)+1)
             pass
 
     def visit_Return(self, node):
@@ -214,11 +236,14 @@ class ASMWriter(NodeVisitor):
 
     def visit_Ident(self, node):
         name = node.name
+        _type  = node._type
         offset = node.offset * self.data_size * -1
+                    # _string = _s.replace('"','').replace('\\','').replace(' ','')
         ### remember to skip this when doing assignment operator!
+        # if _type == 'int':
         self.outfile.write('### Ident, pushing %s to stack\n'%(name))
         self._write_push(register='%rbp',offset=offset)
-
+        # elif _type == 'string':
     def visit_UnaryOp(self, node):
         op = node.operator
 
@@ -245,7 +270,7 @@ class ASMWriter(NodeVisitor):
         self._write_pop('%rax')
 
         self.outfile.write('### perform op, push to stack\n')
-        if _type == 'int':
+        if _type == 'int' or _type == 'string':
             if op == '+':
                 self.outfile.write('\taddq\t %rcx, %rax\n')
             elif op == '-':
