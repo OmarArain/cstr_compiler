@@ -1,3 +1,5 @@
+#include <string.h> 
+#include "../lib/lib.h"
 
 int sleep( int t );
 
@@ -11,6 +13,4 @@ int main() {
   }
   return 0;
 }
-C
-#include <string.h> 
-#include "../lib/lib.h"
+

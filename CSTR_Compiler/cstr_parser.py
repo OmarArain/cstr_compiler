@@ -507,11 +507,11 @@ if __name__ == '__main__':
     arg_parser = ArgumentParser(
         description="CSTR Compiler.  Takes a .cstr file and compiles it to a .s file.")
     arg_parser.add_argument('source', type=str,
-        help='filepath of .cstr file',
+        help='filepath of .c file',
         nargs='+')
+    arg_parser.add_argument('dest', type=str, nargs='+', help='filepath where .s file should be saved.')
     arg_parser.add_argument('--debug', help='print debug info', action='store_true')
-    arg_parser.add_argument('--ast', help='Print AST', action='store_true')
-
+    arg_parser.add_argument('--ast', help='print generated Abstract Syntax Tree to stdout', action='store_true')
     args = arg_parser.parse_args()
 
     if args.debug:
@@ -522,38 +522,20 @@ if __name__ == '__main__':
     logger.debug("Started Logging")
     # Build the parser
 
-    s = '''
-
-    int main() {
-      int i;
-      i = 0;
-      while ( i < 10 ) {
-        printd(i);
-        i = i+2;
-      }
-      for ( i = -10; i <= 10; i = i+1 )
-        printd(i);
-      i = 0;
-      do {
-        printd(i);
-        i = i-1;
-      } while ( i >= -20 );
-      return 0;
-    }
-    '''
-
     p, fn = split(source)
     fileroot, fileext = splitext(fn)
     outfiledir = 'asm'
     outfilename = join(outfiledir, fileroot + '.s')
     astdir = 'ast'
 
+    # print (args.dest)
     with open(source, 'r') as myfile:
         text=myfile.read().replace('\n', '')
         parser = CSTR_Parser()
         result = parser.parse(text)
         if args.ast:
             result.show(attrnames=True, nodenames=True)
-        codewriter = ASMWriter(outfilename)
+        codewriter = ASMWriter(args.dest[0])
         codewriter.visit(result)
+    print("Compiled %s to %s."%(source, args.dest[0]))
 
