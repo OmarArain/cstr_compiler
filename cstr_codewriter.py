@@ -351,7 +351,7 @@ class ASMWriter(NodeVisitor):
         self.outfile.write('%s:\n'%(iftrue_label))
 
         ### eval conditions
-        self.outfile.write("### If eval conditions\n")
+        self.outfile.write("### While eval conditions\n")
         for nname, n in cond_nodelist:
             self.visit_BinaryOp(n)
 
@@ -398,7 +398,7 @@ class ASMWriter(NodeVisitor):
             super(ASMWriter,self).visit(n)
 
         ### eval conditions
-        self.outfile.write("### If eval conditions\n")
+        self.outfile.write("### Do While eval conditions\n")
         for nname, n in cond_nodelist:
             self.visit_BinaryOp(n)
 
@@ -417,8 +417,63 @@ class ASMWriter(NodeVisitor):
             self.outfile.write("\tjg\t%s\n"%(iftrue_label))
         else:
             self.outfile.write("\tjne\t%s\n"%(iftrue_label))
+    
+    def visit_For(self, node):
+        init_nodelist = []
+        next_nodelist = []
+        cond_nodelist = []
+        loop_nodelist = []
+        comp_op = node.condition.operator
+        iftrue_label = self.generateUniqueLabel('FOR_LOOP_')
+        iffalse_label = self.generateUniqueLabel('END_FOR_')
+        if node.condition is not None: cond_nodelist.append(("condition", node.condition))
+        if node.statement is not None: loop_nodelist.append(("_true", node.statement))
+        if node.initial is not None: init_nodelist.append(("condition", node.initial))
+        if node._next is not None: next_nodelist.append(("_true", node._next))
+
+
+        #eval initial
+        self.outfile.write("### For eval initial\n")
+        for nname, n in init_nodelist:
+            self.visit(n)
+
+        ## write IFTRUE label
+        self.outfile.write('%s:\n'%(iftrue_label))
+
+        ### eval conditions
+        self.outfile.write("### For eval conditions\n")
+        for nname, n in cond_nodelist:
+            self.visit_BinaryOp(n)
+
+        ## write the relvant jmp instruction to IFFALSE, end loop
+        if comp_op == '==':
+            self.outfile.write("\tjne\t%s\n"%(iffalse_label))
+        elif comp_op == '!=':
+            self.outfile.write("\tje\t%s\n"%(iffalse_label))
+        elif comp_op == '<=':
+            self.outfile.write("\tjg\t%s\n"%(iffalse_label))
+        elif comp_op == '<':
+            self.outfile.write("\tjge\t%s\n"%(iffalse_label))
+        elif comp_op == '>=':
+            self.outfile.write("\tjl\t%s\n"%(iffalse_label))
+        elif comp_op == '>':
+            self.outfile.write("\tjle\t%s\n"%(iffalse_label))
+        else:
+            self.outfile.write("\tje\t%s\n"%(iffalse_label))
         
-    # def visit_For(self, node)
+        ## eval loop body statements
+        for nname, n in loop_nodelist:
+            super(ASMWriter,self).visit(n)
+
+        ## eval _next 
+        for nname, n in next_nodelist:
+            super(ASMWriter,self).visit(n)
+
+        ## write the jmp to IFTRUE, loop to beginning
+        self.outfile.write('\tjmp\t %s\n'%(iftrue_label))
+        ## write IFFALSE label
+        self.outfile.write('%s:\n'%(iffalse_label))
+        ## eval IFFALSE (if none, make sure it works)        
 
 
 
