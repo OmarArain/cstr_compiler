@@ -12,14 +12,14 @@ cpp -E -P targetfile.c -o clean_targetfile.c
 python3 CSTR_Compiler/cstr_parser.py clean_targetfile.c assembly_file.s
 gcc clean_targetfile.s lib/lib.c -o executable
 
-To see a printout of the Abstract Sytnax tree that is generated, run:
-
-python3 CSTR_Compiler/cstr_parser.py clean_targetfile.c assembly_file.s
-
 This will output a clean_targetfile.s file in the asm directory, which
-you can then compile normally with gcc.  The .s file uses x86 assembly
+you can then compile normally with gcc.  The .s file is GAS x86 assembly
 targeted to the University of Chicago linux machines available at 
 linux1.cs.uchicago.edu.
+
+To see a printout of the Abstract Sytnax tree that is generated, run with --ast flag:
+
+python3 CSTR_Compiler/cstr_parser.py --ast clean_targetfile.c assembly_file.s
 
 
 ### PASSED TESTS
