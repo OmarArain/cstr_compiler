@@ -2,6 +2,9 @@ from cstr_ast import *
 import sys
 
 import logging
+### strings - constants saved in static
+### 
+
 
 class ASMWriter(NodeVisitor):
     def __init__(self, outfile=sys.stdout, infilename='program.c'):
@@ -88,15 +91,16 @@ class ASMWriter(NodeVisitor):
         self.outfile.write('.data\n\n')
         for _s in string_consts:
             _string = _s.replace('"','').replace('\\','').replace(' ','')
-            print _string
+            # print _string
             str_label = _string + "_label"
-            print str_label
+            # print str_label
             if str_label not in self._unique_labels:
                 self._unique_labels.append(str_label)
                 self.outfile.write("%s:\n"%(str_label))
                 self.outfile.write('\t .string\t '+ _s+'\n')
                 self.outfile.write('\t .zero\t 512\n')
-        for i in range(num_globals):
+        for i in range(num_globals+1):
+            print num_globals
             glb_lbl = 'global_' +str(i)  
             self._unique_labels.append(glb_lbl)
             self.outfile.write("%s:\n"%(glb_lbl))
@@ -189,6 +193,7 @@ class ASMWriter(NodeVisitor):
         ## IGNIRING THIS FOR NOW, I never use r10 and r11
 
         self.outfile.write('### FunctionCall call function\n')
+        self.outfile.write("\txorq\t %rax, %rax\n")
         self.outfile.write("\tcall\t %s\n"%(funcname))
 
 
@@ -210,8 +215,9 @@ class ASMWriter(NodeVisitor):
         elif _type == 'string':
             ## handle string constant
             ## lookup string label
+            str_label = const.replace('"','').replace('\\','').replace(' ','')+'_label'
             ## push string label onto stack, i think
-            self._write_push_const(len(const)+1)
+            self._write_push_const(str_label)
             pass
 
     def visit_Return(self, node):
@@ -238,11 +244,16 @@ class ASMWriter(NodeVisitor):
         name = node.name
         _type  = node._type
         offset = node.offset * self.data_size * -1
-                    # _string = _s.replace('"','').replace('\\','').replace(' ','')
+        
         ### remember to skip this when doing assignment operator!
         # if _type == 'int':
-        self.outfile.write('### Ident, pushing %s to stack\n'%(name))
-        self._write_push(register='%rbp',offset=offset)
+        if node.offset > 0:
+            self.outfile.write('### Ident, pushing %s to stack\n'%(name))
+            self._write_push(register='%rbp',offset=offset)
+        else: 
+            self.outfile.write('### Ident, pushing global %s to stack\n'%(name))
+            global_label = 'global_'+str(node.offset*-1)
+            self.outfile.write("\tpushq\t $%s\n"%(global_label))
         # elif _type == 'string':
     def visit_UnaryOp(self, node):
         op = node.operator
@@ -313,9 +324,15 @@ class ASMWriter(NodeVisitor):
         self.outfile.write("### Assignment eval expr\n")
         super(ASMWriter,self).generic_visit(node)
 
-        self.outfile.write('### Assignment mov from stack to reg, assign to var\n')
-        self._write_pop('%rax')
-        self.outfile.write('\tmovq\t %%rax, %s(%%rbp)\n' %(lhsoffset))
+        if node.lhs.offset > 0 :
+            self.outfile.write('### Assignment mov from stack to reg, assign to var\n')
+            self._write_pop('%rax')
+            self.outfile.write('\tmovq\t %%rax, %s(%%rbp)\n' %(lhsoffset))
+        else:
+            label = 'global_' + str(node.lhs.offset*-1)
+            self.outfile.write('### Assignment global\n')
+            self._write_pop('%rax')
+            self.outfile.write('\tmovq\t %%rax, $%s\n' %(label))
 
 
     def visit_If(self, node):
