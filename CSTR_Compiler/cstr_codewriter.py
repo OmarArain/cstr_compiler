@@ -93,7 +93,7 @@ class ASMWriter(NodeVisitor):
             _string = _s.replace('"','').replace('\\','').replace(' ','').replace("'",'')
             # print _string
             str_label = "L"+_string + "_label"
-            print [str_label]
+            #print [str_label]
             # print str_label
             if str_label not in self._unique_labels:
                 self._unique_labels.append(str_label)

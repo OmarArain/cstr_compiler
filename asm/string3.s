@@ -3,13 +3,13 @@
 .text
 .data
 
-_label:
+L_label:
 	 .string	 ""
 	 .zero	 512
-hello_label:
+Lhello_label:
 	 .string	 "hello"
 	 .zero	 512
-world_label:
+Lworld_label:
 	 .string	 "world"
 	 .zero	 512
 global_0:
@@ -40,7 +40,7 @@ sub:
 ### FunctionDef Body, remember to clean stack
 ### Assignment eval expr
 ### Constant push const
-	pushq	 $_label
+	pushq	 $L_label
 ### Assignment mov from stack to reg, assign to var
 	popq	 %rax
 	movq	 %rax, -40(%rbp)
@@ -149,7 +149,7 @@ invert:
 ### Ident, pushing s to stack
 	pushq	 -8(%rbp)
 ### Constant push const
-	pushq	 $_label
+	pushq	 $L_label
 ### perform op, push to stack
 ### copy ### BinaryOp string, push rhs, lhs into reg
 	popq	 %rsi
@@ -163,7 +163,7 @@ invert:
 IF_TRUE_0:
 ### Return, eval expressions
 ### Constant push const
-	pushq	 $_label
+	pushq	 $L_label
 ### Return restore registers
 	movq	 -48(%rbp),%r15
 	movq	 -40(%rbp),%r14
@@ -281,13 +281,13 @@ main:
 ### FunctionDef Body, remember to clean stack
 ### Assignment eval expr
 ### Constant push const
-	pushq	 $hello_label
+	pushq	 $Lhello_label
 ### Assignment mov from stack to reg, assign to var
 	popq	 %rax
 	movq	 %rax, -8(%rbp)
 ### Assignment eval expr
 ### Constant push const
-	pushq	 $world_label
+	pushq	 $Lworld_label
 ### Assignment mov from stack to reg, assign to var
 	popq	 %rax
 	movq	 %rax, -16(%rbp)
