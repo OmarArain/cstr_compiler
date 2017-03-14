@@ -1,6 +1,14 @@
 ### Program preamble
 .file	 "program.c"
 .text
+.data
+
+global_0:
+	 .string	 ""
+	 .zero	 512
+global_1:
+	 .string	 ""
+	 .zero	 512
 ### Function preamble
 .globl	 main
 .type	 main,@function
@@ -42,10 +50,10 @@ main:
 	pushq	 -8(%rbp)
 ### Ident, pushing j to stack
 	pushq	 -16(%rbp)
-### BinaryOp, push rhs, lhs into reg
+### perform op, push to stack
+### BinaryOp int, push rhs, lhs into reg
 	popq	 %rcx
 	popq	 %rax
-### perform op, push to stack
 	cqto
 	idivq	 %rcx, %rax
 	pushq	 %rax
@@ -53,6 +61,7 @@ main:
 	popq	 %rdi
 ### FunctionCall save caller save registers
 ### FunctionCall call function
+	xorq	 %rax, %rax
 	call	 printd
 ### FunctionCall restore caller save registers
 ### FunctionCall handle result
@@ -64,10 +73,10 @@ main:
 	pushq	 $45000
 ### Ident, pushing j to stack
 	pushq	 -16(%rbp)
-### BinaryOp, push rhs, lhs into reg
+### perform op, push to stack
+### BinaryOp int, push rhs, lhs into reg
 	popq	 %rcx
 	popq	 %rax
-### perform op, push to stack
 	cqto
 	idivq	 %rcx, %rax
 	pushq	 %rax
@@ -75,6 +84,7 @@ main:
 	popq	 %rdi
 ### FunctionCall save caller save registers
 ### FunctionCall call function
+	xorq	 %rax, %rax
 	call	 printd
 ### FunctionCall restore caller save registers
 ### FunctionCall handle result
@@ -86,10 +96,10 @@ main:
 	pushq	 -8(%rbp)
 ### Constant push const
 	pushq	 $123
-### BinaryOp, push rhs, lhs into reg
+### perform op, push to stack
+### BinaryOp int, push rhs, lhs into reg
 	popq	 %rcx
 	popq	 %rax
-### perform op, push to stack
 	cqto
 	idivq	 %rcx, %rax
 	pushq	 %rax
@@ -97,6 +107,7 @@ main:
 	popq	 %rdi
 ### FunctionCall save caller save registers
 ### FunctionCall call function
+	xorq	 %rax, %rax
 	call	 printd
 ### FunctionCall restore caller save registers
 ### FunctionCall handle result
@@ -108,10 +119,10 @@ main:
 	pushq	 $45000
 ### Constant push const
 	pushq	 $123
-### BinaryOp, push rhs, lhs into reg
+### perform op, push to stack
+### BinaryOp int, push rhs, lhs into reg
 	popq	 %rcx
 	popq	 %rax
-### perform op, push to stack
 	cqto
 	idivq	 %rcx, %rax
 	pushq	 %rax
@@ -119,6 +130,7 @@ main:
 	popq	 %rdi
 ### FunctionCall save caller save registers
 ### FunctionCall call function
+	xorq	 %rax, %rax
 	call	 printd
 ### FunctionCall restore caller save registers
 ### FunctionCall handle result
@@ -133,16 +145,16 @@ main:
 	pushq	 -16(%rbp)
 ### Constant push const
 	pushq	 $0
-### BinaryOp, push rhs, lhs into reg
+### perform op, push to stack
+### BinaryOp int, push rhs, lhs into reg
 	popq	 %rcx
 	popq	 %rax
-### perform op, push to stack
 	addq	 %rcx, %rax
 	pushq	 %rax
-### BinaryOp, push rhs, lhs into reg
+### perform op, push to stack
+### BinaryOp int, push rhs, lhs into reg
 	popq	 %rcx
 	popq	 %rax
-### perform op, push to stack
 	cqto
 	idivq	 %rcx, %rax
 	pushq	 %rax
@@ -150,6 +162,7 @@ main:
 	popq	 %rdi
 ### FunctionCall save caller save registers
 ### FunctionCall call function
+	xorq	 %rax, %rax
 	call	 printd
 ### FunctionCall restore caller save registers
 ### FunctionCall handle result
@@ -162,18 +175,18 @@ main:
 	pushq	 -8(%rbp)
 ### Constant push const
 	pushq	 $0
-### BinaryOp, push rhs, lhs into reg
+### perform op, push to stack
+### BinaryOp int, push rhs, lhs into reg
 	popq	 %rcx
 	popq	 %rax
-### perform op, push to stack
 	addq	 %rcx, %rax
 	pushq	 %rax
 ### Ident, pushing j to stack
 	pushq	 -16(%rbp)
-### BinaryOp, push rhs, lhs into reg
+### perform op, push to stack
+### BinaryOp int, push rhs, lhs into reg
 	popq	 %rcx
 	popq	 %rax
-### perform op, push to stack
 	cqto
 	idivq	 %rcx, %rax
 	pushq	 %rax
@@ -181,6 +194,7 @@ main:
 	popq	 %rdi
 ### FunctionCall save caller save registers
 ### FunctionCall call function
+	xorq	 %rax, %rax
 	call	 printd
 ### FunctionCall restore caller save registers
 ### FunctionCall handle result
@@ -193,10 +207,10 @@ main:
 	pushq	 -8(%rbp)
 ### Constant push const
 	pushq	 $0
-### BinaryOp, push rhs, lhs into reg
+### perform op, push to stack
+### BinaryOp int, push rhs, lhs into reg
 	popq	 %rcx
 	popq	 %rax
-### perform op, push to stack
 	addq	 %rcx, %rax
 	pushq	 %rax
 ### BinaryOp, eval lhs, then rhs
@@ -204,16 +218,16 @@ main:
 	pushq	 -16(%rbp)
 ### Constant push const
 	pushq	 $0
-### BinaryOp, push rhs, lhs into reg
+### perform op, push to stack
+### BinaryOp int, push rhs, lhs into reg
 	popq	 %rcx
 	popq	 %rax
-### perform op, push to stack
 	addq	 %rcx, %rax
 	pushq	 %rax
-### BinaryOp, push rhs, lhs into reg
+### perform op, push to stack
+### BinaryOp int, push rhs, lhs into reg
 	popq	 %rcx
 	popq	 %rax
-### perform op, push to stack
 	cqto
 	idivq	 %rcx, %rax
 	pushq	 %rax
@@ -221,6 +235,7 @@ main:
 	popq	 %rdi
 ### FunctionCall save caller save registers
 ### FunctionCall call function
+	xorq	 %rax, %rax
 	call	 printd
 ### FunctionCall restore caller save registers
 ### FunctionCall handle result
@@ -233,18 +248,18 @@ main:
 	pushq	 -8(%rbp)
 ### Constant push const
 	pushq	 $0
-### BinaryOp, push rhs, lhs into reg
+### perform op, push to stack
+### BinaryOp int, push rhs, lhs into reg
 	popq	 %rcx
 	popq	 %rax
-### perform op, push to stack
 	addq	 %rcx, %rax
 	pushq	 %rax
 ### Constant push const
 	pushq	 $123
-### BinaryOp, push rhs, lhs into reg
+### perform op, push to stack
+### BinaryOp int, push rhs, lhs into reg
 	popq	 %rcx
 	popq	 %rax
-### perform op, push to stack
 	cqto
 	idivq	 %rcx, %rax
 	pushq	 %rax
@@ -252,6 +267,7 @@ main:
 	popq	 %rdi
 ### FunctionCall save caller save registers
 ### FunctionCall call function
+	xorq	 %rax, %rax
 	call	 printd
 ### FunctionCall restore caller save registers
 ### FunctionCall handle result
@@ -266,16 +282,16 @@ main:
 	pushq	 -16(%rbp)
 ### Constant push const
 	pushq	 $0
-### BinaryOp, push rhs, lhs into reg
+### perform op, push to stack
+### BinaryOp int, push rhs, lhs into reg
 	popq	 %rcx
 	popq	 %rax
-### perform op, push to stack
 	addq	 %rcx, %rax
 	pushq	 %rax
-### BinaryOp, push rhs, lhs into reg
+### perform op, push to stack
+### BinaryOp int, push rhs, lhs into reg
 	popq	 %rcx
 	popq	 %rax
-### perform op, push to stack
 	cqto
 	idivq	 %rcx, %rax
 	pushq	 %rax
@@ -283,6 +299,7 @@ main:
 	popq	 %rdi
 ### FunctionCall save caller save registers
 ### FunctionCall call function
+	xorq	 %rax, %rax
 	call	 printd
 ### FunctionCall restore caller save registers
 ### FunctionCall handle result

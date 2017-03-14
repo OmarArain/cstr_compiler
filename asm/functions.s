@@ -1,6 +1,14 @@
 ### Program preamble
 .file	 "program.c"
 .text
+.data
+
+global_0:
+	 .string	 ""
+	 .zero	 512
+global_1:
+	 .string	 ""
+	 .zero	 512
 ### Function preamble
 .globl	 fact
 .type	 fact,@function
@@ -25,10 +33,10 @@ fact:
 	pushq	 -8(%rbp)
 ### Constant push const
 	pushq	 $1
-### BinaryOp, push rhs, lhs into reg
+### perform op, push to stack
+### BinaryOp int, push rhs, lhs into reg
 	popq	 %rcx
 	popq	 %rax
-### perform op, push to stack
 	cmpq	 %rcx, %rax
 	pushq	 %rax
 	jle	IF_TRUE_0
@@ -60,24 +68,25 @@ IF_FALSE_0:
 	pushq	 -8(%rbp)
 ### Constant push const
 	pushq	 $1
-### BinaryOp, push rhs, lhs into reg
+### perform op, push to stack
+### BinaryOp int, push rhs, lhs into reg
 	popq	 %rcx
 	popq	 %rax
-### perform op, push to stack
 	subq	 %rcx, %rax
 	pushq	 %rax
 ### FunctionCall pop args into param_registers, r to l
 	popq	 %rdi
 ### FunctionCall save caller save registers
 ### FunctionCall call function
+	xorq	 %rax, %rax
 	call	 fact
 ### FunctionCall restore caller save registers
 ### FunctionCall handle result
 	pushq	 %rax
-### BinaryOp, push rhs, lhs into reg
+### perform op, push to stack
+### BinaryOp int, push rhs, lhs into reg
 	popq	 %rcx
 	popq	 %rax
-### perform op, push to stack
 	imulq	 %rcx, %rax
 	pushq	 %rax
 ### Return restore registers
@@ -118,6 +127,7 @@ main:
 	popq	 %rdi
 ### FunctionCall save caller save registers
 ### FunctionCall call function
+	xorq	 %rax, %rax
 	call	 fact
 ### FunctionCall restore caller save registers
 ### FunctionCall handle result
@@ -126,6 +136,7 @@ main:
 	popq	 %rdi
 ### FunctionCall save caller save registers
 ### FunctionCall call function
+	xorq	 %rax, %rax
 	call	 printd
 ### FunctionCall restore caller save registers
 ### FunctionCall handle result

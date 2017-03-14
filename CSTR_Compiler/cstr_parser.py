@@ -88,7 +88,7 @@ class CSTR_Parser:
         #                      param_list=symrec_plist, param_types=symrec_ptypes)
         # self.symbol_table.add_symbol(name=funcname, symbol_record=funcrec)
         nlcls = self.current_num_locals
-        p[0] = FunctionDef(funcdecl=funcdecl, statements=statements, numlcls=nlcls)
+        p[0] = FunctionDef(funcdecl=funcdecl, statements=statements, numlcls=nlcls, _type=_type)
         self.current_num_locals = 0
         # self.logger.debug(p[0].statements)
         # self.logger.debug(p[0].statements.statements)
@@ -366,7 +366,7 @@ class CSTR_Parser:
         """
         ## condition is essentially a binary op that should
         ## evaulate to 0 or 1
-        p[0] = BinaryOp(operator=p[2], lhs=p[1], rhs=p[3])
+        p[0] = BinaryOp(operator=p[2], lhs=p[1], rhs=p[3], _type=p[1]._type)
 
     def p_comparison_operator_1(self, p):
         """
@@ -388,7 +388,7 @@ class CSTR_Parser:
         expression : expression SHIFTLEFT expression_additive
                    | expression SHIFTRIGHT expression_additive
         """
-        p[0] = BinaryOp(operator=p[2], lhs=p[1], rhs=p[3])
+        p[0] = BinaryOp(operator=p[2], lhs=p[1], rhs=p[3], _type=p[1]._type)
 
     def p_expression_additive_1(self, p):
         """
@@ -401,7 +401,7 @@ class CSTR_Parser:
         expression_additive : expression_additive ADD expression_multiplicative
                             | expression_additive SUBTRACT expression_multiplicative
         """
-        p[0] = BinaryOp(operator=p[2], lhs=p[1], rhs=p[3])
+        p[0] = BinaryOp(operator=p[2], lhs=p[1], rhs=p[3], _type=p[1]._type)
 
     def p_expression_multiplicative_1(self, p):
         'expression_multiplicative : unary_expression'
@@ -413,7 +413,7 @@ class CSTR_Parser:
                                   | expression_multiplicative DIVIDE unary_expression
                                   | expression_multiplicative MODULO unary_expression
         """
-        p[0] = BinaryOp(operator=p[2], lhs=p[1], rhs=p[3])
+        p[0] = BinaryOp(operator=p[2], lhs=p[1], rhs=p[3], _type=p[1]._type)
 
     def p_unary_expression_1(self, p):
         'unary_expression : postfix_expression'
@@ -429,12 +429,16 @@ class CSTR_Parser:
 
     def p_postfix_expression_2(self, p):
         'postfix_expression : IDENT LPARENS argument_expression_list RPARENS'
-        p[0] = FunctionCall(name=p[1], args=p[3])
+        funcrec = self.symbol_table.lookup_symbol(p[1])
+        _type = funcrec.type
+        p[0] = FunctionCall(name=p[1], args=p[3], _type=_type)
 
     def p_postfix_expression_3(self, p):
         'postfix_expression : IDENT LPARENS RPARENS'
         ##function call
-        p[0] = FunctionCall(name=p[1], args=[])
+        funcrec = self.symbol_table.lookup_symbol(p[1])
+        _type = funcrec.type
+        p[0] = FunctionCall(name=p[1], args=[], _type=_type)
         
 
     def p_argument_expression_list_1(self, p):

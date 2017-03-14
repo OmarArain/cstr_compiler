@@ -43,8 +43,10 @@ My code currently fails on the following:
 - compteur.c
 - erato
 - opti.c
-- string.c
 - string2.c
+
+My code segfaults on the following:
+- string.c
 - string3.c
 
 

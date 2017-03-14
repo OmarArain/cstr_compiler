@@ -50,9 +50,10 @@ main:
 ### Assignment eval expr
 ### Constant push const
 	pushq	 $bye_label
-### Assignment mov from stack to reg, assign to var
+### Assignment global
 	popq	 %rax
-	movq	 %rax, 8(%rbp)
+	movq	 $global_1, %rcx
+	movq	 %rax, (%rcx)
 ### FunctionCall preamble
 ### FunctionCall evaluate args left to right, push onto stack
 ### Constant push const
@@ -73,11 +74,12 @@ main:
 	pushq	 $hello_label
 ### Constant push const
 	pushq	 $worldn_label
-### BinaryOp, push rhs, lhs into reg
-	popq	 %rcx
-	popq	 %rax
 ### perform op, push to stack
-	addq	 %rcx, %rax
+### copy ### BinaryOp string, push rhs, lhs into reg
+	popq	 %rsi
+	popq	 %rdi
+	xorq	 %rax, %rax
+	call	 strcat
 	pushq	 %rax
 ### FunctionCall pop args into param_registers, r to l
 	popq	 %rdi
@@ -95,11 +97,12 @@ main:
 	pushq	 -8(%rbp)
 ### Constant push const
 	pushq	 $worldn_label
-### BinaryOp, push rhs, lhs into reg
-	popq	 %rcx
-	popq	 %rax
 ### perform op, push to stack
-	addq	 %rcx, %rax
+### copy ### BinaryOp string, push rhs, lhs into reg
+	popq	 %rsi
+	popq	 %rdi
+	xorq	 %rax, %rax
+	call	 strcat
 	pushq	 %rax
 ### FunctionCall pop args into param_registers, r to l
 	popq	 %rdi
@@ -117,11 +120,12 @@ main:
 	pushq	 $hello_label
 ### Ident, pushing t to stack
 	pushq	 -16(%rbp)
-### BinaryOp, push rhs, lhs into reg
-	popq	 %rcx
-	popq	 %rax
 ### perform op, push to stack
-	addq	 %rcx, %rax
+### copy ### BinaryOp string, push rhs, lhs into reg
+	popq	 %rsi
+	popq	 %rdi
+	xorq	 %rax, %rax
+	call	 strcat
 	pushq	 %rax
 ### FunctionCall pop args into param_registers, r to l
 	popq	 %rdi
@@ -139,11 +143,12 @@ main:
 	pushq	 -8(%rbp)
 ### Ident, pushing t to stack
 	pushq	 -16(%rbp)
-### BinaryOp, push rhs, lhs into reg
-	popq	 %rcx
-	popq	 %rax
 ### perform op, push to stack
-	addq	 %rcx, %rax
+### copy ### BinaryOp string, push rhs, lhs into reg
+	popq	 %rsi
+	popq	 %rdi
+	xorq	 %rax, %rax
+	call	 strcat
 	pushq	 %rax
 ### FunctionCall pop args into param_registers, r to l
 	popq	 %rdi
@@ -160,21 +165,23 @@ main:
 ### BinaryOp, eval lhs, then rhs
 ### Ident, pushing s to stack
 	pushq	 -8(%rbp)
-### Ident, pushing u to stack
-	pushq	 8(%rbp)
-### BinaryOp, push rhs, lhs into reg
-	popq	 %rcx
-	popq	 %rax
+### Ident, pushing global u to stack
+	pushq	 $global_1
 ### perform op, push to stack
-	addq	 %rcx, %rax
+### copy ### BinaryOp string, push rhs, lhs into reg
+	popq	 %rsi
+	popq	 %rdi
+	xorq	 %rax, %rax
+	call	 strcat
 	pushq	 %rax
 ### Ident, pushing t to stack
 	pushq	 -16(%rbp)
-### BinaryOp, push rhs, lhs into reg
-	popq	 %rcx
-	popq	 %rax
 ### perform op, push to stack
-	addq	 %rcx, %rax
+### copy ### BinaryOp string, push rhs, lhs into reg
+	popq	 %rsi
+	popq	 %rdi
+	xorq	 %rax, %rax
+	call	 strcat
 	pushq	 %rax
 ### FunctionCall pop args into param_registers, r to l
 	popq	 %rdi
@@ -191,21 +198,23 @@ main:
 ### Ident, pushing s to stack
 	pushq	 -8(%rbp)
 ### BinaryOp, eval lhs, then rhs
-### Ident, pushing u to stack
-	pushq	 8(%rbp)
+### Ident, pushing global u to stack
+	pushq	 $global_1
 ### Ident, pushing t to stack
 	pushq	 -16(%rbp)
-### BinaryOp, push rhs, lhs into reg
-	popq	 %rcx
-	popq	 %rax
 ### perform op, push to stack
-	addq	 %rcx, %rax
+### copy ### BinaryOp string, push rhs, lhs into reg
+	popq	 %rsi
+	popq	 %rdi
+	xorq	 %rax, %rax
+	call	 strcat
 	pushq	 %rax
-### BinaryOp, push rhs, lhs into reg
-	popq	 %rcx
-	popq	 %rax
 ### perform op, push to stack
-	addq	 %rcx, %rax
+### copy ### BinaryOp string, push rhs, lhs into reg
+	popq	 %rsi
+	popq	 %rdi
+	xorq	 %rax, %rax
+	call	 strcat
 	pushq	 %rax
 ### FunctionCall pop args into param_registers, r to l
 	popq	 %rdi
@@ -224,28 +233,31 @@ main:
 	pushq	 -8(%rbp)
 ### Ident, pushing s to stack
 	pushq	 -8(%rbp)
-### BinaryOp, push rhs, lhs into reg
-	popq	 %rcx
-	popq	 %rax
 ### perform op, push to stack
-	addq	 %rcx, %rax
+### copy ### BinaryOp string, push rhs, lhs into reg
+	popq	 %rsi
+	popq	 %rdi
+	xorq	 %rax, %rax
+	call	 strcat
 	pushq	 %rax
 ### BinaryOp, eval lhs, then rhs
 ### Ident, pushing t to stack
 	pushq	 -16(%rbp)
 ### Ident, pushing t to stack
 	pushq	 -16(%rbp)
-### BinaryOp, push rhs, lhs into reg
-	popq	 %rcx
-	popq	 %rax
 ### perform op, push to stack
-	addq	 %rcx, %rax
+### copy ### BinaryOp string, push rhs, lhs into reg
+	popq	 %rsi
+	popq	 %rdi
+	xorq	 %rax, %rax
+	call	 strcat
 	pushq	 %rax
-### BinaryOp, push rhs, lhs into reg
-	popq	 %rcx
-	popq	 %rax
 ### perform op, push to stack
-	addq	 %rcx, %rax
+### copy ### BinaryOp string, push rhs, lhs into reg
+	popq	 %rsi
+	popq	 %rdi
+	xorq	 %rax, %rax
+	call	 strcat
 	pushq	 %rax
 ### FunctionCall pop args into param_registers, r to l
 	popq	 %rdi
@@ -262,21 +274,23 @@ main:
 ### BinaryOp, eval lhs, then rhs
 ### Ident, pushing s to stack
 	pushq	 -8(%rbp)
-### Ident, pushing u to stack
-	pushq	 8(%rbp)
-### BinaryOp, push rhs, lhs into reg
-	popq	 %rcx
-	popq	 %rax
+### Ident, pushing global u to stack
+	pushq	 $global_1
 ### perform op, push to stack
-	addq	 %rcx, %rax
+### copy ### BinaryOp string, push rhs, lhs into reg
+	popq	 %rsi
+	popq	 %rdi
+	xorq	 %rax, %rax
+	call	 strcat
 	pushq	 %rax
 ### Ident, pushing t to stack
 	pushq	 -16(%rbp)
-### BinaryOp, push rhs, lhs into reg
-	popq	 %rcx
-	popq	 %rax
 ### perform op, push to stack
-	addq	 %rcx, %rax
+### copy ### BinaryOp string, push rhs, lhs into reg
+	popq	 %rsi
+	popq	 %rdi
+	xorq	 %rax, %rax
+	call	 strcat
 	pushq	 %rax
 ### FunctionCall pop args into param_registers, r to l
 	popq	 %rdi

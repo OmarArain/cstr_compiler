@@ -90,17 +90,18 @@ class ASMWriter(NodeVisitor):
 
         self.outfile.write('.data\n\n')
         for _s in string_consts:
-            _string = _s.replace('"','').replace('\\','').replace(' ','')
+            _string = _s.replace('"','').replace('\\','').replace(' ','').replace("'",'')
             # print _string
-            str_label = _string + "_label"
+            str_label = "L"+_string + "_label"
+            print [str_label]
             # print str_label
             if str_label not in self._unique_labels:
                 self._unique_labels.append(str_label)
                 self.outfile.write("%s:\n"%(str_label))
-                self.outfile.write('\t .string\t '+ _s+'\n')
+                self.outfile.write('\t .string\t '+ _s.replace("'",'"')+'\n')
                 self.outfile.write('\t .zero\t 512\n')
         for i in range(num_globals+1):
-            print num_globals
+            #print num_globals
             glb_lbl = 'global_' +str(i)  
             self._unique_labels.append(glb_lbl)
             self.outfile.write("%s:\n"%(glb_lbl))
@@ -196,7 +197,7 @@ class ASMWriter(NodeVisitor):
         self.outfile.write("\txorq\t %rax, %rax\n")
         self.outfile.write("\tcall\t %s\n"%(funcname))
 
-
+#####################################CLEAR GLOBAL_0
         self.outfile.write('### FunctionCall restore caller save registers\n')
         ## IGNIRING THIS FOR NOW, I never use r10 and r11
 
@@ -215,7 +216,7 @@ class ASMWriter(NodeVisitor):
         elif _type == 'string':
             ## handle string constant
             ## lookup string label
-            str_label = const.replace('"','').replace('\\','').replace(' ','')+'_label'
+            str_label = "L"+const.replace('"','').replace('\\','').replace(' ','').replace("'",'')+'_label'
             ## push string label onto stack, i think
             self._write_push_const(str_label)
             pass
@@ -271,17 +272,18 @@ class ASMWriter(NodeVisitor):
 
     def visit_BinaryOp(self, node):
         ### WHEN I ADD STRINGSs, NEED TO ADD TYPE TO BINARY AND UNARY OP
-        _type = 'int'
+        
+        _type = node.lhs._type
         op = node.operator
         self.outfile.write('### BinaryOp, eval lhs, then rhs\n')
         super(ASMWriter,self).generic_visit(node)
 
-        self.outfile.write('### BinaryOp, push rhs, lhs into reg\n')
-        self._write_pop('%rcx')
-        self._write_pop('%rax')
 
         self.outfile.write('### perform op, push to stack\n')
-        if _type == 'int' or _type == 'string':
+        if _type == 'int':
+            self.outfile.write('### BinaryOp int, push rhs, lhs into reg\n')
+            self._write_pop('%rcx')
+            self._write_pop('%rax')
             if op == '+':
                 self.outfile.write('\taddq\t %rcx, %rax\n')
             elif op == '-':
@@ -314,6 +316,21 @@ class ASMWriter(NodeVisitor):
                 self.outfile.write('\tcmpq\t %rcx, %rax\n')
             else:
                 pass
+        if _type == 'string':
+            ### always operate on global_0
+            ### first a lhs to global 
+
+            self.outfile.write('### copy ')
+            self.outfile.write('### BinaryOp string, push rhs, lhs into reg\n')
+            self._write_pop('%rsi')
+            self._write_pop('%rdi')
+            self.outfile.write("\txorq\t %rax, %rax\n")
+            ### i.e. 
+            if op == '+':
+                self.outfile.write("\tcall\t strcat\n")
+            if op == '==':
+                self.outfile.write("\tmovq\t $512, %rcx\n")
+                self.outfile.write("\trepe cmpsd\n")
         self.handle_rax()
         pass
 
@@ -332,8 +349,9 @@ class ASMWriter(NodeVisitor):
             label = 'global_' + str(node.lhs.offset*-1)
             self.outfile.write('### Assignment global\n')
             self._write_pop('%rax')
-            self.outfile.write('\tmovq\t %%rax, $%s\n' %(label))
-
+            self.outfile.write("\tmovq\t $%s, %%rcx\n"%(label))
+            self.outfile.write('\tmovq\t %rax, (%rcx)\n')
+####################### CLEAR GLOBAL 0
 
     def visit_If(self, node):
 

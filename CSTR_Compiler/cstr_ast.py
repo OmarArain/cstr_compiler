@@ -159,11 +159,12 @@ class UnaryOp (Node):
     attr_names = ('operator', )
 
 class BinaryOp (Node):
-    __slots__ = ('operator', 'lhs', 'rhs', 'coord', '__weakref__')
-    def __init__(self, operator, lhs, rhs, coord=None):
+    __slots__ = ('operator', 'lhs', 'rhs', '_type', 'coord', '__weakref__')
+    def __init__(self, operator, lhs, rhs, _type, coord=None):
         self.operator = operator
         self.lhs = lhs
         self.rhs = rhs
+        self._type = _type
         self.coord = coord
 
     def children(self):
@@ -172,7 +173,7 @@ class BinaryOp (Node):
         if self.rhs is not None: nodelist.append(("rhs", self.rhs))
         return tuple(nodelist)
 
-    attr_names = ('operator', )
+    attr_names = ('operator', '_type', )
 
 class Return(Node):
     __slots__ = ('expression', 'coord', '__weakref__')
@@ -323,11 +324,12 @@ class IdentDecl (Node):
     attr_names = ('name', '_type', )
 
 class FunctionDef (Node):
-    __slots__ = ('funcdecl', 'statements', 'numlcls', 'coord', '__weakref__')
-    def __init__(self, funcdecl, statements, numlcls, coord=None):
+    __slots__ = ('funcdecl', 'statements', 'numlcls', '_type', 'coord', '__weakref__')
+    def __init__(self, funcdecl, statements, numlcls, _type, coord=None):
         self.funcdecl = funcdecl
         self.statements = statements
         self.numlcls = numlcls
+        self._type = _type
         self.coord = coord
 
     def children(self):
@@ -336,7 +338,7 @@ class FunctionDef (Node):
         if self.statements is not None: nodelist.append(("statements", self.statements))
         return tuple(nodelist)
 
-    attr_names = ('numlcls', )
+    attr_names = ('numlcls', '_type', )
 
 class Program (Node):
     __slots__ = ('declarations', 'num_globals', 'string_constants', 'coord', '__weakref__')
@@ -355,10 +357,11 @@ class Program (Node):
     attr_names = ('num_globals', 'string_constants', )
 
 class FunctionCall (Node):
-    __slots__ = ('name', 'args', 'coord', '__weakref__')
-    def __init__(self, name, args, coord=None):
+    __slots__ = ('name', 'args', '_type', 'coord', '__weakref__')
+    def __init__(self, name, args, _type, coord=None):
         self.name = name
         self.args = args
+        self._type = _type
         self.coord = coord
 
     def children(self):
@@ -366,7 +369,7 @@ class FunctionCall (Node):
         if self.args is not None: nodelist.append(("args", self.args))
         return tuple(nodelist)
 
-    attr_names = ('name', )
+    attr_names = ('name', '_type', )
 
 class DeclList (Node):
     __slots__ = ('declarations', 'coord', '__weakref__')

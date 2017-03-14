@@ -1,6 +1,14 @@
 ### Program preamble
 .file	 "program.c"
 .text
+.data
+
+global_0:
+	 .string	 ""
+	 .zero	 512
+global_1:
+	 .string	 ""
+	 .zero	 512
 ### Function preamble
 .globl	 main
 .type	 main,@function
@@ -37,6 +45,7 @@ main:
 	popq	 %rdi
 ### FunctionCall save caller save registers
 ### FunctionCall call function
+	xorq	 %rax, %rax
 	call	 printd
 ### FunctionCall restore caller save registers
 ### FunctionCall handle result
@@ -54,6 +63,7 @@ main:
 	popq	 %rdi
 ### FunctionCall save caller save registers
 ### FunctionCall call function
+	xorq	 %rax, %rax
 	call	 printd
 ### FunctionCall restore caller save registers
 ### FunctionCall handle result
@@ -66,10 +76,10 @@ main:
 	pushq	 $123
 ### Constant push const
 	pushq	 $0
-### BinaryOp, push rhs, lhs into reg
+### perform op, push to stack
+### BinaryOp int, push rhs, lhs into reg
 	popq	 %rcx
 	popq	 %rax
-### perform op, push to stack
 	addq	 %rcx, %rax
 	pushq	 %rax
 ### UnaryOp, pop to rax, apply operator, push
@@ -80,6 +90,7 @@ main:
 	popq	 %rdi
 ### FunctionCall save caller save registers
 ### FunctionCall call function
+	xorq	 %rax, %rax
 	call	 printd
 ### FunctionCall restore caller save registers
 ### FunctionCall handle result
@@ -92,10 +103,10 @@ main:
 	pushq	 -8(%rbp)
 ### Constant push const
 	pushq	 $0
-### BinaryOp, push rhs, lhs into reg
+### perform op, push to stack
+### BinaryOp int, push rhs, lhs into reg
 	popq	 %rcx
 	popq	 %rax
-### perform op, push to stack
 	addq	 %rcx, %rax
 	pushq	 %rax
 ### UnaryOp, pop to rax, apply operator, push
@@ -106,6 +117,7 @@ main:
 	popq	 %rdi
 ### FunctionCall save caller save registers
 ### FunctionCall call function
+	xorq	 %rax, %rax
 	call	 printd
 ### FunctionCall restore caller save registers
 ### FunctionCall handle result

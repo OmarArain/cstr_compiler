@@ -1,6 +1,14 @@
 ### Program preamble
 .file	 "program.c"
 .text
+.data
+
+global_0:
+	 .string	 ""
+	 .zero	 512
+global_1:
+	 .string	 ""
+	 .zero	 512
 ### Function preamble
 .globl	 main
 .type	 main,@function
@@ -31,10 +39,10 @@ WHILE_LOOP_0:
 	pushq	 -8(%rbp)
 ### Constant push const
 	pushq	 $10
-### BinaryOp, push rhs, lhs into reg
+### perform op, push to stack
+### BinaryOp int, push rhs, lhs into reg
 	popq	 %rcx
 	popq	 %rax
-### perform op, push to stack
 	cmpq	 %rcx, %rax
 	pushq	 %rax
 	jge	END_WHILE_0
@@ -46,6 +54,7 @@ WHILE_LOOP_0:
 	popq	 %rdi
 ### FunctionCall save caller save registers
 ### FunctionCall call function
+	xorq	 %rax, %rax
 	call	 printd
 ### FunctionCall restore caller save registers
 ### FunctionCall handle result
@@ -56,10 +65,10 @@ WHILE_LOOP_0:
 	pushq	 -8(%rbp)
 ### Constant push const
 	pushq	 $2
-### BinaryOp, push rhs, lhs into reg
+### perform op, push to stack
+### BinaryOp int, push rhs, lhs into reg
 	popq	 %rcx
 	popq	 %rax
-### perform op, push to stack
 	addq	 %rcx, %rax
 	pushq	 %rax
 ### Assignment mov from stack to reg, assign to var
@@ -86,10 +95,10 @@ FOR_LOOP_0:
 	pushq	 -8(%rbp)
 ### Constant push const
 	pushq	 $10
-### BinaryOp, push rhs, lhs into reg
+### perform op, push to stack
+### BinaryOp int, push rhs, lhs into reg
 	popq	 %rcx
 	popq	 %rax
-### perform op, push to stack
 	cmpq	 %rcx, %rax
 	pushq	 %rax
 	jg	END_FOR_0
@@ -101,6 +110,7 @@ FOR_LOOP_0:
 	popq	 %rdi
 ### FunctionCall save caller save registers
 ### FunctionCall call function
+	xorq	 %rax, %rax
 	call	 printd
 ### FunctionCall restore caller save registers
 ### FunctionCall handle result
@@ -111,10 +121,10 @@ FOR_LOOP_0:
 	pushq	 -8(%rbp)
 ### Constant push const
 	pushq	 $1
-### BinaryOp, push rhs, lhs into reg
+### perform op, push to stack
+### BinaryOp int, push rhs, lhs into reg
 	popq	 %rcx
 	popq	 %rax
-### perform op, push to stack
 	addq	 %rcx, %rax
 	pushq	 %rax
 ### Assignment mov from stack to reg, assign to var
@@ -137,6 +147,7 @@ DO_WHILE_LOOP_0:
 	popq	 %rdi
 ### FunctionCall save caller save registers
 ### FunctionCall call function
+	xorq	 %rax, %rax
 	call	 printd
 ### FunctionCall restore caller save registers
 ### FunctionCall handle result
@@ -147,10 +158,10 @@ DO_WHILE_LOOP_0:
 	pushq	 -8(%rbp)
 ### Constant push const
 	pushq	 $1
-### BinaryOp, push rhs, lhs into reg
+### perform op, push to stack
+### BinaryOp int, push rhs, lhs into reg
 	popq	 %rcx
 	popq	 %rax
-### perform op, push to stack
 	subq	 %rcx, %rax
 	pushq	 %rax
 ### Assignment mov from stack to reg, assign to var
@@ -167,10 +178,10 @@ DO_WHILE_LOOP_0:
 	popq	 %rax
 	negq	 %rax
 	pushq	 %rax
-### BinaryOp, push rhs, lhs into reg
+### perform op, push to stack
+### BinaryOp int, push rhs, lhs into reg
 	popq	 %rcx
 	popq	 %rax
-### perform op, push to stack
 	cmpq	 %rcx, %rax
 	pushq	 %rax
 	jge	DO_WHILE_LOOP_0

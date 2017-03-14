@@ -1,6 +1,14 @@
 ### Program preamble
 .file	 "program.c"
 .text
+.data
+
+global_0:
+	 .string	 ""
+	 .zero	 512
+global_1:
+	 .string	 ""
+	 .zero	 512
 ### Function preamble
 .globl	 main
 .type	 main,@function
@@ -42,10 +50,10 @@ main:
 	pushq	 -8(%rbp)
 ### Constant push const
 	pushq	 $1
-### BinaryOp, push rhs, lhs into reg
+### perform op, push to stack
+### BinaryOp int, push rhs, lhs into reg
 	popq	 %rcx
 	popq	 %rax
-### perform op, push to stack
 	addq	 %rcx, %rax
 	pushq	 %rax
 ### BinaryOp, eval lhs, then rhs
@@ -53,16 +61,16 @@ main:
 	pushq	 -16(%rbp)
 ### Constant push const
 	pushq	 $0
-### BinaryOp, push rhs, lhs into reg
+### perform op, push to stack
+### BinaryOp int, push rhs, lhs into reg
 	popq	 %rcx
 	popq	 %rax
-### perform op, push to stack
 	addq	 %rcx, %rax
 	pushq	 %rax
-### BinaryOp, push rhs, lhs into reg
+### perform op, push to stack
+### BinaryOp int, push rhs, lhs into reg
 	popq	 %rcx
 	popq	 %rax
-### perform op, push to stack
 	cmpq	 %rcx, %rax
 	pushq	 %rax
 	jl	IF_TRUE_0
@@ -76,6 +84,7 @@ IF_TRUE_0:
 	popq	 %rdi
 ### FunctionCall save caller save registers
 ### FunctionCall call function
+	xorq	 %rax, %rax
 	call	 printd
 ### FunctionCall restore caller save registers
 ### FunctionCall handle result
@@ -89,6 +98,7 @@ IF_FALSE_0:
 	popq	 %rdi
 ### FunctionCall save caller save registers
 ### FunctionCall call function
+	xorq	 %rax, %rax
 	call	 printd
 ### FunctionCall restore caller save registers
 ### FunctionCall handle result
@@ -100,18 +110,18 @@ IF_FALSE_0:
 	pushq	 -8(%rbp)
 ### Constant push const
 	pushq	 $1
-### BinaryOp, push rhs, lhs into reg
+### perform op, push to stack
+### BinaryOp int, push rhs, lhs into reg
 	popq	 %rcx
 	popq	 %rax
-### perform op, push to stack
 	addq	 %rcx, %rax
 	pushq	 %rax
 ### Constant push const
 	pushq	 $123
-### BinaryOp, push rhs, lhs into reg
+### perform op, push to stack
+### BinaryOp int, push rhs, lhs into reg
 	popq	 %rcx
 	popq	 %rax
-### perform op, push to stack
 	cmpq	 %rcx, %rax
 	pushq	 %rax
 	jl	IF_TRUE_1
@@ -125,6 +135,7 @@ IF_TRUE_1:
 	popq	 %rdi
 ### FunctionCall save caller save registers
 ### FunctionCall call function
+	xorq	 %rax, %rax
 	call	 printd
 ### FunctionCall restore caller save registers
 ### FunctionCall handle result
@@ -138,6 +149,7 @@ IF_FALSE_1:
 	popq	 %rdi
 ### FunctionCall save caller save registers
 ### FunctionCall call function
+	xorq	 %rax, %rax
 	call	 printd
 ### FunctionCall restore caller save registers
 ### FunctionCall handle result
@@ -149,18 +161,18 @@ IF_FALSE_1:
 	pushq	 -8(%rbp)
 ### Constant push const
 	pushq	 $1
-### BinaryOp, push rhs, lhs into reg
+### perform op, push to stack
+### BinaryOp int, push rhs, lhs into reg
 	popq	 %rcx
 	popq	 %rax
-### perform op, push to stack
 	addq	 %rcx, %rax
 	pushq	 %rax
 ### Ident, pushing j to stack
 	pushq	 -16(%rbp)
-### BinaryOp, push rhs, lhs into reg
+### perform op, push to stack
+### BinaryOp int, push rhs, lhs into reg
 	popq	 %rcx
 	popq	 %rax
-### perform op, push to stack
 	cmpq	 %rcx, %rax
 	pushq	 %rax
 	jl	IF_TRUE_2
@@ -174,6 +186,7 @@ IF_TRUE_2:
 	popq	 %rdi
 ### FunctionCall save caller save registers
 ### FunctionCall call function
+	xorq	 %rax, %rax
 	call	 printd
 ### FunctionCall restore caller save registers
 ### FunctionCall handle result
@@ -187,6 +200,7 @@ IF_FALSE_2:
 	popq	 %rdi
 ### FunctionCall save caller save registers
 ### FunctionCall call function
+	xorq	 %rax, %rax
 	call	 printd
 ### FunctionCall restore caller save registers
 ### FunctionCall handle result
@@ -200,16 +214,16 @@ IF_FALSE_2:
 	pushq	 -16(%rbp)
 ### Constant push const
 	pushq	 $0
-### BinaryOp, push rhs, lhs into reg
+### perform op, push to stack
+### BinaryOp int, push rhs, lhs into reg
 	popq	 %rcx
 	popq	 %rax
-### perform op, push to stack
 	addq	 %rcx, %rax
 	pushq	 %rax
-### BinaryOp, push rhs, lhs into reg
+### perform op, push to stack
+### BinaryOp int, push rhs, lhs into reg
 	popq	 %rcx
 	popq	 %rax
-### perform op, push to stack
 	cmpq	 %rcx, %rax
 	pushq	 %rax
 	jl	IF_TRUE_3
@@ -223,6 +237,7 @@ IF_TRUE_3:
 	popq	 %rdi
 ### FunctionCall save caller save registers
 ### FunctionCall call function
+	xorq	 %rax, %rax
 	call	 printd
 ### FunctionCall restore caller save registers
 ### FunctionCall handle result
@@ -236,6 +251,7 @@ IF_FALSE_3:
 	popq	 %rdi
 ### FunctionCall save caller save registers
 ### FunctionCall call function
+	xorq	 %rax, %rax
 	call	 printd
 ### FunctionCall restore caller save registers
 ### FunctionCall handle result
@@ -246,10 +262,10 @@ IF_FALSE_3:
 	pushq	 $45
 ### Constant push const
 	pushq	 $123
-### BinaryOp, push rhs, lhs into reg
+### perform op, push to stack
+### BinaryOp int, push rhs, lhs into reg
 	popq	 %rcx
 	popq	 %rax
-### perform op, push to stack
 	cmpq	 %rcx, %rax
 	pushq	 %rax
 	jl	IF_TRUE_4
@@ -263,6 +279,7 @@ IF_TRUE_4:
 	popq	 %rdi
 ### FunctionCall save caller save registers
 ### FunctionCall call function
+	xorq	 %rax, %rax
 	call	 printd
 ### FunctionCall restore caller save registers
 ### FunctionCall handle result
@@ -276,6 +293,7 @@ IF_FALSE_4:
 	popq	 %rdi
 ### FunctionCall save caller save registers
 ### FunctionCall call function
+	xorq	 %rax, %rax
 	call	 printd
 ### FunctionCall restore caller save registers
 ### FunctionCall handle result
@@ -286,10 +304,10 @@ IF_FALSE_4:
 	pushq	 $45
 ### Ident, pushing j to stack
 	pushq	 -16(%rbp)
-### BinaryOp, push rhs, lhs into reg
+### perform op, push to stack
+### BinaryOp int, push rhs, lhs into reg
 	popq	 %rcx
 	popq	 %rax
-### perform op, push to stack
 	cmpq	 %rcx, %rax
 	pushq	 %rax
 	jl	IF_TRUE_5
@@ -303,6 +321,7 @@ IF_TRUE_5:
 	popq	 %rdi
 ### FunctionCall save caller save registers
 ### FunctionCall call function
+	xorq	 %rax, %rax
 	call	 printd
 ### FunctionCall restore caller save registers
 ### FunctionCall handle result
@@ -316,6 +335,7 @@ IF_FALSE_5:
 	popq	 %rdi
 ### FunctionCall save caller save registers
 ### FunctionCall call function
+	xorq	 %rax, %rax
 	call	 printd
 ### FunctionCall restore caller save registers
 ### FunctionCall handle result
@@ -329,16 +349,16 @@ IF_FALSE_5:
 	pushq	 -16(%rbp)
 ### Constant push const
 	pushq	 $0
-### BinaryOp, push rhs, lhs into reg
+### perform op, push to stack
+### BinaryOp int, push rhs, lhs into reg
 	popq	 %rcx
 	popq	 %rax
-### perform op, push to stack
 	addq	 %rcx, %rax
 	pushq	 %rax
-### BinaryOp, push rhs, lhs into reg
+### perform op, push to stack
+### BinaryOp int, push rhs, lhs into reg
 	popq	 %rcx
 	popq	 %rax
-### perform op, push to stack
 	cmpq	 %rcx, %rax
 	pushq	 %rax
 	jl	IF_TRUE_6
@@ -352,6 +372,7 @@ IF_TRUE_6:
 	popq	 %rdi
 ### FunctionCall save caller save registers
 ### FunctionCall call function
+	xorq	 %rax, %rax
 	call	 printd
 ### FunctionCall restore caller save registers
 ### FunctionCall handle result
@@ -365,6 +386,7 @@ IF_FALSE_6:
 	popq	 %rdi
 ### FunctionCall save caller save registers
 ### FunctionCall call function
+	xorq	 %rax, %rax
 	call	 printd
 ### FunctionCall restore caller save registers
 ### FunctionCall handle result
@@ -375,10 +397,10 @@ IF_FALSE_6:
 	pushq	 -8(%rbp)
 ### Constant push const
 	pushq	 $123
-### BinaryOp, push rhs, lhs into reg
+### perform op, push to stack
+### BinaryOp int, push rhs, lhs into reg
 	popq	 %rcx
 	popq	 %rax
-### perform op, push to stack
 	cmpq	 %rcx, %rax
 	pushq	 %rax
 	jl	IF_TRUE_7
@@ -392,6 +414,7 @@ IF_TRUE_7:
 	popq	 %rdi
 ### FunctionCall save caller save registers
 ### FunctionCall call function
+	xorq	 %rax, %rax
 	call	 printd
 ### FunctionCall restore caller save registers
 ### FunctionCall handle result
@@ -405,6 +428,7 @@ IF_FALSE_7:
 	popq	 %rdi
 ### FunctionCall save caller save registers
 ### FunctionCall call function
+	xorq	 %rax, %rax
 	call	 printd
 ### FunctionCall restore caller save registers
 ### FunctionCall handle result
@@ -415,10 +439,10 @@ IF_FALSE_7:
 	pushq	 -8(%rbp)
 ### Ident, pushing j to stack
 	pushq	 -16(%rbp)
-### BinaryOp, push rhs, lhs into reg
+### perform op, push to stack
+### BinaryOp int, push rhs, lhs into reg
 	popq	 %rcx
 	popq	 %rax
-### perform op, push to stack
 	cmpq	 %rcx, %rax
 	pushq	 %rax
 	jl	IF_TRUE_8
@@ -432,6 +456,7 @@ IF_TRUE_8:
 	popq	 %rdi
 ### FunctionCall save caller save registers
 ### FunctionCall call function
+	xorq	 %rax, %rax
 	call	 printd
 ### FunctionCall restore caller save registers
 ### FunctionCall handle result
@@ -445,6 +470,7 @@ IF_FALSE_8:
 	popq	 %rdi
 ### FunctionCall save caller save registers
 ### FunctionCall call function
+	xorq	 %rax, %rax
 	call	 printd
 ### FunctionCall restore caller save registers
 ### FunctionCall handle result
@@ -456,10 +482,10 @@ IF_FALSE_8:
 	pushq	 -8(%rbp)
 ### Constant push const
 	pushq	 $1
-### BinaryOp, push rhs, lhs into reg
+### perform op, push to stack
+### BinaryOp int, push rhs, lhs into reg
 	popq	 %rcx
 	popq	 %rax
-### perform op, push to stack
 	addq	 %rcx, %rax
 	pushq	 %rax
 ### BinaryOp, eval lhs, then rhs
@@ -467,16 +493,16 @@ IF_FALSE_8:
 	pushq	 -16(%rbp)
 ### Constant push const
 	pushq	 $0
-### BinaryOp, push rhs, lhs into reg
+### perform op, push to stack
+### BinaryOp int, push rhs, lhs into reg
 	popq	 %rcx
 	popq	 %rax
-### perform op, push to stack
 	addq	 %rcx, %rax
 	pushq	 %rax
-### BinaryOp, push rhs, lhs into reg
+### perform op, push to stack
+### BinaryOp int, push rhs, lhs into reg
 	popq	 %rcx
 	popq	 %rax
-### perform op, push to stack
 	cmpq	 %rcx, %rax
 	pushq	 %rax
 	jg	IF_TRUE_9
@@ -490,6 +516,7 @@ IF_TRUE_9:
 	popq	 %rdi
 ### FunctionCall save caller save registers
 ### FunctionCall call function
+	xorq	 %rax, %rax
 	call	 printd
 ### FunctionCall restore caller save registers
 ### FunctionCall handle result
@@ -503,6 +530,7 @@ IF_FALSE_9:
 	popq	 %rdi
 ### FunctionCall save caller save registers
 ### FunctionCall call function
+	xorq	 %rax, %rax
 	call	 printd
 ### FunctionCall restore caller save registers
 ### FunctionCall handle result
@@ -514,18 +542,18 @@ IF_FALSE_9:
 	pushq	 -8(%rbp)
 ### Constant push const
 	pushq	 $1
-### BinaryOp, push rhs, lhs into reg
+### perform op, push to stack
+### BinaryOp int, push rhs, lhs into reg
 	popq	 %rcx
 	popq	 %rax
-### perform op, push to stack
 	addq	 %rcx, %rax
 	pushq	 %rax
 ### Constant push const
 	pushq	 $123
-### BinaryOp, push rhs, lhs into reg
+### perform op, push to stack
+### BinaryOp int, push rhs, lhs into reg
 	popq	 %rcx
 	popq	 %rax
-### perform op, push to stack
 	cmpq	 %rcx, %rax
 	pushq	 %rax
 	jg	IF_TRUE_10
@@ -539,6 +567,7 @@ IF_TRUE_10:
 	popq	 %rdi
 ### FunctionCall save caller save registers
 ### FunctionCall call function
+	xorq	 %rax, %rax
 	call	 printd
 ### FunctionCall restore caller save registers
 ### FunctionCall handle result
@@ -552,6 +581,7 @@ IF_FALSE_10:
 	popq	 %rdi
 ### FunctionCall save caller save registers
 ### FunctionCall call function
+	xorq	 %rax, %rax
 	call	 printd
 ### FunctionCall restore caller save registers
 ### FunctionCall handle result
@@ -563,18 +593,18 @@ IF_FALSE_10:
 	pushq	 -8(%rbp)
 ### Constant push const
 	pushq	 $1
-### BinaryOp, push rhs, lhs into reg
+### perform op, push to stack
+### BinaryOp int, push rhs, lhs into reg
 	popq	 %rcx
 	popq	 %rax
-### perform op, push to stack
 	addq	 %rcx, %rax
 	pushq	 %rax
 ### Ident, pushing j to stack
 	pushq	 -16(%rbp)
-### BinaryOp, push rhs, lhs into reg
+### perform op, push to stack
+### BinaryOp int, push rhs, lhs into reg
 	popq	 %rcx
 	popq	 %rax
-### perform op, push to stack
 	cmpq	 %rcx, %rax
 	pushq	 %rax
 	jg	IF_TRUE_11
@@ -588,6 +618,7 @@ IF_TRUE_11:
 	popq	 %rdi
 ### FunctionCall save caller save registers
 ### FunctionCall call function
+	xorq	 %rax, %rax
 	call	 printd
 ### FunctionCall restore caller save registers
 ### FunctionCall handle result
@@ -601,6 +632,7 @@ IF_FALSE_11:
 	popq	 %rdi
 ### FunctionCall save caller save registers
 ### FunctionCall call function
+	xorq	 %rax, %rax
 	call	 printd
 ### FunctionCall restore caller save registers
 ### FunctionCall handle result
@@ -614,16 +646,16 @@ IF_FALSE_11:
 	pushq	 -16(%rbp)
 ### Constant push const
 	pushq	 $0
-### BinaryOp, push rhs, lhs into reg
+### perform op, push to stack
+### BinaryOp int, push rhs, lhs into reg
 	popq	 %rcx
 	popq	 %rax
-### perform op, push to stack
 	addq	 %rcx, %rax
 	pushq	 %rax
-### BinaryOp, push rhs, lhs into reg
+### perform op, push to stack
+### BinaryOp int, push rhs, lhs into reg
 	popq	 %rcx
 	popq	 %rax
-### perform op, push to stack
 	cmpq	 %rcx, %rax
 	pushq	 %rax
 	jg	IF_TRUE_12
@@ -637,6 +669,7 @@ IF_TRUE_12:
 	popq	 %rdi
 ### FunctionCall save caller save registers
 ### FunctionCall call function
+	xorq	 %rax, %rax
 	call	 printd
 ### FunctionCall restore caller save registers
 ### FunctionCall handle result
@@ -650,6 +683,7 @@ IF_FALSE_12:
 	popq	 %rdi
 ### FunctionCall save caller save registers
 ### FunctionCall call function
+	xorq	 %rax, %rax
 	call	 printd
 ### FunctionCall restore caller save registers
 ### FunctionCall handle result
@@ -660,10 +694,10 @@ IF_FALSE_12:
 	pushq	 $45
 ### Constant push const
 	pushq	 $123
-### BinaryOp, push rhs, lhs into reg
+### perform op, push to stack
+### BinaryOp int, push rhs, lhs into reg
 	popq	 %rcx
 	popq	 %rax
-### perform op, push to stack
 	cmpq	 %rcx, %rax
 	pushq	 %rax
 	jg	IF_TRUE_13
@@ -677,6 +711,7 @@ IF_TRUE_13:
 	popq	 %rdi
 ### FunctionCall save caller save registers
 ### FunctionCall call function
+	xorq	 %rax, %rax
 	call	 printd
 ### FunctionCall restore caller save registers
 ### FunctionCall handle result
@@ -690,6 +725,7 @@ IF_FALSE_13:
 	popq	 %rdi
 ### FunctionCall save caller save registers
 ### FunctionCall call function
+	xorq	 %rax, %rax
 	call	 printd
 ### FunctionCall restore caller save registers
 ### FunctionCall handle result
@@ -700,10 +736,10 @@ IF_FALSE_13:
 	pushq	 $45
 ### Ident, pushing j to stack
 	pushq	 -16(%rbp)
-### BinaryOp, push rhs, lhs into reg
+### perform op, push to stack
+### BinaryOp int, push rhs, lhs into reg
 	popq	 %rcx
 	popq	 %rax
-### perform op, push to stack
 	cmpq	 %rcx, %rax
 	pushq	 %rax
 	jg	IF_TRUE_14
@@ -717,6 +753,7 @@ IF_TRUE_14:
 	popq	 %rdi
 ### FunctionCall save caller save registers
 ### FunctionCall call function
+	xorq	 %rax, %rax
 	call	 printd
 ### FunctionCall restore caller save registers
 ### FunctionCall handle result
@@ -730,6 +767,7 @@ IF_FALSE_14:
 	popq	 %rdi
 ### FunctionCall save caller save registers
 ### FunctionCall call function
+	xorq	 %rax, %rax
 	call	 printd
 ### FunctionCall restore caller save registers
 ### FunctionCall handle result
@@ -743,16 +781,16 @@ IF_FALSE_14:
 	pushq	 -16(%rbp)
 ### Constant push const
 	pushq	 $0
-### BinaryOp, push rhs, lhs into reg
+### perform op, push to stack
+### BinaryOp int, push rhs, lhs into reg
 	popq	 %rcx
 	popq	 %rax
-### perform op, push to stack
 	addq	 %rcx, %rax
 	pushq	 %rax
-### BinaryOp, push rhs, lhs into reg
+### perform op, push to stack
+### BinaryOp int, push rhs, lhs into reg
 	popq	 %rcx
 	popq	 %rax
-### perform op, push to stack
 	cmpq	 %rcx, %rax
 	pushq	 %rax
 	jg	IF_TRUE_15
@@ -766,6 +804,7 @@ IF_TRUE_15:
 	popq	 %rdi
 ### FunctionCall save caller save registers
 ### FunctionCall call function
+	xorq	 %rax, %rax
 	call	 printd
 ### FunctionCall restore caller save registers
 ### FunctionCall handle result
@@ -779,6 +818,7 @@ IF_FALSE_15:
 	popq	 %rdi
 ### FunctionCall save caller save registers
 ### FunctionCall call function
+	xorq	 %rax, %rax
 	call	 printd
 ### FunctionCall restore caller save registers
 ### FunctionCall handle result
@@ -789,10 +829,10 @@ IF_FALSE_15:
 	pushq	 -8(%rbp)
 ### Constant push const
 	pushq	 $123
-### BinaryOp, push rhs, lhs into reg
+### perform op, push to stack
+### BinaryOp int, push rhs, lhs into reg
 	popq	 %rcx
 	popq	 %rax
-### perform op, push to stack
 	cmpq	 %rcx, %rax
 	pushq	 %rax
 	jg	IF_TRUE_16
@@ -806,6 +846,7 @@ IF_TRUE_16:
 	popq	 %rdi
 ### FunctionCall save caller save registers
 ### FunctionCall call function
+	xorq	 %rax, %rax
 	call	 printd
 ### FunctionCall restore caller save registers
 ### FunctionCall handle result
@@ -819,6 +860,7 @@ IF_FALSE_16:
 	popq	 %rdi
 ### FunctionCall save caller save registers
 ### FunctionCall call function
+	xorq	 %rax, %rax
 	call	 printd
 ### FunctionCall restore caller save registers
 ### FunctionCall handle result
@@ -829,10 +871,10 @@ IF_FALSE_16:
 	pushq	 -8(%rbp)
 ### Ident, pushing j to stack
 	pushq	 -16(%rbp)
-### BinaryOp, push rhs, lhs into reg
+### perform op, push to stack
+### BinaryOp int, push rhs, lhs into reg
 	popq	 %rcx
 	popq	 %rax
-### perform op, push to stack
 	cmpq	 %rcx, %rax
 	pushq	 %rax
 	jg	IF_TRUE_17
@@ -846,6 +888,7 @@ IF_TRUE_17:
 	popq	 %rdi
 ### FunctionCall save caller save registers
 ### FunctionCall call function
+	xorq	 %rax, %rax
 	call	 printd
 ### FunctionCall restore caller save registers
 ### FunctionCall handle result
@@ -859,6 +902,7 @@ IF_FALSE_17:
 	popq	 %rdi
 ### FunctionCall save caller save registers
 ### FunctionCall call function
+	xorq	 %rax, %rax
 	call	 printd
 ### FunctionCall restore caller save registers
 ### FunctionCall handle result
@@ -870,10 +914,10 @@ IF_FALSE_17:
 	pushq	 -8(%rbp)
 ### Constant push const
 	pushq	 $1
-### BinaryOp, push rhs, lhs into reg
+### perform op, push to stack
+### BinaryOp int, push rhs, lhs into reg
 	popq	 %rcx
 	popq	 %rax
-### perform op, push to stack
 	addq	 %rcx, %rax
 	pushq	 %rax
 ### BinaryOp, eval lhs, then rhs
@@ -881,16 +925,16 @@ IF_FALSE_17:
 	pushq	 -16(%rbp)
 ### Constant push const
 	pushq	 $0
-### BinaryOp, push rhs, lhs into reg
+### perform op, push to stack
+### BinaryOp int, push rhs, lhs into reg
 	popq	 %rcx
 	popq	 %rax
-### perform op, push to stack
 	addq	 %rcx, %rax
 	pushq	 %rax
-### BinaryOp, push rhs, lhs into reg
+### perform op, push to stack
+### BinaryOp int, push rhs, lhs into reg
 	popq	 %rcx
 	popq	 %rax
-### perform op, push to stack
 	cmpq	 %rcx, %rax
 	pushq	 %rax
 	jge	IF_TRUE_18
@@ -904,6 +948,7 @@ IF_TRUE_18:
 	popq	 %rdi
 ### FunctionCall save caller save registers
 ### FunctionCall call function
+	xorq	 %rax, %rax
 	call	 printd
 ### FunctionCall restore caller save registers
 ### FunctionCall handle result
@@ -917,6 +962,7 @@ IF_FALSE_18:
 	popq	 %rdi
 ### FunctionCall save caller save registers
 ### FunctionCall call function
+	xorq	 %rax, %rax
 	call	 printd
 ### FunctionCall restore caller save registers
 ### FunctionCall handle result
@@ -928,18 +974,18 @@ IF_FALSE_18:
 	pushq	 -8(%rbp)
 ### Constant push const
 	pushq	 $1
-### BinaryOp, push rhs, lhs into reg
+### perform op, push to stack
+### BinaryOp int, push rhs, lhs into reg
 	popq	 %rcx
 	popq	 %rax
-### perform op, push to stack
 	addq	 %rcx, %rax
 	pushq	 %rax
 ### Constant push const
 	pushq	 $123
-### BinaryOp, push rhs, lhs into reg
+### perform op, push to stack
+### BinaryOp int, push rhs, lhs into reg
 	popq	 %rcx
 	popq	 %rax
-### perform op, push to stack
 	cmpq	 %rcx, %rax
 	pushq	 %rax
 	jge	IF_TRUE_19
@@ -953,6 +999,7 @@ IF_TRUE_19:
 	popq	 %rdi
 ### FunctionCall save caller save registers
 ### FunctionCall call function
+	xorq	 %rax, %rax
 	call	 printd
 ### FunctionCall restore caller save registers
 ### FunctionCall handle result
@@ -966,6 +1013,7 @@ IF_FALSE_19:
 	popq	 %rdi
 ### FunctionCall save caller save registers
 ### FunctionCall call function
+	xorq	 %rax, %rax
 	call	 printd
 ### FunctionCall restore caller save registers
 ### FunctionCall handle result
@@ -977,18 +1025,18 @@ IF_FALSE_19:
 	pushq	 -8(%rbp)
 ### Constant push const
 	pushq	 $1
-### BinaryOp, push rhs, lhs into reg
+### perform op, push to stack
+### BinaryOp int, push rhs, lhs into reg
 	popq	 %rcx
 	popq	 %rax
-### perform op, push to stack
 	addq	 %rcx, %rax
 	pushq	 %rax
 ### Ident, pushing j to stack
 	pushq	 -16(%rbp)
-### BinaryOp, push rhs, lhs into reg
+### perform op, push to stack
+### BinaryOp int, push rhs, lhs into reg
 	popq	 %rcx
 	popq	 %rax
-### perform op, push to stack
 	cmpq	 %rcx, %rax
 	pushq	 %rax
 	jge	IF_TRUE_20
@@ -1002,6 +1050,7 @@ IF_TRUE_20:
 	popq	 %rdi
 ### FunctionCall save caller save registers
 ### FunctionCall call function
+	xorq	 %rax, %rax
 	call	 printd
 ### FunctionCall restore caller save registers
 ### FunctionCall handle result
@@ -1015,6 +1064,7 @@ IF_FALSE_20:
 	popq	 %rdi
 ### FunctionCall save caller save registers
 ### FunctionCall call function
+	xorq	 %rax, %rax
 	call	 printd
 ### FunctionCall restore caller save registers
 ### FunctionCall handle result
@@ -1028,16 +1078,16 @@ IF_FALSE_20:
 	pushq	 -16(%rbp)
 ### Constant push const
 	pushq	 $0
-### BinaryOp, push rhs, lhs into reg
+### perform op, push to stack
+### BinaryOp int, push rhs, lhs into reg
 	popq	 %rcx
 	popq	 %rax
-### perform op, push to stack
 	addq	 %rcx, %rax
 	pushq	 %rax
-### BinaryOp, push rhs, lhs into reg
+### perform op, push to stack
+### BinaryOp int, push rhs, lhs into reg
 	popq	 %rcx
 	popq	 %rax
-### perform op, push to stack
 	cmpq	 %rcx, %rax
 	pushq	 %rax
 	jge	IF_TRUE_21
@@ -1051,6 +1101,7 @@ IF_TRUE_21:
 	popq	 %rdi
 ### FunctionCall save caller save registers
 ### FunctionCall call function
+	xorq	 %rax, %rax
 	call	 printd
 ### FunctionCall restore caller save registers
 ### FunctionCall handle result
@@ -1064,6 +1115,7 @@ IF_FALSE_21:
 	popq	 %rdi
 ### FunctionCall save caller save registers
 ### FunctionCall call function
+	xorq	 %rax, %rax
 	call	 printd
 ### FunctionCall restore caller save registers
 ### FunctionCall handle result
@@ -1074,10 +1126,10 @@ IF_FALSE_21:
 	pushq	 $45
 ### Constant push const
 	pushq	 $123
-### BinaryOp, push rhs, lhs into reg
+### perform op, push to stack
+### BinaryOp int, push rhs, lhs into reg
 	popq	 %rcx
 	popq	 %rax
-### perform op, push to stack
 	cmpq	 %rcx, %rax
 	pushq	 %rax
 	jge	IF_TRUE_22
@@ -1091,6 +1143,7 @@ IF_TRUE_22:
 	popq	 %rdi
 ### FunctionCall save caller save registers
 ### FunctionCall call function
+	xorq	 %rax, %rax
 	call	 printd
 ### FunctionCall restore caller save registers
 ### FunctionCall handle result
@@ -1104,6 +1157,7 @@ IF_FALSE_22:
 	popq	 %rdi
 ### FunctionCall save caller save registers
 ### FunctionCall call function
+	xorq	 %rax, %rax
 	call	 printd
 ### FunctionCall restore caller save registers
 ### FunctionCall handle result
@@ -1114,10 +1168,10 @@ IF_FALSE_22:
 	pushq	 $45
 ### Ident, pushing j to stack
 	pushq	 -16(%rbp)
-### BinaryOp, push rhs, lhs into reg
+### perform op, push to stack
+### BinaryOp int, push rhs, lhs into reg
 	popq	 %rcx
 	popq	 %rax
-### perform op, push to stack
 	cmpq	 %rcx, %rax
 	pushq	 %rax
 	jge	IF_TRUE_23
@@ -1131,6 +1185,7 @@ IF_TRUE_23:
 	popq	 %rdi
 ### FunctionCall save caller save registers
 ### FunctionCall call function
+	xorq	 %rax, %rax
 	call	 printd
 ### FunctionCall restore caller save registers
 ### FunctionCall handle result
@@ -1144,6 +1199,7 @@ IF_FALSE_23:
 	popq	 %rdi
 ### FunctionCall save caller save registers
 ### FunctionCall call function
+	xorq	 %rax, %rax
 	call	 printd
 ### FunctionCall restore caller save registers
 ### FunctionCall handle result
@@ -1157,16 +1213,16 @@ IF_FALSE_23:
 	pushq	 -16(%rbp)
 ### Constant push const
 	pushq	 $0
-### BinaryOp, push rhs, lhs into reg
+### perform op, push to stack
+### BinaryOp int, push rhs, lhs into reg
 	popq	 %rcx
 	popq	 %rax
-### perform op, push to stack
 	addq	 %rcx, %rax
 	pushq	 %rax
-### BinaryOp, push rhs, lhs into reg
+### perform op, push to stack
+### BinaryOp int, push rhs, lhs into reg
 	popq	 %rcx
 	popq	 %rax
-### perform op, push to stack
 	cmpq	 %rcx, %rax
 	pushq	 %rax
 	jge	IF_TRUE_24
@@ -1180,6 +1236,7 @@ IF_TRUE_24:
 	popq	 %rdi
 ### FunctionCall save caller save registers
 ### FunctionCall call function
+	xorq	 %rax, %rax
 	call	 printd
 ### FunctionCall restore caller save registers
 ### FunctionCall handle result
@@ -1193,6 +1250,7 @@ IF_FALSE_24:
 	popq	 %rdi
 ### FunctionCall save caller save registers
 ### FunctionCall call function
+	xorq	 %rax, %rax
 	call	 printd
 ### FunctionCall restore caller save registers
 ### FunctionCall handle result
@@ -1203,10 +1261,10 @@ IF_FALSE_24:
 	pushq	 -8(%rbp)
 ### Constant push const
 	pushq	 $123
-### BinaryOp, push rhs, lhs into reg
+### perform op, push to stack
+### BinaryOp int, push rhs, lhs into reg
 	popq	 %rcx
 	popq	 %rax
-### perform op, push to stack
 	cmpq	 %rcx, %rax
 	pushq	 %rax
 	jge	IF_TRUE_25
@@ -1220,6 +1278,7 @@ IF_TRUE_25:
 	popq	 %rdi
 ### FunctionCall save caller save registers
 ### FunctionCall call function
+	xorq	 %rax, %rax
 	call	 printd
 ### FunctionCall restore caller save registers
 ### FunctionCall handle result
@@ -1233,6 +1292,7 @@ IF_FALSE_25:
 	popq	 %rdi
 ### FunctionCall save caller save registers
 ### FunctionCall call function
+	xorq	 %rax, %rax
 	call	 printd
 ### FunctionCall restore caller save registers
 ### FunctionCall handle result
@@ -1243,10 +1303,10 @@ IF_FALSE_25:
 	pushq	 -8(%rbp)
 ### Ident, pushing j to stack
 	pushq	 -16(%rbp)
-### BinaryOp, push rhs, lhs into reg
+### perform op, push to stack
+### BinaryOp int, push rhs, lhs into reg
 	popq	 %rcx
 	popq	 %rax
-### perform op, push to stack
 	cmpq	 %rcx, %rax
 	pushq	 %rax
 	jge	IF_TRUE_26
@@ -1260,6 +1320,7 @@ IF_TRUE_26:
 	popq	 %rdi
 ### FunctionCall save caller save registers
 ### FunctionCall call function
+	xorq	 %rax, %rax
 	call	 printd
 ### FunctionCall restore caller save registers
 ### FunctionCall handle result
@@ -1273,6 +1334,7 @@ IF_FALSE_26:
 	popq	 %rdi
 ### FunctionCall save caller save registers
 ### FunctionCall call function
+	xorq	 %rax, %rax
 	call	 printd
 ### FunctionCall restore caller save registers
 ### FunctionCall handle result
@@ -1284,10 +1346,10 @@ IF_FALSE_26:
 	pushq	 -8(%rbp)
 ### Constant push const
 	pushq	 $1
-### BinaryOp, push rhs, lhs into reg
+### perform op, push to stack
+### BinaryOp int, push rhs, lhs into reg
 	popq	 %rcx
 	popq	 %rax
-### perform op, push to stack
 	addq	 %rcx, %rax
 	pushq	 %rax
 ### BinaryOp, eval lhs, then rhs
@@ -1295,16 +1357,16 @@ IF_FALSE_26:
 	pushq	 -16(%rbp)
 ### Constant push const
 	pushq	 $0
-### BinaryOp, push rhs, lhs into reg
+### perform op, push to stack
+### BinaryOp int, push rhs, lhs into reg
 	popq	 %rcx
 	popq	 %rax
-### perform op, push to stack
 	addq	 %rcx, %rax
 	pushq	 %rax
-### BinaryOp, push rhs, lhs into reg
+### perform op, push to stack
+### BinaryOp int, push rhs, lhs into reg
 	popq	 %rcx
 	popq	 %rax
-### perform op, push to stack
 	cmpq	 %rcx, %rax
 	pushq	 %rax
 	jle	IF_TRUE_27
@@ -1318,6 +1380,7 @@ IF_TRUE_27:
 	popq	 %rdi
 ### FunctionCall save caller save registers
 ### FunctionCall call function
+	xorq	 %rax, %rax
 	call	 printd
 ### FunctionCall restore caller save registers
 ### FunctionCall handle result
@@ -1331,6 +1394,7 @@ IF_FALSE_27:
 	popq	 %rdi
 ### FunctionCall save caller save registers
 ### FunctionCall call function
+	xorq	 %rax, %rax
 	call	 printd
 ### FunctionCall restore caller save registers
 ### FunctionCall handle result
@@ -1342,18 +1406,18 @@ IF_FALSE_27:
 	pushq	 -8(%rbp)
 ### Constant push const
 	pushq	 $1
-### BinaryOp, push rhs, lhs into reg
+### perform op, push to stack
+### BinaryOp int, push rhs, lhs into reg
 	popq	 %rcx
 	popq	 %rax
-### perform op, push to stack
 	addq	 %rcx, %rax
 	pushq	 %rax
 ### Constant push const
 	pushq	 $123
-### BinaryOp, push rhs, lhs into reg
+### perform op, push to stack
+### BinaryOp int, push rhs, lhs into reg
 	popq	 %rcx
 	popq	 %rax
-### perform op, push to stack
 	cmpq	 %rcx, %rax
 	pushq	 %rax
 	jle	IF_TRUE_28
@@ -1367,6 +1431,7 @@ IF_TRUE_28:
 	popq	 %rdi
 ### FunctionCall save caller save registers
 ### FunctionCall call function
+	xorq	 %rax, %rax
 	call	 printd
 ### FunctionCall restore caller save registers
 ### FunctionCall handle result
@@ -1380,6 +1445,7 @@ IF_FALSE_28:
 	popq	 %rdi
 ### FunctionCall save caller save registers
 ### FunctionCall call function
+	xorq	 %rax, %rax
 	call	 printd
 ### FunctionCall restore caller save registers
 ### FunctionCall handle result
@@ -1391,18 +1457,18 @@ IF_FALSE_28:
 	pushq	 -8(%rbp)
 ### Constant push const
 	pushq	 $1
-### BinaryOp, push rhs, lhs into reg
+### perform op, push to stack
+### BinaryOp int, push rhs, lhs into reg
 	popq	 %rcx
 	popq	 %rax
-### perform op, push to stack
 	addq	 %rcx, %rax
 	pushq	 %rax
 ### Ident, pushing j to stack
 	pushq	 -16(%rbp)
-### BinaryOp, push rhs, lhs into reg
+### perform op, push to stack
+### BinaryOp int, push rhs, lhs into reg
 	popq	 %rcx
 	popq	 %rax
-### perform op, push to stack
 	cmpq	 %rcx, %rax
 	pushq	 %rax
 	jle	IF_TRUE_29
@@ -1416,6 +1482,7 @@ IF_TRUE_29:
 	popq	 %rdi
 ### FunctionCall save caller save registers
 ### FunctionCall call function
+	xorq	 %rax, %rax
 	call	 printd
 ### FunctionCall restore caller save registers
 ### FunctionCall handle result
@@ -1429,6 +1496,7 @@ IF_FALSE_29:
 	popq	 %rdi
 ### FunctionCall save caller save registers
 ### FunctionCall call function
+	xorq	 %rax, %rax
 	call	 printd
 ### FunctionCall restore caller save registers
 ### FunctionCall handle result
@@ -1442,16 +1510,16 @@ IF_FALSE_29:
 	pushq	 -16(%rbp)
 ### Constant push const
 	pushq	 $0
-### BinaryOp, push rhs, lhs into reg
+### perform op, push to stack
+### BinaryOp int, push rhs, lhs into reg
 	popq	 %rcx
 	popq	 %rax
-### perform op, push to stack
 	addq	 %rcx, %rax
 	pushq	 %rax
-### BinaryOp, push rhs, lhs into reg
+### perform op, push to stack
+### BinaryOp int, push rhs, lhs into reg
 	popq	 %rcx
 	popq	 %rax
-### perform op, push to stack
 	cmpq	 %rcx, %rax
 	pushq	 %rax
 	jle	IF_TRUE_30
@@ -1465,6 +1533,7 @@ IF_TRUE_30:
 	popq	 %rdi
 ### FunctionCall save caller save registers
 ### FunctionCall call function
+	xorq	 %rax, %rax
 	call	 printd
 ### FunctionCall restore caller save registers
 ### FunctionCall handle result
@@ -1478,6 +1547,7 @@ IF_FALSE_30:
 	popq	 %rdi
 ### FunctionCall save caller save registers
 ### FunctionCall call function
+	xorq	 %rax, %rax
 	call	 printd
 ### FunctionCall restore caller save registers
 ### FunctionCall handle result
@@ -1488,10 +1558,10 @@ IF_FALSE_30:
 	pushq	 $45
 ### Constant push const
 	pushq	 $123
-### BinaryOp, push rhs, lhs into reg
+### perform op, push to stack
+### BinaryOp int, push rhs, lhs into reg
 	popq	 %rcx
 	popq	 %rax
-### perform op, push to stack
 	cmpq	 %rcx, %rax
 	pushq	 %rax
 	jle	IF_TRUE_31
@@ -1505,6 +1575,7 @@ IF_TRUE_31:
 	popq	 %rdi
 ### FunctionCall save caller save registers
 ### FunctionCall call function
+	xorq	 %rax, %rax
 	call	 printd
 ### FunctionCall restore caller save registers
 ### FunctionCall handle result
@@ -1518,6 +1589,7 @@ IF_FALSE_31:
 	popq	 %rdi
 ### FunctionCall save caller save registers
 ### FunctionCall call function
+	xorq	 %rax, %rax
 	call	 printd
 ### FunctionCall restore caller save registers
 ### FunctionCall handle result
@@ -1528,10 +1600,10 @@ IF_FALSE_31:
 	pushq	 $45
 ### Ident, pushing j to stack
 	pushq	 -16(%rbp)
-### BinaryOp, push rhs, lhs into reg
+### perform op, push to stack
+### BinaryOp int, push rhs, lhs into reg
 	popq	 %rcx
 	popq	 %rax
-### perform op, push to stack
 	cmpq	 %rcx, %rax
 	pushq	 %rax
 	jle	IF_TRUE_32
@@ -1545,6 +1617,7 @@ IF_TRUE_32:
 	popq	 %rdi
 ### FunctionCall save caller save registers
 ### FunctionCall call function
+	xorq	 %rax, %rax
 	call	 printd
 ### FunctionCall restore caller save registers
 ### FunctionCall handle result
@@ -1558,6 +1631,7 @@ IF_FALSE_32:
 	popq	 %rdi
 ### FunctionCall save caller save registers
 ### FunctionCall call function
+	xorq	 %rax, %rax
 	call	 printd
 ### FunctionCall restore caller save registers
 ### FunctionCall handle result
@@ -1571,16 +1645,16 @@ IF_FALSE_32:
 	pushq	 -16(%rbp)
 ### Constant push const
 	pushq	 $0
-### BinaryOp, push rhs, lhs into reg
+### perform op, push to stack
+### BinaryOp int, push rhs, lhs into reg
 	popq	 %rcx
 	popq	 %rax
-### perform op, push to stack
 	addq	 %rcx, %rax
 	pushq	 %rax
-### BinaryOp, push rhs, lhs into reg
+### perform op, push to stack
+### BinaryOp int, push rhs, lhs into reg
 	popq	 %rcx
 	popq	 %rax
-### perform op, push to stack
 	cmpq	 %rcx, %rax
 	pushq	 %rax
 	jle	IF_TRUE_33
@@ -1594,6 +1668,7 @@ IF_TRUE_33:
 	popq	 %rdi
 ### FunctionCall save caller save registers
 ### FunctionCall call function
+	xorq	 %rax, %rax
 	call	 printd
 ### FunctionCall restore caller save registers
 ### FunctionCall handle result
@@ -1607,6 +1682,7 @@ IF_FALSE_33:
 	popq	 %rdi
 ### FunctionCall save caller save registers
 ### FunctionCall call function
+	xorq	 %rax, %rax
 	call	 printd
 ### FunctionCall restore caller save registers
 ### FunctionCall handle result
@@ -1617,10 +1693,10 @@ IF_FALSE_33:
 	pushq	 -8(%rbp)
 ### Constant push const
 	pushq	 $123
-### BinaryOp, push rhs, lhs into reg
+### perform op, push to stack
+### BinaryOp int, push rhs, lhs into reg
 	popq	 %rcx
 	popq	 %rax
-### perform op, push to stack
 	cmpq	 %rcx, %rax
 	pushq	 %rax
 	jle	IF_TRUE_34
@@ -1634,6 +1710,7 @@ IF_TRUE_34:
 	popq	 %rdi
 ### FunctionCall save caller save registers
 ### FunctionCall call function
+	xorq	 %rax, %rax
 	call	 printd
 ### FunctionCall restore caller save registers
 ### FunctionCall handle result
@@ -1647,6 +1724,7 @@ IF_FALSE_34:
 	popq	 %rdi
 ### FunctionCall save caller save registers
 ### FunctionCall call function
+	xorq	 %rax, %rax
 	call	 printd
 ### FunctionCall restore caller save registers
 ### FunctionCall handle result
@@ -1657,10 +1735,10 @@ IF_FALSE_34:
 	pushq	 -8(%rbp)
 ### Ident, pushing j to stack
 	pushq	 -16(%rbp)
-### BinaryOp, push rhs, lhs into reg
+### perform op, push to stack
+### BinaryOp int, push rhs, lhs into reg
 	popq	 %rcx
 	popq	 %rax
-### perform op, push to stack
 	cmpq	 %rcx, %rax
 	pushq	 %rax
 	jle	IF_TRUE_35
@@ -1674,6 +1752,7 @@ IF_TRUE_35:
 	popq	 %rdi
 ### FunctionCall save caller save registers
 ### FunctionCall call function
+	xorq	 %rax, %rax
 	call	 printd
 ### FunctionCall restore caller save registers
 ### FunctionCall handle result
@@ -1687,6 +1766,7 @@ IF_FALSE_35:
 	popq	 %rdi
 ### FunctionCall save caller save registers
 ### FunctionCall call function
+	xorq	 %rax, %rax
 	call	 printd
 ### FunctionCall restore caller save registers
 ### FunctionCall handle result
@@ -1698,10 +1778,10 @@ IF_FALSE_35:
 	pushq	 -8(%rbp)
 ### Constant push const
 	pushq	 $1
-### BinaryOp, push rhs, lhs into reg
+### perform op, push to stack
+### BinaryOp int, push rhs, lhs into reg
 	popq	 %rcx
 	popq	 %rax
-### perform op, push to stack
 	addq	 %rcx, %rax
 	pushq	 %rax
 ### BinaryOp, eval lhs, then rhs
@@ -1709,16 +1789,16 @@ IF_FALSE_35:
 	pushq	 -16(%rbp)
 ### Constant push const
 	pushq	 $0
-### BinaryOp, push rhs, lhs into reg
+### perform op, push to stack
+### BinaryOp int, push rhs, lhs into reg
 	popq	 %rcx
 	popq	 %rax
-### perform op, push to stack
 	addq	 %rcx, %rax
 	pushq	 %rax
-### BinaryOp, push rhs, lhs into reg
+### perform op, push to stack
+### BinaryOp int, push rhs, lhs into reg
 	popq	 %rcx
 	popq	 %rax
-### perform op, push to stack
 	cmpq	 %rcx, %rax
 	pushq	 %rax
 	je	IF_TRUE_36
@@ -1732,6 +1812,7 @@ IF_TRUE_36:
 	popq	 %rdi
 ### FunctionCall save caller save registers
 ### FunctionCall call function
+	xorq	 %rax, %rax
 	call	 printd
 ### FunctionCall restore caller save registers
 ### FunctionCall handle result
@@ -1745,6 +1826,7 @@ IF_FALSE_36:
 	popq	 %rdi
 ### FunctionCall save caller save registers
 ### FunctionCall call function
+	xorq	 %rax, %rax
 	call	 printd
 ### FunctionCall restore caller save registers
 ### FunctionCall handle result
@@ -1756,18 +1838,18 @@ IF_FALSE_36:
 	pushq	 -8(%rbp)
 ### Constant push const
 	pushq	 $1
-### BinaryOp, push rhs, lhs into reg
+### perform op, push to stack
+### BinaryOp int, push rhs, lhs into reg
 	popq	 %rcx
 	popq	 %rax
-### perform op, push to stack
 	addq	 %rcx, %rax
 	pushq	 %rax
 ### Constant push const
 	pushq	 $123
-### BinaryOp, push rhs, lhs into reg
+### perform op, push to stack
+### BinaryOp int, push rhs, lhs into reg
 	popq	 %rcx
 	popq	 %rax
-### perform op, push to stack
 	cmpq	 %rcx, %rax
 	pushq	 %rax
 	je	IF_TRUE_37
@@ -1781,6 +1863,7 @@ IF_TRUE_37:
 	popq	 %rdi
 ### FunctionCall save caller save registers
 ### FunctionCall call function
+	xorq	 %rax, %rax
 	call	 printd
 ### FunctionCall restore caller save registers
 ### FunctionCall handle result
@@ -1794,6 +1877,7 @@ IF_FALSE_37:
 	popq	 %rdi
 ### FunctionCall save caller save registers
 ### FunctionCall call function
+	xorq	 %rax, %rax
 	call	 printd
 ### FunctionCall restore caller save registers
 ### FunctionCall handle result
@@ -1805,18 +1889,18 @@ IF_FALSE_37:
 	pushq	 -8(%rbp)
 ### Constant push const
 	pushq	 $1
-### BinaryOp, push rhs, lhs into reg
+### perform op, push to stack
+### BinaryOp int, push rhs, lhs into reg
 	popq	 %rcx
 	popq	 %rax
-### perform op, push to stack
 	addq	 %rcx, %rax
 	pushq	 %rax
 ### Ident, pushing j to stack
 	pushq	 -16(%rbp)
-### BinaryOp, push rhs, lhs into reg
+### perform op, push to stack
+### BinaryOp int, push rhs, lhs into reg
 	popq	 %rcx
 	popq	 %rax
-### perform op, push to stack
 	cmpq	 %rcx, %rax
 	pushq	 %rax
 	je	IF_TRUE_38
@@ -1830,6 +1914,7 @@ IF_TRUE_38:
 	popq	 %rdi
 ### FunctionCall save caller save registers
 ### FunctionCall call function
+	xorq	 %rax, %rax
 	call	 printd
 ### FunctionCall restore caller save registers
 ### FunctionCall handle result
@@ -1843,6 +1928,7 @@ IF_FALSE_38:
 	popq	 %rdi
 ### FunctionCall save caller save registers
 ### FunctionCall call function
+	xorq	 %rax, %rax
 	call	 printd
 ### FunctionCall restore caller save registers
 ### FunctionCall handle result
@@ -1856,16 +1942,16 @@ IF_FALSE_38:
 	pushq	 -16(%rbp)
 ### Constant push const
 	pushq	 $0
-### BinaryOp, push rhs, lhs into reg
+### perform op, push to stack
+### BinaryOp int, push rhs, lhs into reg
 	popq	 %rcx
 	popq	 %rax
-### perform op, push to stack
 	addq	 %rcx, %rax
 	pushq	 %rax
-### BinaryOp, push rhs, lhs into reg
+### perform op, push to stack
+### BinaryOp int, push rhs, lhs into reg
 	popq	 %rcx
 	popq	 %rax
-### perform op, push to stack
 	cmpq	 %rcx, %rax
 	pushq	 %rax
 	je	IF_TRUE_39
@@ -1879,6 +1965,7 @@ IF_TRUE_39:
 	popq	 %rdi
 ### FunctionCall save caller save registers
 ### FunctionCall call function
+	xorq	 %rax, %rax
 	call	 printd
 ### FunctionCall restore caller save registers
 ### FunctionCall handle result
@@ -1892,6 +1979,7 @@ IF_FALSE_39:
 	popq	 %rdi
 ### FunctionCall save caller save registers
 ### FunctionCall call function
+	xorq	 %rax, %rax
 	call	 printd
 ### FunctionCall restore caller save registers
 ### FunctionCall handle result
@@ -1902,10 +1990,10 @@ IF_FALSE_39:
 	pushq	 $45
 ### Constant push const
 	pushq	 $123
-### BinaryOp, push rhs, lhs into reg
+### perform op, push to stack
+### BinaryOp int, push rhs, lhs into reg
 	popq	 %rcx
 	popq	 %rax
-### perform op, push to stack
 	cmpq	 %rcx, %rax
 	pushq	 %rax
 	je	IF_TRUE_40
@@ -1919,6 +2007,7 @@ IF_TRUE_40:
 	popq	 %rdi
 ### FunctionCall save caller save registers
 ### FunctionCall call function
+	xorq	 %rax, %rax
 	call	 printd
 ### FunctionCall restore caller save registers
 ### FunctionCall handle result
@@ -1932,6 +2021,7 @@ IF_FALSE_40:
 	popq	 %rdi
 ### FunctionCall save caller save registers
 ### FunctionCall call function
+	xorq	 %rax, %rax
 	call	 printd
 ### FunctionCall restore caller save registers
 ### FunctionCall handle result
@@ -1942,10 +2032,10 @@ IF_FALSE_40:
 	pushq	 $45
 ### Ident, pushing j to stack
 	pushq	 -16(%rbp)
-### BinaryOp, push rhs, lhs into reg
+### perform op, push to stack
+### BinaryOp int, push rhs, lhs into reg
 	popq	 %rcx
 	popq	 %rax
-### perform op, push to stack
 	cmpq	 %rcx, %rax
 	pushq	 %rax
 	je	IF_TRUE_41
@@ -1959,6 +2049,7 @@ IF_TRUE_41:
 	popq	 %rdi
 ### FunctionCall save caller save registers
 ### FunctionCall call function
+	xorq	 %rax, %rax
 	call	 printd
 ### FunctionCall restore caller save registers
 ### FunctionCall handle result
@@ -1972,6 +2063,7 @@ IF_FALSE_41:
 	popq	 %rdi
 ### FunctionCall save caller save registers
 ### FunctionCall call function
+	xorq	 %rax, %rax
 	call	 printd
 ### FunctionCall restore caller save registers
 ### FunctionCall handle result
@@ -1985,16 +2077,16 @@ IF_FALSE_41:
 	pushq	 -16(%rbp)
 ### Constant push const
 	pushq	 $0
-### BinaryOp, push rhs, lhs into reg
+### perform op, push to stack
+### BinaryOp int, push rhs, lhs into reg
 	popq	 %rcx
 	popq	 %rax
-### perform op, push to stack
 	addq	 %rcx, %rax
 	pushq	 %rax
-### BinaryOp, push rhs, lhs into reg
+### perform op, push to stack
+### BinaryOp int, push rhs, lhs into reg
 	popq	 %rcx
 	popq	 %rax
-### perform op, push to stack
 	cmpq	 %rcx, %rax
 	pushq	 %rax
 	je	IF_TRUE_42
@@ -2008,6 +2100,7 @@ IF_TRUE_42:
 	popq	 %rdi
 ### FunctionCall save caller save registers
 ### FunctionCall call function
+	xorq	 %rax, %rax
 	call	 printd
 ### FunctionCall restore caller save registers
 ### FunctionCall handle result
@@ -2021,6 +2114,7 @@ IF_FALSE_42:
 	popq	 %rdi
 ### FunctionCall save caller save registers
 ### FunctionCall call function
+	xorq	 %rax, %rax
 	call	 printd
 ### FunctionCall restore caller save registers
 ### FunctionCall handle result
@@ -2031,10 +2125,10 @@ IF_FALSE_42:
 	pushq	 -8(%rbp)
 ### Constant push const
 	pushq	 $123
-### BinaryOp, push rhs, lhs into reg
+### perform op, push to stack
+### BinaryOp int, push rhs, lhs into reg
 	popq	 %rcx
 	popq	 %rax
-### perform op, push to stack
 	cmpq	 %rcx, %rax
 	pushq	 %rax
 	je	IF_TRUE_43
@@ -2048,6 +2142,7 @@ IF_TRUE_43:
 	popq	 %rdi
 ### FunctionCall save caller save registers
 ### FunctionCall call function
+	xorq	 %rax, %rax
 	call	 printd
 ### FunctionCall restore caller save registers
 ### FunctionCall handle result
@@ -2061,6 +2156,7 @@ IF_FALSE_43:
 	popq	 %rdi
 ### FunctionCall save caller save registers
 ### FunctionCall call function
+	xorq	 %rax, %rax
 	call	 printd
 ### FunctionCall restore caller save registers
 ### FunctionCall handle result
@@ -2071,10 +2167,10 @@ IF_FALSE_43:
 	pushq	 -8(%rbp)
 ### Ident, pushing j to stack
 	pushq	 -16(%rbp)
-### BinaryOp, push rhs, lhs into reg
+### perform op, push to stack
+### BinaryOp int, push rhs, lhs into reg
 	popq	 %rcx
 	popq	 %rax
-### perform op, push to stack
 	cmpq	 %rcx, %rax
 	pushq	 %rax
 	je	IF_TRUE_44
@@ -2088,6 +2184,7 @@ IF_TRUE_44:
 	popq	 %rdi
 ### FunctionCall save caller save registers
 ### FunctionCall call function
+	xorq	 %rax, %rax
 	call	 printd
 ### FunctionCall restore caller save registers
 ### FunctionCall handle result
@@ -2101,6 +2198,7 @@ IF_FALSE_44:
 	popq	 %rdi
 ### FunctionCall save caller save registers
 ### FunctionCall call function
+	xorq	 %rax, %rax
 	call	 printd
 ### FunctionCall restore caller save registers
 ### FunctionCall handle result
@@ -2112,10 +2210,10 @@ IF_FALSE_44:
 	pushq	 -8(%rbp)
 ### Constant push const
 	pushq	 $1
-### BinaryOp, push rhs, lhs into reg
+### perform op, push to stack
+### BinaryOp int, push rhs, lhs into reg
 	popq	 %rcx
 	popq	 %rax
-### perform op, push to stack
 	addq	 %rcx, %rax
 	pushq	 %rax
 ### BinaryOp, eval lhs, then rhs
@@ -2123,16 +2221,16 @@ IF_FALSE_44:
 	pushq	 -16(%rbp)
 ### Constant push const
 	pushq	 $0
-### BinaryOp, push rhs, lhs into reg
+### perform op, push to stack
+### BinaryOp int, push rhs, lhs into reg
 	popq	 %rcx
 	popq	 %rax
-### perform op, push to stack
 	addq	 %rcx, %rax
 	pushq	 %rax
-### BinaryOp, push rhs, lhs into reg
+### perform op, push to stack
+### BinaryOp int, push rhs, lhs into reg
 	popq	 %rcx
 	popq	 %rax
-### perform op, push to stack
 	cmpq	 %rcx, %rax
 	pushq	 %rax
 	jne	IF_TRUE_45
@@ -2146,6 +2244,7 @@ IF_TRUE_45:
 	popq	 %rdi
 ### FunctionCall save caller save registers
 ### FunctionCall call function
+	xorq	 %rax, %rax
 	call	 printd
 ### FunctionCall restore caller save registers
 ### FunctionCall handle result
@@ -2159,6 +2258,7 @@ IF_FALSE_45:
 	popq	 %rdi
 ### FunctionCall save caller save registers
 ### FunctionCall call function
+	xorq	 %rax, %rax
 	call	 printd
 ### FunctionCall restore caller save registers
 ### FunctionCall handle result
@@ -2170,18 +2270,18 @@ IF_FALSE_45:
 	pushq	 -8(%rbp)
 ### Constant push const
 	pushq	 $1
-### BinaryOp, push rhs, lhs into reg
+### perform op, push to stack
+### BinaryOp int, push rhs, lhs into reg
 	popq	 %rcx
 	popq	 %rax
-### perform op, push to stack
 	addq	 %rcx, %rax
 	pushq	 %rax
 ### Constant push const
 	pushq	 $123
-### BinaryOp, push rhs, lhs into reg
+### perform op, push to stack
+### BinaryOp int, push rhs, lhs into reg
 	popq	 %rcx
 	popq	 %rax
-### perform op, push to stack
 	cmpq	 %rcx, %rax
 	pushq	 %rax
 	jne	IF_TRUE_46
@@ -2195,6 +2295,7 @@ IF_TRUE_46:
 	popq	 %rdi
 ### FunctionCall save caller save registers
 ### FunctionCall call function
+	xorq	 %rax, %rax
 	call	 printd
 ### FunctionCall restore caller save registers
 ### FunctionCall handle result
@@ -2208,6 +2309,7 @@ IF_FALSE_46:
 	popq	 %rdi
 ### FunctionCall save caller save registers
 ### FunctionCall call function
+	xorq	 %rax, %rax
 	call	 printd
 ### FunctionCall restore caller save registers
 ### FunctionCall handle result
@@ -2219,18 +2321,18 @@ IF_FALSE_46:
 	pushq	 -8(%rbp)
 ### Constant push const
 	pushq	 $1
-### BinaryOp, push rhs, lhs into reg
+### perform op, push to stack
+### BinaryOp int, push rhs, lhs into reg
 	popq	 %rcx
 	popq	 %rax
-### perform op, push to stack
 	addq	 %rcx, %rax
 	pushq	 %rax
 ### Ident, pushing j to stack
 	pushq	 -16(%rbp)
-### BinaryOp, push rhs, lhs into reg
+### perform op, push to stack
+### BinaryOp int, push rhs, lhs into reg
 	popq	 %rcx
 	popq	 %rax
-### perform op, push to stack
 	cmpq	 %rcx, %rax
 	pushq	 %rax
 	jne	IF_TRUE_47
@@ -2244,6 +2346,7 @@ IF_TRUE_47:
 	popq	 %rdi
 ### FunctionCall save caller save registers
 ### FunctionCall call function
+	xorq	 %rax, %rax
 	call	 printd
 ### FunctionCall restore caller save registers
 ### FunctionCall handle result
@@ -2257,6 +2360,7 @@ IF_FALSE_47:
 	popq	 %rdi
 ### FunctionCall save caller save registers
 ### FunctionCall call function
+	xorq	 %rax, %rax
 	call	 printd
 ### FunctionCall restore caller save registers
 ### FunctionCall handle result
@@ -2270,16 +2374,16 @@ IF_FALSE_47:
 	pushq	 -16(%rbp)
 ### Constant push const
 	pushq	 $0
-### BinaryOp, push rhs, lhs into reg
+### perform op, push to stack
+### BinaryOp int, push rhs, lhs into reg
 	popq	 %rcx
 	popq	 %rax
-### perform op, push to stack
 	addq	 %rcx, %rax
 	pushq	 %rax
-### BinaryOp, push rhs, lhs into reg
+### perform op, push to stack
+### BinaryOp int, push rhs, lhs into reg
 	popq	 %rcx
 	popq	 %rax
-### perform op, push to stack
 	cmpq	 %rcx, %rax
 	pushq	 %rax
 	jne	IF_TRUE_48
@@ -2293,6 +2397,7 @@ IF_TRUE_48:
 	popq	 %rdi
 ### FunctionCall save caller save registers
 ### FunctionCall call function
+	xorq	 %rax, %rax
 	call	 printd
 ### FunctionCall restore caller save registers
 ### FunctionCall handle result
@@ -2306,6 +2411,7 @@ IF_FALSE_48:
 	popq	 %rdi
 ### FunctionCall save caller save registers
 ### FunctionCall call function
+	xorq	 %rax, %rax
 	call	 printd
 ### FunctionCall restore caller save registers
 ### FunctionCall handle result
@@ -2316,10 +2422,10 @@ IF_FALSE_48:
 	pushq	 $45
 ### Constant push const
 	pushq	 $123
-### BinaryOp, push rhs, lhs into reg
+### perform op, push to stack
+### BinaryOp int, push rhs, lhs into reg
 	popq	 %rcx
 	popq	 %rax
-### perform op, push to stack
 	cmpq	 %rcx, %rax
 	pushq	 %rax
 	jne	IF_TRUE_49
@@ -2333,6 +2439,7 @@ IF_TRUE_49:
 	popq	 %rdi
 ### FunctionCall save caller save registers
 ### FunctionCall call function
+	xorq	 %rax, %rax
 	call	 printd
 ### FunctionCall restore caller save registers
 ### FunctionCall handle result
@@ -2346,6 +2453,7 @@ IF_FALSE_49:
 	popq	 %rdi
 ### FunctionCall save caller save registers
 ### FunctionCall call function
+	xorq	 %rax, %rax
 	call	 printd
 ### FunctionCall restore caller save registers
 ### FunctionCall handle result
@@ -2356,10 +2464,10 @@ IF_FALSE_49:
 	pushq	 $45
 ### Ident, pushing j to stack
 	pushq	 -16(%rbp)
-### BinaryOp, push rhs, lhs into reg
+### perform op, push to stack
+### BinaryOp int, push rhs, lhs into reg
 	popq	 %rcx
 	popq	 %rax
-### perform op, push to stack
 	cmpq	 %rcx, %rax
 	pushq	 %rax
 	jne	IF_TRUE_50
@@ -2373,6 +2481,7 @@ IF_TRUE_50:
 	popq	 %rdi
 ### FunctionCall save caller save registers
 ### FunctionCall call function
+	xorq	 %rax, %rax
 	call	 printd
 ### FunctionCall restore caller save registers
 ### FunctionCall handle result
@@ -2386,6 +2495,7 @@ IF_FALSE_50:
 	popq	 %rdi
 ### FunctionCall save caller save registers
 ### FunctionCall call function
+	xorq	 %rax, %rax
 	call	 printd
 ### FunctionCall restore caller save registers
 ### FunctionCall handle result
@@ -2399,16 +2509,16 @@ IF_FALSE_50:
 	pushq	 -16(%rbp)
 ### Constant push const
 	pushq	 $0
-### BinaryOp, push rhs, lhs into reg
+### perform op, push to stack
+### BinaryOp int, push rhs, lhs into reg
 	popq	 %rcx
 	popq	 %rax
-### perform op, push to stack
 	addq	 %rcx, %rax
 	pushq	 %rax
-### BinaryOp, push rhs, lhs into reg
+### perform op, push to stack
+### BinaryOp int, push rhs, lhs into reg
 	popq	 %rcx
 	popq	 %rax
-### perform op, push to stack
 	cmpq	 %rcx, %rax
 	pushq	 %rax
 	jne	IF_TRUE_51
@@ -2422,6 +2532,7 @@ IF_TRUE_51:
 	popq	 %rdi
 ### FunctionCall save caller save registers
 ### FunctionCall call function
+	xorq	 %rax, %rax
 	call	 printd
 ### FunctionCall restore caller save registers
 ### FunctionCall handle result
@@ -2435,6 +2546,7 @@ IF_FALSE_51:
 	popq	 %rdi
 ### FunctionCall save caller save registers
 ### FunctionCall call function
+	xorq	 %rax, %rax
 	call	 printd
 ### FunctionCall restore caller save registers
 ### FunctionCall handle result
@@ -2445,10 +2557,10 @@ IF_FALSE_51:
 	pushq	 -8(%rbp)
 ### Constant push const
 	pushq	 $123
-### BinaryOp, push rhs, lhs into reg
+### perform op, push to stack
+### BinaryOp int, push rhs, lhs into reg
 	popq	 %rcx
 	popq	 %rax
-### perform op, push to stack
 	cmpq	 %rcx, %rax
 	pushq	 %rax
 	jne	IF_TRUE_52
@@ -2462,6 +2574,7 @@ IF_TRUE_52:
 	popq	 %rdi
 ### FunctionCall save caller save registers
 ### FunctionCall call function
+	xorq	 %rax, %rax
 	call	 printd
 ### FunctionCall restore caller save registers
 ### FunctionCall handle result
@@ -2475,6 +2588,7 @@ IF_FALSE_52:
 	popq	 %rdi
 ### FunctionCall save caller save registers
 ### FunctionCall call function
+	xorq	 %rax, %rax
 	call	 printd
 ### FunctionCall restore caller save registers
 ### FunctionCall handle result
@@ -2485,10 +2599,10 @@ IF_FALSE_52:
 	pushq	 -8(%rbp)
 ### Ident, pushing j to stack
 	pushq	 -16(%rbp)
-### BinaryOp, push rhs, lhs into reg
+### perform op, push to stack
+### BinaryOp int, push rhs, lhs into reg
 	popq	 %rcx
 	popq	 %rax
-### perform op, push to stack
 	cmpq	 %rcx, %rax
 	pushq	 %rax
 	jne	IF_TRUE_53
@@ -2502,6 +2616,7 @@ IF_TRUE_53:
 	popq	 %rdi
 ### FunctionCall save caller save registers
 ### FunctionCall call function
+	xorq	 %rax, %rax
 	call	 printd
 ### FunctionCall restore caller save registers
 ### FunctionCall handle result
@@ -2515,6 +2630,7 @@ IF_FALSE_53:
 	popq	 %rdi
 ### FunctionCall save caller save registers
 ### FunctionCall call function
+	xorq	 %rax, %rax
 	call	 printd
 ### FunctionCall restore caller save registers
 ### FunctionCall handle result

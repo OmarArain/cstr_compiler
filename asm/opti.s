@@ -1,6 +1,29 @@
 ### Program preamble
 .file	 "program.c"
 .text
+.data
+
+La_label:
+	 .string	 "a"
+	 .zero	 512
+Laa_label:
+	 .string	 "aa"
+	 .zero	 512
+Labc_label:
+	 .string	 "abc"
+	 .zero	 512
+Ldef_label:
+	 .string	 "def"
+	 .zero	 512
+L1_label:
+	 .string	 "1"
+	 .zero	 512
+global_0:
+	 .string	 ""
+	 .zero	 512
+global_1:
+	 .string	 ""
+	 .zero	 512
 ### Function preamble
 .globl	 main
 .type	 main,@function
@@ -27,16 +50,16 @@ main:
 	pushq	 $0
 ### Constant push const
 	pushq	 $100
-### BinaryOp, push rhs, lhs into reg
+### perform op, push to stack
+### BinaryOp int, push rhs, lhs into reg
 	popq	 %rcx
 	popq	 %rax
-### perform op, push to stack
 	imulq	 %rcx, %rax
 	pushq	 %rax
-### BinaryOp, push rhs, lhs into reg
+### perform op, push to stack
+### BinaryOp int, push rhs, lhs into reg
 	popq	 %rcx
 	popq	 %rax
-### perform op, push to stack
 	cmpq	 %rcx, %rax
 	pushq	 %rax
 	je	IF_TRUE_0
@@ -51,16 +74,16 @@ IF_TRUE_0:
 	pushq	 $1
 ### Constant push const
 	pushq	 $4
-### BinaryOp, push rhs, lhs into reg
+### perform op, push to stack
+### BinaryOp int, push rhs, lhs into reg
 	popq	 %rcx
 	popq	 %rax
-### perform op, push to stack
 	imulq	 %rcx, %rax
 	pushq	 %rax
-### BinaryOp, push rhs, lhs into reg
+### perform op, push to stack
+### BinaryOp int, push rhs, lhs into reg
 	popq	 %rcx
 	popq	 %rax
-### perform op, push to stack
 	addq	 %rcx, %rax
 	pushq	 %rax
 ### Assignment mov from stack to reg, assign to var
@@ -73,10 +96,10 @@ IF_FALSE_0:
 	pushq	 $12
 ### Constant push const
 	pushq	 $2
-### BinaryOp, push rhs, lhs into reg
+### perform op, push to stack
+### BinaryOp int, push rhs, lhs into reg
 	popq	 %rcx
 	popq	 %rax
-### perform op, push to stack
 	addq	 %rcx, %rax
 	pushq	 %rax
 ### Assignment mov from stack to reg, assign to var
@@ -86,27 +109,33 @@ IF_FALSE_0:
 ### BinaryOp, eval lhs, then rhs
 ### BinaryOp, eval lhs, then rhs
 ### Constant push const
+	pushq	 $La_label
 ### Constant push const
-### BinaryOp, push rhs, lhs into reg
-	popq	 %rcx
-	popq	 %rax
+	pushq	 $Laa_label
 ### perform op, push to stack
-	addq	 %rcx, %rax
+### copy ### BinaryOp string, push rhs, lhs into reg
+	popq	 %rsi
+	popq	 %rdi
+	xorq	 %rax, %rax
+	call	 strcat
 	pushq	 %rax
 ### BinaryOp, eval lhs, then rhs
 ### Constant push const
+	pushq	 $Laa_label
 ### Constant push const
-### BinaryOp, push rhs, lhs into reg
-	popq	 %rcx
-	popq	 %rax
+	pushq	 $La_label
 ### perform op, push to stack
-	addq	 %rcx, %rax
+### copy ### BinaryOp string, push rhs, lhs into reg
+	popq	 %rsi
+	popq	 %rdi
+	xorq	 %rax, %rax
+	call	 strcat
 	pushq	 %rax
-### BinaryOp, push rhs, lhs into reg
-	popq	 %rcx
-	popq	 %rax
 ### perform op, push to stack
-	cmpq	 %rcx, %rax
+### copy ### BinaryOp string, push rhs, lhs into reg
+	popq	 %rsi
+	popq	 %rdi
+	xorq	 %rax, %rax
 	pushq	 %rax
 	jne	IF_TRUE_1
 	jmp	 IF_FALSE_1
@@ -114,12 +143,15 @@ IF_TRUE_1:
 ### Assignment eval expr
 ### BinaryOp, eval lhs, then rhs
 ### Constant push const
+	pushq	 $Labc_label
 ### Constant push const
-### BinaryOp, push rhs, lhs into reg
-	popq	 %rcx
-	popq	 %rax
+	pushq	 $Ldef_label
 ### perform op, push to stack
-	addq	 %rcx, %rax
+### copy ### BinaryOp string, push rhs, lhs into reg
+	popq	 %rsi
+	popq	 %rdi
+	xorq	 %rax, %rax
+	call	 strcat
 	pushq	 %rax
 ### Assignment mov from stack to reg, assign to var
 	popq	 %rax
@@ -139,10 +171,10 @@ FOR_LOOP_0:
 	pushq	 $0
 ### Constant push const
 	pushq	 $1
-### BinaryOp, push rhs, lhs into reg
+### perform op, push to stack
+### BinaryOp int, push rhs, lhs into reg
 	popq	 %rcx
 	popq	 %rax
-### perform op, push to stack
 	cmpq	 %rcx, %rax
 	pushq	 %rax
 	jle	END_FOR_0
@@ -152,10 +184,10 @@ FOR_LOOP_0:
 	pushq	 -8(%rbp)
 ### Constant push const
 	pushq	 $1
-### BinaryOp, push rhs, lhs into reg
+### perform op, push to stack
+### BinaryOp int, push rhs, lhs into reg
 	popq	 %rcx
 	popq	 %rax
-### perform op, push to stack
 	addq	 %rcx, %rax
 	pushq	 %rax
 ### Assignment mov from stack to reg, assign to var
@@ -166,11 +198,13 @@ FOR_LOOP_0:
 ### Ident, pushing b to stack
 	pushq	 -16(%rbp)
 ### Constant push const
-### BinaryOp, push rhs, lhs into reg
-	popq	 %rcx
-	popq	 %rax
+	pushq	 $L1_label
 ### perform op, push to stack
-	addq	 %rcx, %rax
+### copy ### BinaryOp string, push rhs, lhs into reg
+	popq	 %rsi
+	popq	 %rdi
+	xorq	 %rax, %rax
+	call	 strcat
 	pushq	 %rax
 ### Assignment mov from stack to reg, assign to var
 	popq	 %rax

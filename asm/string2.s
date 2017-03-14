@@ -1,6 +1,29 @@
 ### Program preamble
 .file	 "program.c"
 .text
+.data
+
+hello_label:
+	 .string	 "hello"
+	 .zero	 512
+helll_label:
+	 .string	 "helll"
+	 .zero	 512
+hellp_label:
+	 .string	 "hellp"
+	 .zero	 512
+abc_label:
+	 .string	 "abc"
+	 .zero	 512
+ab_label:
+	 .string	 "ab"
+	 .zero	 512
+global_0:
+	 .string	 ""
+	 .zero	 512
+global_1:
+	 .string	 ""
+	 .zero	 512
 ### Function preamble
 .globl	 main
 .type	 main,@function
@@ -20,30 +43,36 @@ main:
 ### FunctionDef Body, remember to clean stack
 ### Assignment eval expr
 ### Constant push const
+	pushq	 $hello_label
 ### Assignment mov from stack to reg, assign to var
 	popq	 %rax
 	movq	 %rax, -8(%rbp)
 ### Assignment eval expr
 ### Constant push const
+	pushq	 $helll_label
 ### Assignment mov from stack to reg, assign to var
 	popq	 %rax
 	movq	 %rax, -16(%rbp)
 ### Assignment eval expr
 ### Constant push const
-### Assignment mov from stack to reg, assign to var
+	pushq	 $hellp_label
+### Assignment global
 	popq	 %rax
-	movq	 %rax, -8(%rbp)
+	movq	 $global_1, %rcx
+	movq	 %rax, (%rcx)
 ### If eval conditions
 ### BinaryOp, eval lhs, then rhs
 ### Ident, pushing s to stack
 	pushq	 -8(%rbp)
 ### Ident, pushing t to stack
 	pushq	 -16(%rbp)
-### BinaryOp, push rhs, lhs into reg
-	popq	 %rcx
-	popq	 %rax
 ### perform op, push to stack
-	cmpq	 %rcx, %rax
+### copy ### BinaryOp string, push rhs, lhs into reg
+	popq	 %rsi
+	popq	 %rdi
+	xorq	 %rax, %rax
+	movq	 $512, %rcx
+	repe cmpsd
 	pushq	 %rax
 	je	IF_TRUE_0
 	jmp	 IF_FALSE_0
@@ -56,6 +85,7 @@ IF_TRUE_0:
 	popq	 %rdi
 ### FunctionCall save caller save registers
 ### FunctionCall call function
+	xorq	 %rax, %rax
 	call	 printd
 ### FunctionCall restore caller save registers
 ### FunctionCall handle result
@@ -69,6 +99,7 @@ IF_FALSE_0:
 	popq	 %rdi
 ### FunctionCall save caller save registers
 ### FunctionCall call function
+	xorq	 %rax, %rax
 	call	 printd
 ### FunctionCall restore caller save registers
 ### FunctionCall handle result
@@ -76,12 +107,16 @@ IF_FALSE_0:
 ### If eval conditions
 ### BinaryOp, eval lhs, then rhs
 ### Constant push const
+	pushq	 $abc_label
 ### Constant push const
-### BinaryOp, push rhs, lhs into reg
-	popq	 %rcx
-	popq	 %rax
+	pushq	 $abc_label
 ### perform op, push to stack
-	cmpq	 %rcx, %rax
+### copy ### BinaryOp string, push rhs, lhs into reg
+	popq	 %rsi
+	popq	 %rdi
+	xorq	 %rax, %rax
+	movq	 $512, %rcx
+	repe cmpsd
 	pushq	 %rax
 	je	IF_TRUE_1
 	jmp	 IF_FALSE_1
@@ -94,6 +129,7 @@ IF_TRUE_1:
 	popq	 %rdi
 ### FunctionCall save caller save registers
 ### FunctionCall call function
+	xorq	 %rax, %rax
 	call	 printd
 ### FunctionCall restore caller save registers
 ### FunctionCall handle result
@@ -107,6 +143,7 @@ IF_FALSE_1:
 	popq	 %rdi
 ### FunctionCall save caller save registers
 ### FunctionCall call function
+	xorq	 %rax, %rax
 	call	 printd
 ### FunctionCall restore caller save registers
 ### FunctionCall handle result
@@ -117,11 +154,13 @@ IF_FALSE_1:
 	pushq	 -16(%rbp)
 ### Ident, pushing s to stack
 	pushq	 -8(%rbp)
-### BinaryOp, push rhs, lhs into reg
-	popq	 %rcx
-	popq	 %rax
 ### perform op, push to stack
-	cmpq	 %rcx, %rax
+### copy ### BinaryOp string, push rhs, lhs into reg
+	popq	 %rsi
+	popq	 %rdi
+	xorq	 %rax, %rax
+	movq	 $512, %rcx
+	repe cmpsd
 	pushq	 %rax
 	je	IF_TRUE_2
 	jmp	 IF_FALSE_2
@@ -134,6 +173,7 @@ IF_TRUE_2:
 	popq	 %rdi
 ### FunctionCall save caller save registers
 ### FunctionCall call function
+	xorq	 %rax, %rax
 	call	 printd
 ### FunctionCall restore caller save registers
 ### FunctionCall handle result
@@ -147,6 +187,7 @@ IF_FALSE_2:
 	popq	 %rdi
 ### FunctionCall save caller save registers
 ### FunctionCall call function
+	xorq	 %rax, %rax
 	call	 printd
 ### FunctionCall restore caller save registers
 ### FunctionCall handle result
@@ -157,27 +198,33 @@ IF_FALSE_2:
 ### Ident, pushing t to stack
 	pushq	 -16(%rbp)
 ### Constant push const
-### BinaryOp, push rhs, lhs into reg
-	popq	 %rcx
-	popq	 %rax
+	pushq	 $abc_label
 ### perform op, push to stack
-	addq	 %rcx, %rax
+### copy ### BinaryOp string, push rhs, lhs into reg
+	popq	 %rsi
+	popq	 %rdi
+	xorq	 %rax, %rax
+	call	 strcat
 	pushq	 %rax
 ### BinaryOp, eval lhs, then rhs
-### Ident, pushing u to stack
-	pushq	 -8(%rbp)
+### Ident, pushing global u to stack
+	pushq	 $global_1
 ### Constant push const
-### BinaryOp, push rhs, lhs into reg
-	popq	 %rcx
-	popq	 %rax
+	pushq	 $ab_label
 ### perform op, push to stack
-	addq	 %rcx, %rax
+### copy ### BinaryOp string, push rhs, lhs into reg
+	popq	 %rsi
+	popq	 %rdi
+	xorq	 %rax, %rax
+	call	 strcat
 	pushq	 %rax
-### BinaryOp, push rhs, lhs into reg
-	popq	 %rcx
-	popq	 %rax
 ### perform op, push to stack
-	cmpq	 %rcx, %rax
+### copy ### BinaryOp string, push rhs, lhs into reg
+	popq	 %rsi
+	popq	 %rdi
+	xorq	 %rax, %rax
+	movq	 $512, %rcx
+	repe cmpsd
 	pushq	 %rax
 	je	IF_TRUE_3
 	jmp	 IF_FALSE_3
@@ -190,6 +237,7 @@ IF_TRUE_3:
 	popq	 %rdi
 ### FunctionCall save caller save registers
 ### FunctionCall call function
+	xorq	 %rax, %rax
 	call	 printd
 ### FunctionCall restore caller save registers
 ### FunctionCall handle result
@@ -203,6 +251,7 @@ IF_FALSE_3:
 	popq	 %rdi
 ### FunctionCall save caller save registers
 ### FunctionCall call function
+	xorq	 %rax, %rax
 	call	 printd
 ### FunctionCall restore caller save registers
 ### FunctionCall handle result
@@ -215,19 +264,21 @@ IF_FALSE_3:
 	pushq	 -8(%rbp)
 ### Ident, pushing t to stack
 	pushq	 -16(%rbp)
-### BinaryOp, push rhs, lhs into reg
-	popq	 %rcx
-	popq	 %rax
 ### perform op, push to stack
-	addq	 %rcx, %rax
+### copy ### BinaryOp string, push rhs, lhs into reg
+	popq	 %rsi
+	popq	 %rdi
+	xorq	 %rax, %rax
+	call	 strcat
 	pushq	 %rax
-### Ident, pushing u to stack
-	pushq	 -8(%rbp)
-### BinaryOp, push rhs, lhs into reg
-	popq	 %rcx
-	popq	 %rax
+### Ident, pushing global u to stack
+	pushq	 $global_1
 ### perform op, push to stack
-	addq	 %rcx, %rax
+### copy ### BinaryOp string, push rhs, lhs into reg
+	popq	 %rsi
+	popq	 %rdi
+	xorq	 %rax, %rax
+	call	 strcat
 	pushq	 %rax
 ### BinaryOp, eval lhs, then rhs
 ### BinaryOp, eval lhs, then rhs
@@ -235,25 +286,29 @@ IF_FALSE_3:
 	pushq	 -8(%rbp)
 ### Ident, pushing t to stack
 	pushq	 -16(%rbp)
-### BinaryOp, push rhs, lhs into reg
-	popq	 %rcx
-	popq	 %rax
 ### perform op, push to stack
-	addq	 %rcx, %rax
+### copy ### BinaryOp string, push rhs, lhs into reg
+	popq	 %rsi
+	popq	 %rdi
+	xorq	 %rax, %rax
+	call	 strcat
 	pushq	 %rax
-### Ident, pushing u to stack
-	pushq	 -8(%rbp)
-### BinaryOp, push rhs, lhs into reg
-	popq	 %rcx
-	popq	 %rax
+### Ident, pushing global u to stack
+	pushq	 $global_1
 ### perform op, push to stack
-	addq	 %rcx, %rax
+### copy ### BinaryOp string, push rhs, lhs into reg
+	popq	 %rsi
+	popq	 %rdi
+	xorq	 %rax, %rax
+	call	 strcat
 	pushq	 %rax
-### BinaryOp, push rhs, lhs into reg
-	popq	 %rcx
-	popq	 %rax
 ### perform op, push to stack
-	cmpq	 %rcx, %rax
+### copy ### BinaryOp string, push rhs, lhs into reg
+	popq	 %rsi
+	popq	 %rdi
+	xorq	 %rax, %rax
+	movq	 $512, %rcx
+	repe cmpsd
 	pushq	 %rax
 	je	IF_TRUE_4
 	jmp	 IF_FALSE_4
@@ -266,6 +321,7 @@ IF_TRUE_4:
 	popq	 %rdi
 ### FunctionCall save caller save registers
 ### FunctionCall call function
+	xorq	 %rax, %rax
 	call	 printd
 ### FunctionCall restore caller save registers
 ### FunctionCall handle result
@@ -279,6 +335,7 @@ IF_FALSE_4:
 	popq	 %rdi
 ### FunctionCall save caller save registers
 ### FunctionCall call function
+	xorq	 %rax, %rax
 	call	 printd
 ### FunctionCall restore caller save registers
 ### FunctionCall handle result
@@ -289,11 +346,11 @@ IF_FALSE_4:
 	pushq	 -8(%rbp)
 ### Ident, pushing t to stack
 	pushq	 -16(%rbp)
-### BinaryOp, push rhs, lhs into reg
-	popq	 %rcx
-	popq	 %rax
 ### perform op, push to stack
-	cmpq	 %rcx, %rax
+### copy ### BinaryOp string, push rhs, lhs into reg
+	popq	 %rsi
+	popq	 %rdi
+	xorq	 %rax, %rax
 	pushq	 %rax
 	jne	IF_TRUE_5
 	jmp	 IF_FALSE_5
@@ -306,6 +363,7 @@ IF_TRUE_5:
 	popq	 %rdi
 ### FunctionCall save caller save registers
 ### FunctionCall call function
+	xorq	 %rax, %rax
 	call	 printd
 ### FunctionCall restore caller save registers
 ### FunctionCall handle result
@@ -319,6 +377,7 @@ IF_FALSE_5:
 	popq	 %rdi
 ### FunctionCall save caller save registers
 ### FunctionCall call function
+	xorq	 %rax, %rax
 	call	 printd
 ### FunctionCall restore caller save registers
 ### FunctionCall handle result
@@ -326,12 +385,14 @@ IF_FALSE_5:
 ### If eval conditions
 ### BinaryOp, eval lhs, then rhs
 ### Constant push const
+	pushq	 $abc_label
 ### Constant push const
-### BinaryOp, push rhs, lhs into reg
-	popq	 %rcx
-	popq	 %rax
+	pushq	 $abc_label
 ### perform op, push to stack
-	cmpq	 %rcx, %rax
+### copy ### BinaryOp string, push rhs, lhs into reg
+	popq	 %rsi
+	popq	 %rdi
+	xorq	 %rax, %rax
 	pushq	 %rax
 	jne	IF_TRUE_6
 	jmp	 IF_FALSE_6
@@ -344,6 +405,7 @@ IF_TRUE_6:
 	popq	 %rdi
 ### FunctionCall save caller save registers
 ### FunctionCall call function
+	xorq	 %rax, %rax
 	call	 printd
 ### FunctionCall restore caller save registers
 ### FunctionCall handle result
@@ -357,6 +419,7 @@ IF_FALSE_6:
 	popq	 %rdi
 ### FunctionCall save caller save registers
 ### FunctionCall call function
+	xorq	 %rax, %rax
 	call	 printd
 ### FunctionCall restore caller save registers
 ### FunctionCall handle result
@@ -367,11 +430,11 @@ IF_FALSE_6:
 	pushq	 -16(%rbp)
 ### Ident, pushing s to stack
 	pushq	 -8(%rbp)
-### BinaryOp, push rhs, lhs into reg
-	popq	 %rcx
-	popq	 %rax
 ### perform op, push to stack
-	cmpq	 %rcx, %rax
+### copy ### BinaryOp string, push rhs, lhs into reg
+	popq	 %rsi
+	popq	 %rdi
+	xorq	 %rax, %rax
 	pushq	 %rax
 	jne	IF_TRUE_7
 	jmp	 IF_FALSE_7
@@ -384,6 +447,7 @@ IF_TRUE_7:
 	popq	 %rdi
 ### FunctionCall save caller save registers
 ### FunctionCall call function
+	xorq	 %rax, %rax
 	call	 printd
 ### FunctionCall restore caller save registers
 ### FunctionCall handle result
@@ -397,6 +461,7 @@ IF_FALSE_7:
 	popq	 %rdi
 ### FunctionCall save caller save registers
 ### FunctionCall call function
+	xorq	 %rax, %rax
 	call	 printd
 ### FunctionCall restore caller save registers
 ### FunctionCall handle result
@@ -407,27 +472,31 @@ IF_FALSE_7:
 ### Ident, pushing t to stack
 	pushq	 -16(%rbp)
 ### Constant push const
-### BinaryOp, push rhs, lhs into reg
-	popq	 %rcx
-	popq	 %rax
+	pushq	 $abc_label
 ### perform op, push to stack
-	addq	 %rcx, %rax
+### copy ### BinaryOp string, push rhs, lhs into reg
+	popq	 %rsi
+	popq	 %rdi
+	xorq	 %rax, %rax
+	call	 strcat
 	pushq	 %rax
 ### BinaryOp, eval lhs, then rhs
-### Ident, pushing u to stack
-	pushq	 -8(%rbp)
+### Ident, pushing global u to stack
+	pushq	 $global_1
 ### Constant push const
-### BinaryOp, push rhs, lhs into reg
-	popq	 %rcx
-	popq	 %rax
+	pushq	 $ab_label
 ### perform op, push to stack
-	addq	 %rcx, %rax
+### copy ### BinaryOp string, push rhs, lhs into reg
+	popq	 %rsi
+	popq	 %rdi
+	xorq	 %rax, %rax
+	call	 strcat
 	pushq	 %rax
-### BinaryOp, push rhs, lhs into reg
-	popq	 %rcx
-	popq	 %rax
 ### perform op, push to stack
-	cmpq	 %rcx, %rax
+### copy ### BinaryOp string, push rhs, lhs into reg
+	popq	 %rsi
+	popq	 %rdi
+	xorq	 %rax, %rax
 	pushq	 %rax
 	jne	IF_TRUE_8
 	jmp	 IF_FALSE_8
@@ -440,6 +509,7 @@ IF_TRUE_8:
 	popq	 %rdi
 ### FunctionCall save caller save registers
 ### FunctionCall call function
+	xorq	 %rax, %rax
 	call	 printd
 ### FunctionCall restore caller save registers
 ### FunctionCall handle result
@@ -453,6 +523,7 @@ IF_FALSE_8:
 	popq	 %rdi
 ### FunctionCall save caller save registers
 ### FunctionCall call function
+	xorq	 %rax, %rax
 	call	 printd
 ### FunctionCall restore caller save registers
 ### FunctionCall handle result
@@ -465,19 +536,21 @@ IF_FALSE_8:
 	pushq	 -8(%rbp)
 ### Ident, pushing t to stack
 	pushq	 -16(%rbp)
-### BinaryOp, push rhs, lhs into reg
-	popq	 %rcx
-	popq	 %rax
 ### perform op, push to stack
-	addq	 %rcx, %rax
+### copy ### BinaryOp string, push rhs, lhs into reg
+	popq	 %rsi
+	popq	 %rdi
+	xorq	 %rax, %rax
+	call	 strcat
 	pushq	 %rax
-### Ident, pushing u to stack
-	pushq	 -8(%rbp)
-### BinaryOp, push rhs, lhs into reg
-	popq	 %rcx
-	popq	 %rax
+### Ident, pushing global u to stack
+	pushq	 $global_1
 ### perform op, push to stack
-	addq	 %rcx, %rax
+### copy ### BinaryOp string, push rhs, lhs into reg
+	popq	 %rsi
+	popq	 %rdi
+	xorq	 %rax, %rax
+	call	 strcat
 	pushq	 %rax
 ### BinaryOp, eval lhs, then rhs
 ### BinaryOp, eval lhs, then rhs
@@ -485,25 +558,27 @@ IF_FALSE_8:
 	pushq	 -8(%rbp)
 ### Ident, pushing t to stack
 	pushq	 -16(%rbp)
-### BinaryOp, push rhs, lhs into reg
-	popq	 %rcx
-	popq	 %rax
 ### perform op, push to stack
-	addq	 %rcx, %rax
+### copy ### BinaryOp string, push rhs, lhs into reg
+	popq	 %rsi
+	popq	 %rdi
+	xorq	 %rax, %rax
+	call	 strcat
 	pushq	 %rax
-### Ident, pushing u to stack
-	pushq	 -8(%rbp)
-### BinaryOp, push rhs, lhs into reg
-	popq	 %rcx
-	popq	 %rax
+### Ident, pushing global u to stack
+	pushq	 $global_1
 ### perform op, push to stack
-	addq	 %rcx, %rax
+### copy ### BinaryOp string, push rhs, lhs into reg
+	popq	 %rsi
+	popq	 %rdi
+	xorq	 %rax, %rax
+	call	 strcat
 	pushq	 %rax
-### BinaryOp, push rhs, lhs into reg
-	popq	 %rcx
-	popq	 %rax
 ### perform op, push to stack
-	cmpq	 %rcx, %rax
+### copy ### BinaryOp string, push rhs, lhs into reg
+	popq	 %rsi
+	popq	 %rdi
+	xorq	 %rax, %rax
 	pushq	 %rax
 	jne	IF_TRUE_9
 	jmp	 IF_FALSE_9
@@ -516,6 +591,7 @@ IF_TRUE_9:
 	popq	 %rdi
 ### FunctionCall save caller save registers
 ### FunctionCall call function
+	xorq	 %rax, %rax
 	call	 printd
 ### FunctionCall restore caller save registers
 ### FunctionCall handle result
@@ -529,6 +605,7 @@ IF_FALSE_9:
 	popq	 %rdi
 ### FunctionCall save caller save registers
 ### FunctionCall call function
+	xorq	 %rax, %rax
 	call	 printd
 ### FunctionCall restore caller save registers
 ### FunctionCall handle result
