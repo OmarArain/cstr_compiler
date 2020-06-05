@@ -1,6 +1,5 @@
 CSTR Compiler
 ====================
-##### Omar Arain
 
 #### EXAMPLE
 
@@ -36,16 +35,6 @@ My code currently passes the following tests that were provided:
 - mul.c
 - neg.c
 - rsh.c
-
-My code currently fails on the following:
-- compteur.c
-- erato.c
-- opti.c
-- string2.c
-
-My code segfaults on the following:
-- string.c
-- string3.c
 
 
 ### DEPENDENCIES AND DETAILS
